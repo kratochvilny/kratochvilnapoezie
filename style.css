@@ -324,16 +324,15 @@ html, body {
   .scroll-indicator { bottom: 75px; font-size: 0.75rem; }
   .sbs-cti-dale { left: 50% !important; transform: translateX(-50%); bottom: -40px; font-size: 0.8rem; }
 
-    /* 🔧 OPRAVA BÁSŇÍKA NA MOBILU: Na úvodní straně je stoprocentně neviditelný (opacity: 0) 
-     a rozsvítí se (zapnout-bg) až při pohybu dolů pod texty, navíc se nikdy neuřízne klobouk ani boty */
+     /* 🔧 ABSOLUTNÍ ZMENŠENÍ PRO MOBIL: Sníženo na 38vh, takže se básník garantovaně vejde celý od klobouku po boty */
   .bg-basnik { 
-    opacity: 0 !important; /* 🔧 Klíčový řádek: skryje básníka z úvodní obrazovky mobilu */
-    background-position: center calc(100% - 80px) !important; 
-    background-size: 55vh !important; 
+    opacity: 0 !important; 
+    background-position: center center !important; /* Vycentrování přesně doprostřed displeje */
+    background-size: 38vh !important; /* 🔧 Klíčová změna z 55vh na 38vh pro plnou viditelnost */
     transition: opacity 2s ease-in-out !important;
   } 
 
-  /* Jakmile čtenář odskroluje z úvodu dolů, básník se bezpečně rozsvítí pod dopisy */
+  /* Jakmile čtenář odskroluje z úvodu dolů, básník se jemně rozsvítí */
   .bg-basnik.zapnout-bg {
     opacity: 0.45 !important;
   }

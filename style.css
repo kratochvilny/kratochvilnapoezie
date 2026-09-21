@@ -28,47 +28,50 @@ html, body {
 .bg-kytice {
   background-image: url('flower01-B01.webp');
   animation: sbsFilmoveVpluti 5s cubic-bezier(0.25, 1, 0.5, 1) forwards,
-             sbsKameraPohyb 40s infinite ease-in-out 5s, 
+             sbsKameraPohybUvod 40s infinite ease-in-out 5s, 
              sbsTonovaniGrafiky 60s infinite ease-in-out;
 }
 
-/* 🔧 ✒️ PLÁTNO B: BÁSŇÍK NA PRAVÉ STRANĚ (FILMOVÝ PŘÍJEZD Z BOKU A ZESVĚTLENÍ) */
+/* ✒️ PLÁTNO B: BÁSŇÍK NA PRAVÉ STRANĚ (OPRAVENO PROTI SKOKŮM) */
 .bg-basnik {
   background-image: url('basnik01.webp'); 
-  mix-blend-mode: multiply; /* Totální vypaření bílých okrajů skenu do barvy papíru */
+  mix-blend-mode: multiply; 
   background-size: contain; 
   background-repeat: no-repeat;
-  background-position: right center; 
   opacity: 0;
 }
 
-/* 🔧 AKCE PŘÍJEZDU: Jakmile čtenář vjede do první kapitoly, spustí se souběh animací */
+/* Aktivace příjezdu a navazujícího plynulého pohybu */
 .bg-basnik.zapnout-bg {
-  /* 
-     1. sbsPrijezdZuboku: Obrázek 4 sekundy plynule přijíždí z pravého boku a zesvětluje.
-     2. sbsKameraPohyb: Nekonečné panoramatické plují pod textem (odložené o 4s).
-     3. sbsTonovaniGrafiky: Nekonečné barvotiskové tónování papíru (odložené o 4s).
-  */
   animation: sbsPrijezdZboku 4s cubic-bezier(0.1, 0.8, 0.2, 1) forwards,
-             sbsKameraPohyb 40s infinite ease-in-out 4s, 
+             sbsKameraPohybBasnik 40s infinite ease-in-out 4s, 
              sbsTonovaniGrafiky 60s infinite ease-in-out 4s;
 }
 
-/* Definice plynulého příjezdu z boku: začíná posunutý mimo monitor a tmavý, plynule vpluje a zesvětlá */
+/* Plynulý příjezd z pravého boku z dálky přímo na finální pravou pozici */
 @keyframes sbsPrijezdZboku {
   0% {
     opacity: 0;
-    transform: translate3d(120px, 0, 0) scale(0.95); /* Přijíždí z pravého boku z dálky */
-    filter: brightness(0.6) sepia(0.2); /* Začíná tmavší, v barvě pozadí */
+    transform: translate3d(15vw, 0, 0) scale(0.95);
+    filter: brightness(0.6) sepia(0.2);
   }
   100% {
-    opacity: 0.55; /* Jemné filmové rozzáření/zesvětlení na svém místě */
-    transform: translate3d(-50px, 0, 0) scale(1); /* Usadí se na pravé hraně s elegantním odstupem */
-    filter: brightness(1) sepia(0.2); /* Plné vyjasnění do tónu papíru */
+    opacity: 0.55;
+    transform: translate3d(45vw, 0, 0) scale(1); /* Bezpečně drží básníka v pravé polovině */
+    filter: brightness(1) sepia(0.2);
   }
 }
 
-/* Společné prolínání vrstev */
+/* 🔧 OPRAVENÝ NÁVAZNÝ POHYB KAMERY: Začíná přesně tam, kde příjezd skončil (45vw). Žádné skoky na střed. */
+@keyframes sbsKameraPohybBasnik {
+  0% { transform: translate3d(45vw, 0, 0) scale(1) rotate(0deg); }
+  25% { transform: translate3d(44vw, 8px, 0) scale(1.04) rotate(0.2deg); }
+  50% { transform: translate3d(46vw, -10px, 0) scale(1.02) rotate(-0.2deg); }
+  75% { transform: translate3d(44vw, -4px, 0) scale(1.05) rotate(0.1deg); }
+  100% { transform: translate3d(45vw, 0, 0) scale(1) rotate(0deg); }
+}
+
+/* Prolínání vrstev pozadí */
 .bg-kytice:not(.vypnout-bg) { opacity: 0.35; }
 .bg-kytice.vypnout-bg { opacity: 0; }
 
@@ -77,7 +80,7 @@ html, body {
   100% { transform: scale(1.02); filter: brightness(1) blur(0px) sepia(0.2); }
 }
 
-@keyframes sbsKameraPohyb {
+@keyframes sbsKameraPohybUvod {
   0% { transform: scale(1.02) translate(0px, 0px) rotate(0deg); }
   25% { transform: scale(1.08) translate(-10px, 8px) rotate(0.3deg); }
   50% { transform: scale(1.05) translate(8px, -10px) rotate(-0.3deg); }
@@ -187,12 +190,13 @@ html, body {
   box-sizing: border-box;
   padding: 0 20px;
   
-  /* 🔧 VŠECHNO VLEVO: Nadpisy i verše kapitol jsou na počítači zarovnány striktně k levé straně */
+  /* 🔧 VŠECHNO STRKTNĚ ZLEVA: Všechny vnitřní scény srovnány k levému okraji */
   align-items: flex-start;
-  padding-left: 10vw; /* Vzdušný 10% odstup od levého okraje monitoru */
+  justify-content: center;
+  padding-left: 10vw; /* Luxusní 10% odstup od levé hrany monitoru */
 }
 
-/* Výjimka pro úvodní stranu – ta drží vyvážený střed */
+/* Úvodní strana si ponechává čisté vystředění */
 .slide-intro {
   justify-content: center; 
   align-items: center !important;
@@ -263,7 +267,21 @@ html, body {
   pointer-events: none;
 }
 
-/* 🔧 KNIŽNÍ VELIKOST TEXTU BÁSNÍ: Úhledné, prémiové a zarovnané čistě vlevo */
+/* 🔧 VŠECHNY NADPISY JEDNOTNĚ ZLEVA ASYMETRICKY */
+.slide h3 {
+  font-family: 'Georgia', serif; 
+  font-weight: normal; 
+  text-transform: uppercase; 
+  letter-spacing: 0.15em; 
+  font-size: 1.4rem; 
+  color: #1a2a1d; 
+  text-align: left !important; /* Natvrdo zarovnáno vlevo */
+  width: 100%;
+  max-width: 500px;
+  margin: 0 0 30px 0;
+}
+
+/* 🔧 ČISTÉ KNIŽNÍ PÍSMO VERŠŮ: Zarovnáno čistě vlevo, kopíruje osu nadpisů */
 .class-pismo-verse {
   font-family: 'Georgia', serif;
   font-size: 1.45rem !important; 
@@ -271,20 +289,17 @@ html, body {
   font-weight: 300;
   color: #000;
   letter-spacing: 0.02em;
-  text-align: left; /* Zarovnání textu vlevo */
-  text-shadow: 0 0 25px rgba(241, 242, 225, 0.95);
-}
-
-/* Úprava nadpisů uvnitř kapitol pro srovnání k levé straně */
-.slide h3 {
-  text-align: left !important;
+  text-align: left !important; /* Zarovnání vlevo */
   width: 100%;
+  max-width: 500px;
+  text-shadow: 0 0 25px rgba(241, 242, 225, 0.95);
+  margin: 0;
 }
 
 .sbs-cti-dale {
   position: absolute;
   bottom: 80px; 
-  left: 10vw; /* Ukotveno na levé straně pod zarovnaným textem */
+  left: 10vw; /* Drží se levé linky textu */
   font-size: 0.95rem;
   letter-spacing: 0.15em;
   font-style: italic; 
@@ -308,7 +323,7 @@ html, body {
 }
 
 /* ==========================================================================
-   📱 RESPONSIVITA PRO MOBILY (Na mobilu text zůstane vycentrovaný pro čitelnost)
+   📱 RESPONSIVITA PRO MOBILY (Na mobilech drží vyvážený střed)
    ========================================================================== */
 @media (max-width: 768px) {
   .slide { align-items: center !important; padding-left: 20px !important; }
@@ -321,5 +336,4 @@ html, body {
   .autor { font-size: 0.95rem; letter-spacing: 0.1em; }
   .scroll-indicator { bottom: 85px; font-size: 0.8rem; line-height: 1.4; }
   .sbs-cti-dale { left: 50% !important; transform: translateX(-50%); bottom: 85px; font-size: 0.85rem; }
-  .bg-basnik { background-position: center center; } 
 }

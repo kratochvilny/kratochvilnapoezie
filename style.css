@@ -39,7 +39,7 @@ html, body {
   100% { filter: sepia(0.2) hue-rotate(0deg); }
 }
 
-/* 🎛️ PANEL S IKONAMI (POČÍTAČOVÁ VERZE) */
+/* 🎛️ PANEL S IKONAMI (ZAMČENÝ PEVNĚ NA MONITORU) */
 .ovladani-panel {
   position: fixed;
   top: 30px;
@@ -93,22 +93,22 @@ html, body {
   width: 100%;
 }
 
+/* Hlavní rozložení obrazovek */
 .slide {
   height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
   box-sizing: border-box;
-  position: relative;
   padding: 0 20px;
 }
 
+/* Úvodní strana – rozložená do přirozeného toku shora dolů */
 .slide-intro {
-  padding-top: 0; 
+  justify-content: flex-start; /* Prvky začínají nahoře */
+  padding-top: 28vh;           /* Nadpis elegantně vycentrovaný vertikálně */
 }
 
-/* Hlavní nadpis (Počítačová verze) */
+/* Hlavní nadpis - čisté vybarvení na místě */
 .nadpis-hlavni {
   font-size: 3rem;
   text-transform: uppercase;
@@ -131,6 +131,7 @@ html, body {
   text-transform: uppercase;
   color: #555;
   margin: 0;
+  text-align: center;
   opacity: 0;
   animation: sbsPlynuleSyceniBarvy 4s ease-in-out forwards;
 }
@@ -146,29 +147,34 @@ html, body {
   100% { transform: translateY(0px) scale(1); }
 }
 
-/* ŠIPKA A TEXT „OTEVŘÍT SBÍRKU“ (Počítačová verze) */
+/* 🔧 KLÍČOVÁ ZMĚNA: Nápis „OTEVŘÍT SBÍRKU ↓“ pluje v přirozeném toku stránky, 
+   při načtení se vybarví přesně dole a při skrolu normálně odjede a zmizí. */
 .scroll-indicator {
-  position: absolute;
-  bottom: 110px; 
-  left: 50%;
-  transform: translateX(-50%);
+  margin-top: auto;        /* Automaticky vytlačí text až úplně dolů k okraji */
+  margin-bottom: 80px;     /* Drží ho přesně cca 3 cm nad spodní hranou */
   font-size: 0.8rem;
   letter-spacing: 0.25em;
   text-transform: uppercase;
   color: #666;
   text-align: center;
-  margin: 0;
+  opacity: 0;
   will-change: opacity, transform;
-  animation: pulse 2s infinite;
+  animation: sbsPlynuleSyceniBarvy 4s ease-in-out forwards, 
+             pulse 2s infinite;
 }
 
 @keyframes pulse {
-  0% { opacity: 0.3; transform: translateX(-50%) translateY(0); }
-  50% { opacity: 1; transform: translateX(-50%) translateY(6px); }
-  100% { opacity: 0.3; transform: translateX(-50%) translateY(0); }
+  0% { transform: translateY(0); opacity: 0.3; }
+  50% { transform: translateY(6px); opacity: 1; }
+  100% { transform: translateY(0); opacity: 0.3; }
 }
 
-/* Hlavní verš poezie (Počítačová verze) */
+/* Druhá strana s veršem */
+.slide-poem {
+  justify-content: center; /* Vycentrováno na střed */
+  align-items: center;
+}
+
 .vers {
   font-size: 2.6rem;
   line-height: 1.8;
@@ -192,30 +198,30 @@ html, body {
    ========================================================================== */
 @media (max-width: 768px) {
   
-  /* Přesun tlačítek z rohu do středu, aby se na mobilu vešla a neschovala se */
+  /* Tlačítka na mobilu drží pevně dole na středu obrazovky */
   .ovladani-panel {
-    position: absolute;
+    position: fixed;
     top: auto;
-    bottom: 220px; /* Umístění v bezpečné spodní zóně úvodu */
+    bottom: 30px; 
     right: auto;
     left: 50%;
     transform: translateX(-50%);
-    gap: 20px;
+    gap: 25px;
+    z-index: 100;
   }
 
-  /* Zmenšení tlačítek pro pohodlné mačkání prstem */
   .sbs-ikona-btn {
-    width: 46px;
-    height: 46px;
-    background: rgba(241, 242, 225, 0.8); /* Větší krytí, aby na mobilu svítila */
+    width: 48px;
+    height: 48px;
+    background: rgba(241, 242, 225, 0.9);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
   }
 
-  /* 🔧 OPRAVA TEXTU: Výrazné zmenšení nadpisu a rozestupů na mobilu */
+  /* Čisté a úhledné zmenšení textů pro mobil */
   .nadpis-hlavni {
-    font-size: 2.4rem; /* Menší čisté písmo */
-    letter-spacing: 0.15em; /* Užší rozestupy, aby se slova nerozlamovala */
+    font-size: 2.2rem; /* Velikost upravená pro mobilní zobrazení */
+    letter-spacing: 0.15em; 
     line-height: 1.4;
-    margin-bottom: 10px;
     padding: 0 10px;
   }
 
@@ -224,17 +230,15 @@ html, body {
     letter-spacing: 0.1em;
   }
 
-  /* 🔧 OPRAVA VERŠE: Zmenšení textu básně pro malé displeje */
   .vers {
     font-size: 1.6rem;
     line-height: 1.6;
     padding: 0 15px;
   }
 
-  /* Posun výzvy na mobilu o kousek výše (nad spodní lišty mobilu) */
+  /* Spodní výzva na mobilu */
   .scroll-indicator {
-    bottom: 80px;
+    margin-bottom: 110px; /* Vytaženo kousek výš nad zafixovaná kulatá tlačítka */
     font-size: 0.75rem;
-    width: 100%;
   }
 }

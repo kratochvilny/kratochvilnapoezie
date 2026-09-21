@@ -6,6 +6,7 @@
     <title>Kratochvilná Poezie</title>
     <link rel="stylesheet" href="style.css">
     <style>
+        /* Pojistka pro hladké odhalení verše básně */
         .reveal {
             opacity: 0;
             transform: translateY(30px);
@@ -38,12 +39,12 @@
 
     <div class="story-container">
 
-        <!-- 1. ÚVODNÍ OBRAZOVKA (Nápisy jsou opět čistě uprostřed monitoru) -->
+        <!-- 1. ÚVODNÍ OBRAZOVKA -->
         <section class="slide slide-intro">
             <h1 class="nadpis-hlavni">Kratochvilná Poezie</h1>
             <div class="autor">Kratochvilný Jan</div>
             
-            <!-- 🔧 NOVÝ TEXT: Vstupte do světa kratochvilné poezie -->
+            <!-- 🔧 TADY JE TEN TEXT NATVRDO -->
             <div id="sbs-indicator" class="scroll-indicator">Vstupte do světa kratochvilné poezie</div>
         </section>
 
@@ -67,7 +68,7 @@
             var elementVers = document.querySelector('.reveal');
             var indicator = document.getElementById('sbs-indicator');
 
-            // Jakmile uživatel pohne stránkou o 10 pixelů dolů, text výzvy okamžitě plynule zmizí
+            // Jakmile uživatel pohne stránkou o 10 pixelů dolů, text zmizí
             if (indicator && odscrollovano > 10) {
                 indicator.classList.add('skryt');
             }

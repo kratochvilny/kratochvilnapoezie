@@ -101,18 +101,40 @@ html, body {
 
 .story-container { position: relative; z-index: 2; width: 100%; }
 
-/* 🔧 ÚVODNÍ STRANA: Uzamčená přesně v druhé pětině výšky displeje */
-.slide-intro-full {
+/* 📜 UNIVERZÁLNÍ SEKCIONÁLNÍ STRUKTURA */
+.slide {
   height: 100vh;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
   padding: 0 20px;
-  justify-content: flex-start; 
-  align-items: center;
-  position: relative;
-  padding-top: 20vh; /* Odtlačení nadpisu přesně do 2. pětiny */
 }
+
+/* 🔧 OPRAVA POLOHY ÚVODU: Nadpis usazen přesně do 2. pětiny výšky monitoru */
+.slide-intro {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 0 20px;
+  
+  /* Přinutíme texty začínat odshora dolů */
+  justify-content: flex-start !important; 
+  align-items: center !important;
+  position: relative;
+  
+  /* 🔧 TENTO ŘÁDEK POSUNE NADPIS: Odrazí ho o přesnou 1 pětinu (20vh) odshora, 
+     takže nápis začne přesně na začátku 2. pětiny obrazovky */
+  padding-top: 20vh !important; 
+}
+
+/* Pojistka pro případ, že by kód hledal starší název */
+.slide-intro-full {
+  justify-content: flex-start !important;
+  align-items: center !important;
+  padding-top: 20vh !important;
+}
+
 
 .nadpis-hlavni { font-size: 3rem; text-transform: uppercase; margin: 0 0 15px 0; text-align: center; display: block; letter-spacing: 0.3em; opacity: 0; color: #1a2a1d; will-change: opacity; animation: sbsCisteRozsviceniTextu 4s ease-in-out forwards; }
 .autor { font-size: 1.1rem; letter-spacing: 0.15em; font-style: italic; text-transform: uppercase; color: #555; margin: 0; text-align: center; opacity: 0; animation: sbsCisteRozsviceniTextu 4s ease-in-out forwards; }

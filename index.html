@@ -91,7 +91,7 @@
                 
                 <div id="sbs-cti-dale-text" class="sbs-cti-dale">čti dále ↓</div>
             </section>
-            
+
             <!-- ✉️ Inverzní obálka 4: Sbírka a autoři (Přilétá z boku, zrychluje barvy) -->
             <section id="sekce-obalka-final" class="slide-sekce-knihy reveal obalka-inverzni">
                 <h3 style="color: #ffffff !important;">Sbírka Kratochvilné poezie.</h3>
@@ -120,7 +120,7 @@
             }
         }
 
-        function aktualizovatWeb() {
+                function aktualizovatWeb() {
             var odscrollovano = window.scrollY || window.pageYOffset;
             var vyskaOkna = window.innerHeight;
             
@@ -141,16 +141,25 @@
                 if(bgKapitola1) bgKapitola1.classList.remove('zapnout-bg');
             }
 
-            // 🔧 MECHANISMUS PERMANENTNÍHO NÁJEZDU: Kontroluje přítomnost obálky v okně
+            /* 🔧 HLÍDAČ RYCHLOSTI: Pokud čtenář dojede na finální obálku, zrychlíme tónování webu */
+            var obalkaFinal = document.getElementById('sekce-obalka-final');
+            if (obalkaFinal) {
+                var poziceFinal = obalkaFinal.getBoundingClientRect();
+                if (poziceFinal.top < vyskaOkna - 100) {
+                    document.body.classList.add('sbs-zrychlit-barvy'); // Přepne na 8vteřinový svižný koloběh
+                } else {
+                    document.body.classList.remove('sbs-zrychlit-barvy'); // Vrátí klidných 25 vteřin
+                }
+            }
+
+            // 🔧 MECHANISMUS PERMANENTNÍHO NÁJEZDU OBÁLEK
             var prvkyVerse = document.querySelectorAll('.reveal');
             prvkyVerse.forEach(function(prvek) {
                 var krabice = prvek.getBoundingClientRect();
-                
-                // Pokud je obálka vidět v okně, přiletí. Pokud odjede pryč, resetuje se pro další přílet.
                 if (krabice.top < vyskaOkna - 40 && krabice.bottom > 40) {
                     prvek.classList.add('active');
                 } else {
-                    prvek.classList.remove('active'); /* 🔧 Trik: smaže aktivní stav, aby mohla znovu vletět */
+                    prvek.classList.remove('active');
                 }
             });
 
@@ -161,6 +170,7 @@
                 }
             }, 3000);
         }
+
 
         window.addEventListener('scroll', aktualizovatWeb);
         window.addEventListener('touchmove', aktualizovatWeb);

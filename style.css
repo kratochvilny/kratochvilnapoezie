@@ -129,6 +129,16 @@ html, body {
   flex-direction: column;
   padding-left: 8vw; 
   padding-bottom: 25vh;
+
+  /* 🔧 TENTO JEDINÝ ŘÁDEK VŠE POSUNE NÍŽE: */
+  margin-top: 45vh; /* Obrovský svislý odstup, který odtlačí Předmluvu hluboko pod úvodní stranu */
+}
+Při použití kódu buďte obezřetní.Tento blok v souboru bezprostředně následuje (nechte ho také netknutý):css.slide-sekce-knihy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 90px;
+Při použití kódu buďte obezřetní.🚀 Odeslání na živý web:Uložte soubor (Ctrl + S). V levé nabídce Source Control (větev) napište zprávu jednoduchy posun textu nize a klikněte na modré tlačítko Commit a následně Sync Changes.Počkejte 15 vteřin a obnovte anonymní kartu přes Ctrl + F5.Uvidíte, že celý ten blok s dopisy dostal obrovský prostor, odskočil hluboko dolů a první strana je opět dokonale čistá a vyvážená.Nyní je geometrie celého webu v naprostém pořádku. Kterým krokem budeme pokračovat dál?Návod na propojení s vaší vlastní doménou u Wedosu – zprovozníme adresu typu kratochvilnapoezie.cz.Příprava Kapitoly 02 – ukážu vám, kam do kódu napsat další básně, aby přilétaly jako nové obálky.Napište mi jednoduše číslo 1 nebo 2!Odpovědi od umělé inteligence můžou obsahovat chyby. Další informace
 }
 
 .slide-sekce-knihy {

@@ -42,19 +42,17 @@
         <section class="slide slide-intro">
             <h1 class="nadpis-hlavni">Kratochvilná Poezie</h1>
             <div class="autor">Kratochvilný Jan</div>
-            
-            <!-- 🔧 ZMĚNA: Text je vložen jako obyčejný odstavec přímo pod autora, takže ho prohlížeč nemůže schovat -->
             <p id="sbs-indicator" class="scroll-indicator">Vstupte do světa kratochvilné poezie</p>
         </section>
 
         <!-- 2. OBRAZOVKA -->
         <section class="slide slide-poem">
-             <!-- 🔧 NOVÝ ÚVODNÍ VERŠ: Menší písmo, v kurzívě (styl uvozen tagem em) -->
+             <!-- Nový úvodní verš v kurzívě -->
             <p class="vers reveal" style="font-size: 1.5rem; font-style: italic; margin-bottom: 20px; color: #4a5d4e;">
                 ... a že si básník za svým slovem stál, je ...
             </p>
             
-             <!-- Hlavní verš zůstává beze změny -->
+             <!-- Hlavní ústřední verš -->
             <p class="vers reveal">„Svojí mysli, sobě král.“</p>
         </section>
 
@@ -67,20 +65,23 @@
         var autoPosunInterval = null;
         var jeZtlumeno = false;
 
+        // 🧠 OPRAVENÁ STRÁNKOVÁ LOGIKA: Rozsvítí spolehlivě všechny řádky básně
         function aktualizovatWeb() {
             var odscrollovano = window.scrollY || window.pageYOffset;
             var vyskaOkna = window.innerHeight;
-            var elementVers = document.querySelector('.reveal');
+            
+            // 1. Zmizení textu na spodku hlavní strany
             var indicator = document.getElementById('sbs-indicator');
-
-            // Při posunu o více než 10 pixelů text plynule zmizí
             if (indicator && odscrollovano > 10) {
                 indicator.classList.add('skryt');
             }
 
-            // Odhalení básně
-            if (elementVers && odscrollovano > (vyskaOkna * 0.3)) {
-                elementVers.classList.add('active');
+            // 2. 🔧 FIX: Vyhledá všechny prvky s básní a plynule rozsvítí oba řádky naráz
+            var prvkyVerse = document.querySelectorAll('.reveal');
+            if (odscrollovano > (vyskaOkna * 0.3)) {
+                prvkyVerse.forEach(function(prvek) {
+                    prvek.classList.add('active');
+                });
             }
         }
 
@@ -123,9 +124,15 @@
         function toggleAutoPosun() {
             var btn = document.getElementById('btn-posun');
             var indicator = document.getElementById('sbs-indicator');
+            var prvkyVerse = document.querySelectorAll('.reveal');
             
             if (autoPosunInterval === null) {
                 if (indicator) { indicator.classList.add('skryt'); }
+
+                // 🔧 FIX: Při zapnutí Kino režimu rovnou rozsvítíme kompletní text básně
+                prvkyVerse.forEach(function(prvek) {
+                    prvek.classList.add('active');
+                });
 
                 autoPosunInterval = setInterval(function() {
                     window.scrollBy(0, 1);

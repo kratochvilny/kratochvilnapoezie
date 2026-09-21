@@ -2,7 +2,7 @@ html, body {
   margin: 0;
   padding: 0;
   width: 100%;
-  min-height: 200vh; /* 🔧 FIX: Zaručí reálnou výšku pro skrolování dvou obrazovek */
+  min-height: 200vh;
   background-color: #f1f2e1;
   font-family: 'Georgia', serif;
   color: #1a1a1a;
@@ -100,12 +100,13 @@ html, body {
 }
 
 .slide {
-  height: 100vh; /* Každý panel má přesně výšku jedné obrazovky */
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
+  position: relative; /* 🔧 Nutné pro absolutní ukotvení šipky na spodku */
 }
 
 .slide-intro {
@@ -147,19 +148,24 @@ html, body {
   animation: sbsPuvodniCistyFade 3s ease-out forwards;
 }
 
+/* 🔧 OPRAVENÁ ŠIPKA: Nyní je přesně cca 3 cm od spodního okraje obrazovky */
 .scroll-indicator {
-  margin-top: 180px;
+  position: absolute;
+  bottom: 110px; /* Pevná vzdálenost od spodního okraje */
+  left: 50%;
+  transform: translateX(-50%);
   font-size: 0.8rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: #666;
   animation: pulse 2s infinite;
+  margin: 0;
 }
 
 @keyframes pulse {
-  0% { opacity: 0.3; transform: translateY(0); }
-  50% { opacity: 1; transform: translateY(6px); }
-  100% { opacity: 0.3; transform: translateY(0); }
+  0% { opacity: 0.3; transform: translateX(-50%) translateY(0); }
+  50% { opacity: 1; transform: translateX(-50%) translateY(6px); }
+  100% { opacity: 0.3; transform: translateX(-50%) translateY(0); }
 }
 
 .slide-poem {

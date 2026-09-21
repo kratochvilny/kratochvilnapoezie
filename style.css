@@ -8,27 +8,31 @@ html, body {
   overflow-x: hidden;
 }
 
-/* 🎬 POHYB POZADÍ: Kytice se jemně zvětšuje a pulzuje, jako by dýchala */
+/* 🎬 OPRAVENÉ FILMOVÉ POZADÍ: Kytice teď bude zaručeně pulzovat */
 .sbs-background {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100vh;
+  width: 100vw;  /* Natvrdo šířka přes celé okno prohlížeče */
+  height: 100vh; /* Natvrdo výška přes celé okno prohlížeče */
   background-image: url('flower01-B01.webp');
   background-size: contain;
   background-position: center center;
   background-repeat: no-repeat;
-  opacity: 0.3;
+  opacity: 0.35;
   z-index: 1;
   pointer-events: none;
-  animation: sbsDychani 20s infinite ease-in-out; /* Plynulý nekonečný pohyb */
+  
+  /* 🔧 TENTO ŘÁDEK NÁM OPRAVÍ POHYB: Prohlížeč se na animaci předem připraví */
+  will-change: transform; 
+  animation: sbsDychani 25s infinite ease-in-out;
 }
 
+/* Definice samotného dýchání (pohybu) kytice */
 @keyframes sbsDychani {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.05) rotate(1deg); } /* Mírné zvětšení a pootočení */
-  100% { transform: scale(1); }
+  0% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.08) rotate(1.5deg); } /* Zvětší se o 8 % a mírně natočí */
+  100% { transform: scale(1) rotate(0deg); }
 }
 
 .story-container {
@@ -47,7 +51,7 @@ html, body {
   padding: 40px 20px;
 }
 
-/* 🎬 POHYB TEXTU: Titul se po načtení webu plynule vynoří a roztáhne */
+/* Titulní nadpis se plynule roztáhne při načtení */
 .nadpis-hlavni {
   font-size: 3rem;
   letter-spacing: 0.3em;
@@ -73,7 +77,7 @@ html, body {
   animation: fadeIn 3s ease-out forwards;
 }
 
-/* 🎬 POHYB VERŠE: Text podmanivě pluje v prostoru */
+/* Samotný verš, který se jemně vznáší */
 .vers {
   font-size: 2.5rem;
   line-height: 1.8;
@@ -82,12 +86,12 @@ html, body {
   max-width: 800px;
   color: #000;
   text-shadow: 0 0 15px rgba(241, 242, 225, 0.9);
-  animation: plutiVerse 6s infinite ease-in-out; /* Jemné kolébání textu */
+  animation: plutiVerse 6s infinite ease-in-out;
 }
 
 @keyframes plutiVerse {
   0% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
+  50% { transform: translateY(-8px); }
   100% { transform: translateY(0px); }
 }
 

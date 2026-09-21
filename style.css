@@ -273,6 +273,22 @@ html, body {
   100% { opacity: 0.25; } 
 }
 
+/* 🔧 🎬 NOVÝ FILMOVÉ ROZZÁŘENÍ KRESBY: Absolutní splynutí s papírem a organické vynoření ze středu */
+.sbs-vbehnuti-grafiky {
+  mix-blend-mode: multiply; 
+  transform: translate3d(0, 0, 0) scale(0.92);
+  filter: blur(15px) opacity(0);
+  transition: opacity 3.5s cubic-bezier(0.1, 0.8, 0.2, 1), 
+              transform 3.5s cubic-bezier(0.1, 0.8, 0.2, 1), 
+              filter 3.5s cubic-bezier(0.1, 0.8, 0.2, 1) !important;
+  will-change: transform, filter, opacity;
+}
+
+.sbs-vbehnuti-grafiky.active {
+  transform: translate3d(0, 0, 0) scale(1) !important;
+  filter: blur(0px) opacity(1) !important;
+}
+
 /* ==========================================================================
    📱 RESPONSIVITA PRO MOBILY
    ========================================================================== */

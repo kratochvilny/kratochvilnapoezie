@@ -43,8 +43,8 @@
             <h1 class="nadpis-hlavni">Kratochvilná Poezie</h1>
             <div class="autor">Kratochvilný Jan</div>
             
-            <!-- Čistý vyžádaný nápis -->
-            <div id="sbs-indicator" class="scroll-indicator">Vstupte do světa kratochvilné poezie</div>
+            <!-- 🔧 ZMĚNA: Text je vložen jako obyčejný odstavec přímo pod autora, takže ho prohlížeč nemůže schovat -->
+            <p id="sbs-indicator" class="scroll-indicator">Vstupte do světa kratochvilné poezie</p>
         </section>
 
         <!-- 2. OBRAZOVKA -->
@@ -67,8 +67,8 @@
             var elementVers = document.querySelector('.reveal');
             var indicator = document.getElementById('sbs-indicator');
 
-            // Hned při sebemenším posunu o 5 pixelů nápis plynule zmizí
-            if (indicator && odscrollovano > 5) {
+            // Při posunu o více než 10 pixelů text plynule zmizí
+            if (indicator && odscrollovano > 10) {
                 indicator.classList.add('skryt');
             }
 
@@ -101,7 +101,6 @@
             }
         });
 
-        // FULLSCREEN
         function toggleFullscreen() {
             var btn = document.getElementById('btn-fullscreen');
             if (!document.fullscreenElement) {
@@ -115,7 +114,6 @@
             }
         }
 
-        // KINO REŽIM
         function toggleAutoPosun() {
             var btn = document.getElementById('btn-posun');
             var indicator = document.getElementById('sbs-indicator');

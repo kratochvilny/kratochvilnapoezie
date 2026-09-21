@@ -175,7 +175,7 @@ html, body {
   flex-direction: column;
   padding-left: 8vw; 
   padding-bottom: 25vh;
-  margin-top: 45vh; /* Odtlačení bloku s obálkami hluboko pod úvod */
+  margin-top: 10vh; /* Odtlačení bloku s obálkami hluboko pod úvod */
 }
 
 .slide-sekce-knihy {

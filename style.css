@@ -80,24 +80,26 @@ html, body {
 /* 📄 🎛️ SVISLÁ ČÍSLICOVÁ LIŠTA (PRAVÁ STRANA) */
 .sbs-bocni-menu {
   position: fixed;
-  right: 30px;
+  right: 20px; /* Přisunuto o kousek blíže ke kraji */
   top: 50%;
-  transform: translateY(-50%); /* Přesné vycentrování na střed výšky */
+  transform: translateY(-50%);
   z-index: 90;
   display: flex;
   flex-direction: column;
   gap: 12px;
-  align-items: flex-end;
+  align-items: flex-end; /* Všechno se natvrdo zarovná k pravé hraně */
 }
 
 .sbs-bocni-polozka {
   display: flex;
+  /* 🔧 KLÍČOVÁ ZMĚNA: Prohodíme směr řádku – text kapitoly bude VLEVO a číslo v kroužku vpravo na kraji */
+  flex-direction: row-reverse; 
   align-items: center;
   gap: 15px;
   cursor: pointer;
 }
 
-/* Styl čísla (jemný kroužek s číslicí) */
+/* Styl čísla (kroužek pevně na pravém okraji) */
 .sbs-cislo {
   font-family: 'Georgia', serif;
   font-size: 0.9rem;
@@ -113,20 +115,24 @@ html, body {
   transition: all 0.3s ease;
 }
 
-/* Název kapitoly (výchozí stav je neviditelný, vysune se doleva) */
+/* 🔧 OPRAVENÝ NÁZEV KAPITOLY: Nyní se plynule otevírá a putuje DOLEVA do středu strany */
 .sbs-nazev-kapitoly {
   font-family: 'Georgia', serif;
   font-size: 0.85rem;
   font-style: italic;
   color: #2c3e2e;
   opacity: 0;
-  transform: translateX(10px);
+  
+  /* Změněno na záporné číslo (-15px) – text se schová mírně vpravo a při najetí vpluje doleva */
+  transform: translateX(15px); 
+  
   transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
   pointer-events: none;
   white-space: nowrap;
+  text-align: right; /* Text se úhledně zarovnává směrem k ikonám */
 }
 
-/* 🔥 HOVER EFEKT: Po najetí myši na položku se rozsvítí číslo a plynule vypluje název kapitoly */
+/* 🔥 HOVER EFEKT: Po najetí myší kroužek ztmavne a text plynule vypluje doleva */
 .sbs-bocni-polozka:hover .sbs-cislo {
   background: #2c3e2e;
   color: #f1f2e1;
@@ -136,7 +142,7 @@ html, body {
 
 .sbs-bocni-polozka:hover .sbs-nazev-kapitoly {
   opacity: 1;
-  transform: translateX(0);
+  transform: translateX(0); /* Text se plynule posune na svou pozici nalevo od kroužku */
 }
 
 /* 📜 SEKCIONÁLNÍ STRUKTURA */

@@ -2,11 +2,9 @@ html, body {
   margin: 0;
   padding: 0;
   width: 100%;
-  min-height: 200vh;
   background-color: #f1f2e1;
   font-family: 'Georgia', serif;
   color: #1a1a1a;
-  overflow-x: hidden;
 }
 
 /* 🎬 CELOOBRAZOVKOVÉ PLÁTNO OD KRAJE KE KRAJI */
@@ -150,7 +148,6 @@ html, body {
   align-items: center;
 }
 
-/* Hlavní nadpis - plynulé nasytí trvá 4 sekundy */
 .nadpis-hlavni {
   font-size: 3rem;
   text-transform: uppercase;
@@ -164,7 +161,6 @@ html, body {
   animation: sbsCisteRozsviceniTextu 4s ease-in-out forwards;
 }
 
-/* Autor - plynulé nasycení trvá 4 sekundy */
 .autor {
   font-size: 1.1rem;
   letter-spacing: 0.15em;
@@ -182,8 +178,6 @@ html, body {
   100% { opacity: 1; }
 }
 
-/* 🔧 TITULNÍ MOTTO (OPRAVENO): 
-   Načítá se plynule 4 sekundy, ale začne až přesně v 7. sekundě (4s nadpis + 3s vyžádaná pauza) */
 .motto-blok {
   text-align: center; 
   margin-top: 40px; 
@@ -192,8 +186,6 @@ html, body {
   animation: sbsCisteRozsviceniTextu 4s ease-in-out 7s forwards;
 }
 
-/* 🔧 VSTUPTE DO SVĚTA... (OPRAVENO): 
-   Spustí se v NAPROSTO STEJNÝ MOMENT jako motto (zpoždění 7s). Nájezd trvá 4s, pak přejde do dýchání jasu. */
 .scroll-indicator {
   font-size: 0.9rem;
   letter-spacing: 0.2em;
@@ -205,7 +197,7 @@ html, body {
   opacity: 0;
   will-change: opacity;
   animation: sbsCisteRozsviceniTextu 4s ease-in-out 7s forwards, 
-             sbsDychaniIndikatoru 3s infinite ease-in-out 11s; /* Dýchání sepne po úplném rozsvícení */
+             sbsDychaniIndikatoru 3s infinite ease-in-out 11s;
   transition: opacity 0.8s ease-out;
 }
 
@@ -220,31 +212,17 @@ html, body {
   pointer-events: none;
 }
 
-/* Druhá strana s veršem */
-.slide-poem {
-  justify-content: center; 
-  align-items: center;
-  position: relative; 
-}
-
-.vers {
-  font-size: 2.6rem;
-  line-height: 1.8;
-  text-align: center;
+/* 🔧 KNIŽNÍ VELIKOST SAMOTNÉHO TEXTU BÁSNÍ: Úhledné, prémiové a dokonale dýchající */
+.class-pismo-verse {
+  font-family: 'Georgia', serif;
+  font-size: 1.45rem !important; /* Zmenšeno z obřích 2.6rem na čistou knižní eleganci */
+  line-height: 1.9 !important;
   font-weight: 300;
-  max-width: 800px;
   color: #000;
+  letter-spacing: 0.02em;
   text-shadow: 0 0 25px rgba(241, 242, 225, 0.95);
-  animation: plutiVerse 6s infinite ease-in-out;
 }
 
-@keyframes plutiVerse {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-6px); }
-  100% { transform: translateY(0px); }
-}
-
-/* JEMNÝ NÁPIS MALÝMI PÍSMENY V KURZÍVĚ */
 .sbs-cti-dale {
   position: absolute;
   bottom: 80px; 
@@ -273,7 +251,6 @@ html, body {
   100% { opacity: 0.25; } 
 }
 
-/* 🔧 🎬 NOVÝ FILMOVÉ ROZZÁŘENÍ KRESBY: Absolutní splynutí s papírem a organické vynoření ze středu */
 .sbs-vbehnuti-grafiky {
   mix-blend-mode: multiply; 
   transform: translate3d(0, 0, 0) scale(0.92);
@@ -289,16 +266,13 @@ html, body {
   filter: blur(0px) opacity(1) !important;
 }
 
-/* ==========================================================================
-   📱 RESPONSIVITA PRO MOBILY
-   ========================================================================== */
 @media (max-width: 768px) {
   .sbs-bocni-menu { display: none !important; }
   .ovladani-panel { position: fixed; top: auto; bottom: 15px; left: 50%; transform: translateX(-50%); gap: 25px; z-index: 100; }
   .sbs-ikona-btn { width: 48px; height: 48px; background: rgba(241, 242, 225, 0.9); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); }
   .nadpis-hlavni { font-size: 2.2rem; letter-spacing: 0.15em; line-height: 1.4; padding: 0 10px; }
   .autor { font-size: 0.95rem; letter-spacing: 0.1em; }
-  .vers { font-size: 1.6rem; line-height: 1.6; padding: 0 15px; }
+  .class-pismo-verse { font-size: 1.25rem !important; line-height: 1.7 !important; }
   .scroll-indicator { bottom: 85px; font-size: 0.8rem; line-height: 1.4; }
   .sbs-cti-dale { bottom: 85px; font-size: 0.85rem; }
 }

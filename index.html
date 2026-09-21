@@ -6,7 +6,6 @@
     <title>Kratochvilná Poezie</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Pojistka pro hladké odhalení verše básně */
         .reveal {
             opacity: 0;
             transform: translateY(30px);
@@ -44,7 +43,7 @@
             <h1 class="nadpis-hlavni">Kratochvilná Poezie</h1>
             <div class="autor">Kratochvilný Jan</div>
             
-            <!-- 🔧 TADY JE TEN TEXT NATVRDO -->
+            <!-- Čistý vyžádaný nápis -->
             <div id="sbs-indicator" class="scroll-indicator">Vstupte do světa kratochvilné poezie</div>
         </section>
 
@@ -68,12 +67,12 @@
             var elementVers = document.querySelector('.reveal');
             var indicator = document.getElementById('sbs-indicator');
 
-            // Jakmile uživatel pohne stránkou o 10 pixelů dolů, text zmizí
-            if (indicator && odscrollovano > 10) {
+            // Hned při sebemenším posunu o 5 pixelů nápis plynule zmizí
+            if (indicator && odscrollovano > 5) {
                 indicator.classList.add('skryt');
             }
 
-            // Odhalení verše při hlubším skrolu
+            // Odhalení básně
             if (elementVers && odscrollovano > (vyskaOkna * 0.3)) {
                 elementVers.classList.add('active');
             }
@@ -102,6 +101,7 @@
             }
         });
 
+        // FULLSCREEN
         function toggleFullscreen() {
             var btn = document.getElementById('btn-fullscreen');
             if (!document.fullscreenElement) {
@@ -115,6 +115,7 @@
             }
         }
 
+        // KINO REŽIM
         function toggleAutoPosun() {
             var btn = document.getElementById('btn-posun');
             var indicator = document.getElementById('sbs-indicator');

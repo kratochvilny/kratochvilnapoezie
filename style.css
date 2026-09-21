@@ -8,8 +8,6 @@ html, body {
   font-family: 'Georgia', serif;
   color: #1a1a1a;
   overflow-x: hidden;
-  
-  /* Synchronizovaný koloběh 5 pastelových tónů pro podkladový papír */
   animation: sbsPetBarevPastely 25s infinite ease-in-out;
 }
 
@@ -50,13 +48,13 @@ html, body {
 .bg-kytice:not(.vypnout-bg) { opacity: 0.35; }
 .bg-kytice.vypnout-bg { opacity: 0; }
 
-/* 🔧 MATEMATIKA 5 PASTELOVÝCH BAREV: Růžová -> Modrá -> Zelená -> Okrová -> Nažloutlá */
+/* 🔧 5 PASTELOVÝCH BAREV: Růžová -> Modrá -> Zelená -> Okrová -> Nažloutlá */
 @keyframes sbsPetBarevPastely {
-  0%, 100% { background-color: #f7e9e9; } /* 1. Jemná pastelová růžová */
-  20% { background-color: #e4edf4; }      /* 2. Tichá pastelová modrá */
-  40% { background-color: #e5f1e8; }      /* 3. Svěží pastelová zelená */
-  60% { background-color: #f2ede0; }      /* 4. Hřejivá pastelová okrová */
-  80% { background-color: #f6f5e3; }      /* 5. Tradiční knižní nažloutlá */
+  0%, 100% { background-color: #f7e9e9; } 
+  20% { background-color: #e4edf4; }      
+  40% { background-color: #e5f1e8; }      
+  60% { background-color: #f2ede0; }      
+  80% { background-color: #f6f5e3; }      
 }
 
 @keyframes sbsFilmoveVpluti {
@@ -103,19 +101,17 @@ html, body {
 
 .story-container { position: relative; z-index: 2; width: 100%; }
 
+/* 🔧 ÚVODNÍ STRANA: Uzamčená přesně v druhé pětině výšky displeje */
 .slide-intro-full {
   height: 100vh;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
   padding: 0 20px;
-   /* 🔧 ZMĚNA: Tlačíme obsah odshora dolů */
   justify-content: flex-start; 
   align-items: center;
   position: relative;
-   /* 🔧 TENTO ŘÁDEK POSUNE NADPIS: Odrazí ho o přesnou 1 pětinu (20vh) odshora, 
-     takže nápis začne přesně na začátku 2. pětiny obrazovky */
-  padding-top: 20vh; 
+  padding-top: 20vh; /* Odtlačení nadpisu přesně do 2. pětiny */
 }
 
 .nadpis-hlavni { font-size: 3rem; text-transform: uppercase; margin: 0 0 15px 0; text-align: center; display: block; letter-spacing: 0.3em; opacity: 0; color: #1a2a1d; will-change: opacity; animation: sbsCisteRozsviceniTextu 4s ease-in-out forwards; }
@@ -134,16 +130,7 @@ html, body {
   flex-direction: column;
   padding-left: 8vw; 
   padding-bottom: 25vh;
-
-  /* 🔧 TENTO JEDINÝ ŘÁDEK VŠE POSUNE NÍŽE: */
-  margin-top: 45vh; /* Obrovský svislý odstup, který odtlačí Předmluvu hluboko pod úvodní stranu */
-}
-Při použití kódu buďte obezřetní.Tento blok v souboru bezprostředně následuje (nechte ho také netknutý):css.slide-sekce-knihy {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  margin-bottom: 90px;
-Při použití kódu buďte obezřetní.🚀 Odeslání na živý web:Uložte soubor (Ctrl + S). V levé nabídce Source Control (větev) napište zprávu jednoduchy posun textu nize a klikněte na modré tlačítko Commit a následně Sync Changes.Počkejte 15 vteřin a obnovte anonymní kartu přes Ctrl + F5.Uvidíte, že celý ten blok s dopisy dostal obrovský prostor, odskočil hluboko dolů a první strana je opět dokonale čistá a vyvážená.Nyní je geometrie celého webu v naprostém pořádku. Kterým krokem budeme pokračovat dál?Návod na propojení s vaší vlastní doménou u Wedosu – zprovozníme adresu typu kratochvilnapoezie.cz.Příprava Kapitoly 02 – ukážu vám, kam do kódu napsat další básně, aby přilétaly jako nové obálky.Napište mi jednoduše číslo 1 nebo 2!Odpovědi od umělé inteligence můžou obsahovat chyby. Další informace
+  margin-top: 45vh; /* Odtlačení bloku s obálkami hluboko pod úvod */
 }
 
 .slide-sekce-knihy {
@@ -158,7 +145,7 @@ Při použití kódu buďte obezřetní.🚀 Odeslání na živý web:Uložte so
   transition: transform 3.5s cubic-bezier(0.1, 0.85, 0.25, 1), opacity 3.5s ease-out !important;
 }
 
-/* 1. OBÁLKA (Předmluva): Užší, protáhlá dolů */
+/* 🔧 1. OBÁLKA (Předmluva): Užší, protáhlá dolů */
 .obalka-zleva { 
   max-width: 440px;
   padding: 40px 45px;
@@ -166,7 +153,7 @@ Při použití kódu buďte obezřetní.🚀 Odeslání na živý web:Uložte so
   transform: translate3d(-150px, 40px, 0) rotate(-6deg); 
 }
 
-/* 2. OBÁLKA (Prvotina): Široká, nízká */
+/* 🔧 2. OBÁLKA (Prvotina): Široká, nízká */
 .obalka-zhora { 
   max-width: 530px;
   padding: 30px 40px;
@@ -174,7 +161,7 @@ Při použití kódu buďte obezřetní.🚀 Odeslání na živý web:Uložte so
   transform: translate3d(30px, -180px, 0) rotate(7deg); 
 }
 
-/* 3. OBÁLKA (Omluva básníkům): Kompaktní čtvercový tvar */
+/* 🔧 3. OBÁLKA (Omluva básníkům): Kompaktní čtvercový tvar */
 .obalka-zdola { 
   max-width: 470px;
   padding: 35px 35px;
@@ -182,14 +169,14 @@ Při použití kódu buďte obezřetní.🚀 Odeslání na živý web:Uložte so
   transform: translate3d(-40px, 180px, 0) rotate(-4deg); 
 }
 
-/* 🔥 PERMANENTNÍ DOS基DNUTÍ: Pokaždé, když obálka najede do zorného pole, vyrovná se */
+/* 🔥 PERMANENTNÍ DOSSEDNUTÍ: Obálka plynule přistane a srovná se */
 .slide-sekce-knihy.active {
   transform: translate3d(0, 0, 0) rotate(0deg) !important;
   opacity: 1 !important;
 }
 
 /* ==========================================================================
-   🚫 TYPOGRAFIE: Absolutní zákaz zalamování nadpisů
+   🚫 TYPOGRAFIE: Zákaz zalamování nadpisů
    ========================================================================== */
 .slide-sekce-knihy h3 {
   font-family: 'Georgia', serif; 
@@ -199,9 +186,7 @@ Při použití kódu buďte obezřetní.🚀 Odeslání na živý web:Uložte so
   font-size: 1.25rem; 
   color: #1a2a1d; 
   margin: 0 0 14px 0;
-  
-  /* Pevně v jednom řádku */
-  white-space: nowrap !important; 
+  white-space: nowrap !important; /* Nadpis drží v jedné přímce */
   display: block;
 }
 
@@ -242,7 +227,7 @@ Při použití kódu buďte obezřetní.🚀 Odeslání na živý web:Uložte so
 
 /* 📱 RESPONSIVITA PRO MOBILY */
 @media (max-width: 768px) {
-  .knizni-obsah-kontejner { padding-left: 15px !important; padding-right: 15px !important; }
+  .knizni-obsah-kontejner { padding-left: 15px !important; padding-right: 15px !important; margin-top: 30vh; }
   .slide-sekce-knihy { max-width: 100% !important; padding: 25px 20px !important; align-items: center !important; }
   .slide-sekce-knihy h3 { text-align: center !important; white-space: normal !important; }
   .class-pismo-verse { text-align: center !important; font-size: 1.25rem !important; }

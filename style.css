@@ -111,52 +111,34 @@ html, body {
   padding-top: 60px;
 }
 
-/* 🔧 OPRAVENÝ ŽIVÝ NADPIS: Nejprve plynule najede a pak se nekonečně kratochvílně pohupuje */
+/* 🔧 NÁVRAT K PŮVODNÍ ČISTÉ ELEGANCI: Pouze jemné prolnutí z absolutního klidu a neznatelný tep */
 .nadpis-hlavni {
   font-size: 3rem;
+  letter-spacing: 0.3em; /* Filmový rozestup je hned od začátku pevný */
   text-transform: uppercase;
   margin: 0 0 15px 0;
   color: #1a2a1d;
   text-align: center;
   display: block;
-  will-change: transform, opacity, letter-spacing;
+  opacity: 0;
+  will-change: transform, opacity;
   
-  /* Kombinace obou animací: sbsNajeti (proběhne jednou za 2.5s) a sbsZivaKratochvile (běží nekonečně) */
-  animation: sbsNajeti 2.5s cubic-bezier(0.1, 0.8, 0.2, 1) forwards, 
-             sbsZivaKratochvile 8s infinite ease-in-out 2.5s; /* Spustí se až po dojetí úvodu */
+  /* Kombinace: Nejdřív jemný 3vteřinový fade-in z klidu, pak nekonečné mikroskopické dýchání */
+  animation: sbsPuvodniCistyFade 3s ease-out forwards, 
+             sbsJemnyTepKratochvile 10s infinite ease-in-out 3s;
 }
 
-/* 1. fáze: Úvodní filmové rozvinutí textu */
-@keyframes sbsNajeti {
-  0% { 
-    opacity: 0; 
-    transform: translateY(40px) scale(0.98); 
-    letter-spacing: 0.05em; 
-  }
-  100% { 
-    opacity: 1; 
-    transform: translateY(0) scale(1); 
-    letter-spacing: 0.3em; 
-  }
+/* 1. fáze: Původní pomalé rozsvícení na místě bez jakýchkoliv skoků */
+@keyframes sbsPuvodniCistyFade {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
 }
 
-/* 2. fáze: Nekonečné dýchání, zvětšování a vznášení nápisu */
-@keyframes sbsZivaKratochvile {
-  0% { 
-    transform: translateY(0px) scale(1); 
-    letter-spacing: 0.3em;
-    opacity: 1;
-  }
-  50% { 
-    transform: translateY(-8px) scale(1.03); /* Jemný posun nahoru a zvětšení o 3 % */
-    letter-spacing: 0.32em; /* Mírné roztažení písmen za chodu */
-    opacity: 0.9; /* Lehounké ztlumení jasu */
-  }
-  100% { 
-    transform: translateY(0px) scale(1); 
-    letter-spacing: 0.3em;
-    opacity: 1;
-  }
+/* 2. fáze: Pouze miniaturní dýchání (posun o pouhé 4 pixely, sotva postřehnutelné uklidňující vlnění) */
+@keyframes sbsJemnyTepKratochvile {
+  0% { transform: translateY(0px) scale(1); }
+  50% { transform: translateY(-4px) scale(1.015); }
+  100% { transform: translateY(0px) scale(1); }
 }
 
 .autor {
@@ -166,7 +148,7 @@ html, body {
   text-transform: uppercase;
   color: #555;
   margin: 0;
-  animation: fadeIn 3s ease-out forwards;
+  animation: sbsPuvodniCistyFade 3s ease-out forwards;
 }
 
 .scroll-indicator {
@@ -203,9 +185,4 @@ html, body {
   0% { transform: translateY(0px); }
   50% { transform: translateY(-8px); }
   100% { transform: translateY(0px); }
-}
-
-@keyframes fadeIn {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
 }

@@ -213,6 +213,20 @@ html, body {
   border-radius: 40px 18px 42px 16px; 
   transform: translate3d(-40px, 180px, 0) rotate(-4deg); 
 }
+/* 🔧 4. INVERZNÍ OBÁLKA: Tmavě pastelový šalvějový podklad, jiná velikost a směr příletu */
+.obalka-inverzni {
+  max-width: 490px;
+  padding: 38px 42px;
+  background: #2c3e2e !important; /* Výrazná tmavá pastelová barva */
+  border-radius: 20px 38px 15px 40px; /* Unikátní zaoblené rohy */
+  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.12);
+  transform: translate3d(150px, 60px, 0) rotate(5deg); /* Přilétá pozvolna nakřivo z pravého dolního rohu */
+}
+
+/* 🔧 AKTIVACE DYNAMICKÉHO ZRYCHLENÍ: Přepne tónování podkladu z 25s na super rychlých 8 vteřin */
+.sbs-zrychlit-barvy {
+  animation: sbsPetBarevPastely 8s infinite ease-in-out !important; /* Bleskový koloběh */
+}
 
 /* 🔥 PERMANENTNÍ DOSSEDNUTÍ: Obálka plynule přistane a srovná se */
 .slide-sekce-knihy.active {

@@ -33,24 +33,27 @@ html, body {
 }
 
 
-/* ✒️ PLÁTNO B: BÁSŇÍK NA PRAVÉ STRANĚ (EFEKT TAHŮ ŠTĚTCEM) */
+/* ✒️ PLÁTNO B: BÁSŇÍK NA PRAVÉ STRANĚ (EFEKT TAHŮ ŠTĚTCEM - OPRAVENO) */
 .bg-basnik {
   background-image: url('basnik01.webp'); 
   mix-blend-mode: multiply; 
   background-size: contain; 
   background-repeat: no-repeat;
   background-position: calc(100% - 50px) center; 
-  filter: contrast(30) brightness(0) sepia(0.2);
   opacity: 0;
-  transition: opacity 4s ease-in-out, filter 4s cubic-bezier(0.4, 0, 0.2, 1);
   will-change: filter, opacity;
-  animation: sbsKameraPohyb 40s infinite ease-in-out 4s, 
-             sbsTonovaniGrafiky 60s infinite ease-in-out;
 }
 
 .bg-basnik.zapnout-bg {
-  opacity: 0.55;
-  filter: contrast(1) brightness(1) sepia(0.2);
+  animation: sbsZrozeniStetcem 4s cubic-bezier(0.4, 0, 0.2, 1) forwards,
+             sbsKameraPohyb 40s infinite ease-in-out 4s, 
+             sbsTonovaniGrafiky 60s infinite ease-in-out 4s;
+}
+
+@keyframes sbsZrozeniStetcem {
+  0% { opacity: 0; filter: contrast(40) brightness(0) sepia(0.2); }
+  20% { opacity: 0.35; filter: contrast(25) brightness(0.3) sepia(0.2); }
+  100% { opacity: 0.55; filter: contrast(1) brightness(1) sepia(0.2); }
 }
 
 /* Řízení plynulého prolínání vrstev pozadí */

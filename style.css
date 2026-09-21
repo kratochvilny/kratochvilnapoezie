@@ -105,16 +105,16 @@ html, body {
   position: relative;
 }
 
-/* 🔧 KLÍČOVÝ POSUN DOLŮ: Odsazení zvětšeno o dalších 75px (cca 2 cm) */
+/* 🔧 NÁVRAT ZPĚT: Úvodní sekce má opět standardní horní pozici */
 .slide-intro {
-  padding-top: 225px; 
+  padding-top: 0; 
 }
 
-/* Hlavní nadpis - čisté vybarvení na místě */
+/* Hlavní nadpis - čisté vybarvení na původním místě */
 .nadpis-hlavni {
   font-size: 3rem;
   text-transform: uppercase;
-  margin: 0 0 10px 0;
+  margin: 0 0 15px 0;
   text-align: center;
   display: block;
   letter-spacing: 0.3em; 
@@ -125,29 +125,16 @@ html, body {
              sbsJemnyTepKratochvile 12s infinite ease-in-out 4s;
 }
 
-/* Autor */
+/* Autor na původním místě */
 .autor {
   font-size: 1.1rem;
   letter-spacing: 0.15em;
   font-style: italic;
   text-transform: uppercase;
   color: #555;
-  margin: 0 0 25px 0;
-  opacity: 0;
-  animation: sbsPlynuleSyceniBarvy 4s ease-in-out forwards;
-}
-
-/* 🔧 NOVÝ PODTITUL „kratochvilná...“: Sygnalizuje zpožděné probarvení po 2 vteřinách */
-.podtitul-kratochvilna {
-  font-size: 1.5rem;
-  letter-spacing: 0.25em;
-  font-style: italic;
-  color: #2c3e2e; /* Příjemný olivový nádech */
   margin: 0;
   opacity: 0;
-  will-change: opacity;
-  /* Vývojářský trik: animation-delay 2s zařídí, že se objeví až chvíli po nadpisu */
-  animation: sbsPlynuleSyceniBarvy 4s ease-in-out 2s forwards;
+  animation: sbsPlynuleSyceniBarvy 4s ease-in-out forwards;
 }
 
 @keyframes sbsPlynuleSyceniBarvy {
@@ -161,7 +148,7 @@ html, body {
   100% { transform: translateY(0px) scale(1); }
 }
 
-/* 🔧 UPRAVENÁ VÝZVA: Šipka i text „OTEVŘÍT SBÍRKU“ přesně 3 cm od spodku */
+/* 🔧 PERFEKTNÍ POZICE: „OTEVŘÍT SBÍRKU ↓“ je posunuto dolů, přesně 3 cm od spodku obrazovky */
 .scroll-indicator {
   position: absolute;
   bottom: 110px; 
@@ -175,13 +162,6 @@ html, body {
   margin: 0;
   will-change: opacity, transform;
   animation: pulse 2s infinite;
-}
-
-/* Stylování samotného znaku šipky pod textem */
-.sbs-sipka {
-  display: block;
-  margin-top: 8px;
-  font-size: 1rem;
 }
 
 @keyframes pulse {

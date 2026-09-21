@@ -5,28 +5,129 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kratochvilná Poezie</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        .reveal {
+            opacity: 0;
+            transform: scale(0.95);
+            transition: all 2s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+    </style>
 </head>
 <body>
 
-    <!-- Fixní vrstva s uměleckým pozadím kytice -->
+    <!-- 🔧 OPRAVENÝ ŘÁDEK: Zde jsme zadali přesný název vašeho souboru hudba01.mp3 -->
+    <audio id="pozadi-audio" src="hudba01.mp3" loop></audio>
+
+    <!-- PANEL S TLAČÍTKY V JEMNÉM DESIGNU -->
+    <div class="ovladani-panel">
+        <button id="btn-posun" class="sbs-tlacitko" onclick="toggleAutoPosun()">Kino režim</button>
+        <button id="btn-fullscreen" class="sbs-tlacitko" onclick="toggleFullscreen()">Celá obrazovka</button>
+        <button id="btn-zvuk" class="sbs-tlacitko">Zvuk vyp.</button>
+    </div>
+
     <div class="sbs-background"></div>
 
-    <!-- Scrollovací vrstva s poezií -->
     <div class="story-container">
 
-        <!-- 1. OBRAZOVKA: Úvodní filmový titul -->
         <section class="slide">
             <h1 class="nadpis-hlavni">Kratochvilná Poezie</h1>
             <div class="autor">Kratochvilný Jan</div>
             <div class="scroll-indicator">Skrolujte dolů ↓</div>
         </section>
 
-        <!-- 2. OBRAZOVKA: Samotný hluboký verš -->
         <section class="slide">
-            <p class="vers">„Svojí mysli, sobě král.“</p>
+            <p class="vers reveal">„Svojí mysli, sobě král.“</p>
         </section>
 
     </div>
+
+    <script>
+        var audio = document.getElementById('pozadi-audio');
+        var btnZvuk = document.getElementById('btn-zvuk');
+        var autoPosunInterval = null;
+        var jeZtlumeno = false;
+
+        // Sledování skrolování pro odhalení textu
+        window.addEventListener('scroll', function() {
+            var element = document.querySelector('.reveal');
+            if (element) {
+                var poziceElementu = element.getBoundingClientRect().top;
+                var vyskaObrazovky = window.innerHeight;
+                if (poziceElementu < vyskaObrazovky - 150) {
+                    element.classList.add('active');
+                }
+            }
+        });
+
+        // Inicializace zvuku na velmi mírnou hlasitost (0.1 = 10 %)
+        function spustitHudbu() {
+            if (audio.paused && !jeZtlumeno) {
+                audio.volume = 0.1; 
+                audio.play().then(function() {
+                    btnZvuk.innerText = "Zvuk zap.";
+                }).catch(function(e) { console.log(e); });
+            }
+        }
+        window.addEventListener('click', spustitHudbu);
+        window.addEventListener('scroll', spustitHudbu);
+
+        // Ztišení/Zapnutí zvuku tlačítkem
+        btnZvuk.addEventListener('click', function(e) {
+            e.stopPropagation(); 
+            if (audio.paused) {
+                jeZtlumeno = false;
+                audio.volume = 0.1;
+                audio.play();
+                btnZvuk.innerText = "Zvuk zap.";
+            } else {
+                jeZtlumeno = true;
+                audio.pause();
+                btnZvuk.innerText = "Zvuk vyp.";
+            }
+        });
+
+        // CELA OBRAZOVKA (FULLSCREEN)
+        function toggleFullscreen() {
+            var doc = window.document;
+            var docEl = doc.documentElement;
+
+            var requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
+            var cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
+
+            if (!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
+                requestFullScreen.call(docEl);
+                document.getElementById('btn-fullscreen').innerText = "Okno";
+            } else {
+                cancelFullScreen.call(doc);
+                document.getElementById('btn-fullscreen').innerText = "Celá obrazovka";
+            }
+        }
+
+        // AUTOMATICKÝ POMALÝ POSUN (KINO REŽIM)
+        function toggleAutoPosun() {
+            var btn = document.getElementById('btn-posun');
+            
+            if (autoPosunInterval === null) {
+                autoPosunInterval = setInterval(function() {
+                    window.scrollBy(0, 1);
+                    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+                        clearInterval(autoPosunInterval);
+                        autoPosunInterval = null;
+                        btn.classList.remove('aktivni');
+                    }
+                }, 30);
+                btn.classList.add('aktivni');
+            } else {
+                clearInterval(autoPosunInterval);
+                autoPosunInterval = null;
+                btn.classList.remove('aktivni');
+            }
+        }
+    </script>
 
 </body>
 </html>

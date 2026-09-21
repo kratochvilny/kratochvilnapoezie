@@ -9,7 +9,7 @@ html, body {
   overflow-x: hidden;
 }
 
-/* 🎬 OBNOVEnÉ FILMOVÉ PLÁTNO OD KRAJE KE KRAJI (PŮVODNÍ DOKONALÝ POHYB) */
+/* 🎬 CELOOBRAZOVKOVÉ PLÁTNO OD KRAJE KE KRAJI */
 .sbs-background {
   position: fixed;
   top: 0;
@@ -24,8 +24,6 @@ html, body {
   z-index: 1;
   pointer-events: none;
   will-change: transform, filter; 
-  
-  /* Původní plynulé vplouvání obrazu do stran a tónování barev */
   animation: sbsKameraPohyb 40s infinite ease-in-out, sbsTonovaniGrafiky 60s infinite ease-in-out;
 }
 
@@ -111,7 +109,7 @@ html, body {
   align-items: center;
 }
 
-/* Hlavní nadpis - původní jemné vybarvení na místě */
+/* Hlavní nadpis */
 .nadpis-hlavni {
   font-size: 3rem;
   text-transform: uppercase;
@@ -150,7 +148,7 @@ html, body {
   100% { transform: translateY(0px) scale(1); }
 }
 
-/* SPODNÍ NÁPIS: Opravené dýchání, které se nehádá s prolnutím */
+/* VSTUPTE DO SVĚTA... */
 .scroll-indicator {
   font-size: 0.9rem;
   letter-spacing: 0.2em;
@@ -158,7 +156,7 @@ html, body {
   color: #4a5d4e;   
   text-align: center;
   width: 100%;
-  margin: 180px 0 0 0; /* Vytvoří 3cm mezeru pod jménem autora */
+  margin: 180px 0 0 0; 
   opacity: 1;
   will-change: opacity;
   animation: pulse 3s infinite ease-in-out;
@@ -180,6 +178,7 @@ html, body {
 .slide-poem {
   justify-content: center; 
   align-items: center;
+  position: relative; 
 }
 
 .vers {
@@ -199,7 +198,34 @@ html, body {
   100% { transform: translateY(0px); }
 }
 
-/* 📱 RESPONSIVITA PRO MOBILY (Zachovává animace z hlavního webu) */
+/* 🔧 JEMNÝ NÁPIS MALÝMI PÍSMENY V KURZÍVĚ (PEVNĚ 3 CM OD SPODKU CO ZHASÍNÁ ZA POHYBU) */
+.sbs-cti-dale {
+  position: absolute;
+  bottom: 80px; 
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.95rem;
+  letter-spacing: 0.15em;
+  font-style: italic; /* Čistá kurzíva */
+  color: #666;
+  text-align: center;
+  margin: 0;
+  text-transform: none; /* Vynutí malá písmena, žádné kapitálky */
+  
+  /* Výchozí stav je skrytý, JavaScript ho rozsvítí až po zastavení */
+  opacity: 0; 
+  will-change: opacity;
+  transition: opacity 1.5s ease-in-out; 
+}
+
+/* Třída pro plynulé rozsvícení, kterou zapne JavaScript */
+.sbs-cti-dale.zobrazit {
+  opacity: 1;
+}
+
+/* ==========================================================================
+   📱 RESPONSIVITA PRO MOBILY
+   ========================================================================== */
 @media (max-width: 768px) {
   .ovladani-panel {
     position: fixed;
@@ -240,5 +266,10 @@ html, body {
     bottom: 85px; 
     font-size: 0.8rem;
     line-height: 1.4;
+  }
+
+  .sbs-cti-dale {
+    bottom: 85px;
+    font-size: 0.85rem;
   }
 }

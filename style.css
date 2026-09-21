@@ -225,8 +225,8 @@ html, body {
   margin: 180px 0 0 0; 
   opacity: 0;
   will-change: opacity;
-  animation: sbsCisteRozsviceniTextu 4s ease-in-out 7s forwards, 
-             sbsDychaniIndikatoru 3s infinite ease-in-out 11s;
+  animation: sbsCisteRozsviceniTextu 2s ease-in-out 5s forwards, 
+             sbsDychaniIndikatoru 3s infinite ease-in-out 7s;
   transition: opacity 0.8s ease-out;
 }
 

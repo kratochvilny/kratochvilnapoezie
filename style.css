@@ -6,9 +6,10 @@ html, body {
   background-color: #f1f2e1;
   font-family: 'Georgia', serif;
   color: #1a1a1a;
+  overflow-x: hidden;
 }
 
-/* 🎬 CELOOBRAZOVKOVÉ PLÁTNO OD KRAJE KE KRAJI */
+/* 🎬 OBNOVEnÉ FILMOVÉ PLÁTNO OD KRAJE KE KRAJI (PŮVODNÍ DOKONALÝ POHYB) */
 .sbs-background {
   position: fixed;
   top: 0;
@@ -23,15 +24,17 @@ html, body {
   z-index: 1;
   pointer-events: none;
   will-change: transform, filter; 
-  transform: translateZ(0);
-  -webkit-transform: translateZ(0);
-  animation: sbsUvodniNajezdObrazu 4s cubic-bezier(0.1, 0.8, 0.2, 1) forwards,
-             sbsTonovaniGrafiky 60s infinite ease-in-out;
+  
+  /* Původní plynulé vplouvání obrazu do stran a tónování barev */
+  animation: sbsKameraPohyb 40s infinite ease-in-out, sbsTonovaniGrafiky 60s infinite ease-in-out;
 }
 
-@keyframes sbsUvodniNajezdObrazu {
-  0% { transform: scale(1); }
-  100% { transform: scale(1.06); }
+@keyframes sbsKameraPohyb {
+  0% { transform: scale(1.02) translate(0px, 0px) rotate(0deg); }
+  25% { transform: scale(1.08) translate(-10px, 8px) rotate(0.3deg); }
+  50% { transform: scale(1.05) translate(8px, -10px) rotate(-0.3deg); }
+  75% { transform: scale(1.10) translate(-4px, -4px) rotate(0.2deg); }
+  100% { transform: scale(1.02) translate(0px, 0px) rotate(0deg); }
 }
 
 @keyframes sbsTonovaniGrafiky {
@@ -108,7 +111,7 @@ html, body {
   align-items: center;
 }
 
-/* Hlavní nadpis */
+/* Hlavní nadpis - původní jemné vybarvení na místě */
 .nadpis-hlavni {
   font-size: 3rem;
   text-transform: uppercase;
@@ -119,7 +122,7 @@ html, body {
   opacity: 0;
   color: #1a2a1d;
   will-change: opacity, transform;
-  animation: sbsCisteRozsviceni 4s ease-in-out forwards,
+  animation: sbsPlynuleSyceniBarvy 4s ease-in-out forwards,
              sbsJemnyTepKratochvile 12s infinite ease-in-out 4s;
 }
 
@@ -133,11 +136,10 @@ html, body {
   margin: 0;
   text-align: center;
   opacity: 0;
-  animation: sbsCisteRozsviceni 4s ease-in-out forwards;
+  animation: sbsPlynuleSyceniBarvy 4s ease-in-out forwards;
 }
 
-/* 🔧 OPRAVENÁ KLÍČOVÁ ANIMACE: Garantuje prolnutí z nuly do plné barvy bez zaseknutí */
-@keyframes sbsCisteRozsviceni {
+@keyframes sbsPlynuleSyceniBarvy {
   0% { opacity: 0; }
   100% { opacity: 1; }
 }
@@ -148,7 +150,7 @@ html, body {
   100% { transform: translateY(0px) scale(1); }
 }
 
-/* 📜 VSTUPTE DO SVĚTA... (Poloha na spodku) */
+/* SPODNÍ NÁPIS: Ukotvený 3 cm od spodního okraje, při pohybu okamžitě zmizí */
 .scroll-indicator {
   position: absolute;
   bottom: 80px;     
@@ -163,10 +165,8 @@ html, body {
   max-width: 600px;
   margin: 0;
   opacity: 0;
-  will-change: opacity;
-  
-  /* Rozsvícení a jemné pulzování jasu */
-  animation: sbsCisteRozsviceni 4s ease-in-out forwards, 
+  will-change: opacity, transform;
+  animation: sbsPlynuleSyceniBarvy 4s ease-in-out forwards, 
              pulse 2s infinite 4s;
   transition: opacity 0.8s ease-out, transform 0.8s ease-out;
 }
@@ -206,19 +206,8 @@ html, body {
   100% { transform: translateY(0px); }
 }
 
-/* 📱 RESPONSIVITA PRO MOBILY */
+/* 📱 RESPONSIVITA PRO MOBILY (Zachovává animace z hlavního webu) */
 @media (max-width: 768px) {
-  .sbs-background {
-    animation: sbsUvodniNajezdObrazu 4s cubic-bezier(0.1, 0.8, 0.2, 1) forwards,
-               sbsTonovaniGrafiky 60s infinite ease-in-out !important;
-    -webkit-animation: sbsUvodniNajezdObrazu 4s cubic-bezier(0.1, 0.8, 0.2, 1) forwards,
-                       sbsTonovaniGrafiky 60s infinite ease-in-out !important;
-  }
-
-  .slide-intro {
-    padding-top: 0; 
-  }
-
   .ovladani-panel {
     position: fixed;
     top: auto;

@@ -6,11 +6,11 @@
     <title>Kratochvilná Poezie</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* 🔧 FIX: Oprava odhalovacího efektu pro verš */
+        /* 🔧 NEPRŮSTŘELNÝ FIX: Spolehlivé a hladké odhalení textu */
         .reveal {
             opacity: 0;
-            transform: translateY(40px);
-            transition: opacity 2s ease, transform 2s ease;
+            transform: translateY(30px);
+            transition: opacity 1.5s ease, transform 1.5s ease;
         }
         .reveal.active {
             opacity: 1;
@@ -22,17 +22,14 @@
 
     <audio id="pozadi-audio" src="hudba01.mp3" loop></audio>
 
-    <!-- 🎛️ IKONOVÝ PANEL (ČISTÉ VEKTOROVÉ LINKY) -->
+    <!-- OVLÁDACÍ PANEL -->
     <div class="ovladani-panel">
-        <!-- 1. Kino režim (Automatický posun) -->
         <button id="btn-posun" class="sbs-ikona-btn" onclick="toggleAutoPosun()" title="Kino režim">
             <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
         </button>
-        <!-- 2. Celoobrazovkový režim -->
         <button id="btn-fullscreen" class="sbs-ikona-btn" onclick="toggleFullscreen()" title="Celá obrazovka">
             <svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"></path></svg>
         </button>
-        <!-- 3. Ovládání zvuku -->
         <button id="btn-zvuk" class="sbs-ikona-btn" title="Zapnout/Vypnout zvuk">
             <svg id="svg-zvuk" viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5zM23 9l-6 6M17 9l6 6"></path></svg>
         </button>
@@ -42,14 +39,14 @@
 
     <div class="story-container">
 
-        <!-- 1. ÚVODNÍ OBRAZOVKA (Posunutá o 3 cm dolů) -->
+        <!-- 1. OBRAZOVKA -->
         <section class="slide slide-intro">
             <h1 class="nadpis-hlavni">Kratochvilná Poezie</h1>
             <div class="autor">Kratochvilný Jan</div>
             <div class="scroll-indicator">Skrolujte dolů ↓</div>
         </section>
 
-        <!-- 2. SLOKA: Tady už se text 100% objeví -->
+        <!-- 2. OBRAZOVKA -->
         <section class="slide slide-poem">
             <p class="vers reveal">„Svojí mysli, sobě král.“</p>
         </section>
@@ -63,42 +60,47 @@
         var autoPosunInterval = null;
         var jeZtlumeno = false;
 
-        // 🧠 FIX: Inteligentní detekce pro zobrazení verše při skrolování
-        function kontrolaSkrolu() {
+        // 🧠 ZBRUSU NOVÝ MECHANISMUS SLEDOVÁNÍ POHYBU STRÁNKY
+        function aktualizovatWeb() {
+            var odscrollovano = window.scrollY || window.pageYOffset;
+            var vyskaOkna = window.innerHeight;
             var element = document.querySelector('.reveal');
-            if (element) {
-                var poziceElementu = element.getBoundingClientRect().top;
-                var vyskaObrazovky = window.innerHeight;
-                // Jakmile je sloka aspoň z jedné třetiny na obrazovce, okamžitě najede
-                if (poziceElementu < vyskaObrazovky - 100) {
-                    element.classList.add('active');
-                }
+
+            // 1. Spolehlivé zobrazení druhého verše, jakmile uživatel odscroluje aspoň o kousek z úvodní strany
+            if (element && odscrollovano > (vyskaOkna * 0.3)) {
+                element.classList.add('active');
+            }
+
+            // 2. 🎵 AKTIVACE HUDBY POHYBEM: Spustí se okamžitě při sebemenším skrolu
+            if (audio.paused && !jeZtlumeno && odscrollovano > 2) {
+                spustitTichouHudbu();
             }
         }
-        window.addEventListener('scroll', kontrolaSkrolu);
-        window.addEventListener('load', kontrolaSkrolu); // Kontrola i po načtení
 
-        // 🎵 Velmi mírná hlasitost zvuku při prvním pohybu (10 %)
-        function spustitHudbu() {
-            if (audio.paused && !jeZtlumeno) {
-                audio.volume = 0.1; 
-                audio.play().then(function() {
-                    // Ikona zapnutého reproduktoru
-                    svgZvuk.innerHTML = '<path d="M11 5L6 9H2v6h4l5 4V5zM15.54 8.46a5 5 0 0 1 0 7.07"></path>';
-                }).catch(function(e) { console.log(e); });
-            }
+        // Pomocná funkce pro bezpečné zapnutí audia na 10% hlasitost
+        function spustitTichouHudbu() {
+            audio.volume = 0.1;
+            audio.play().then(function() {
+                svgZvuk.innerHTML = '<path d="M11 5L6 9H2v6h4l5 4V5zM15.54 8.46a5 5 0 0 1 0 7.07"></path>';
+            }).catch(function(e) { 
+                console.log("Čeká se na přímější kliknutí uživatele kvůli politice prohlížeče."); 
+            });
         }
-        window.addEventListener('click', spustitHudbu);
-        window.addEventListener('scroll', spustitHudbu);
 
-        // Zapínání a vypínání zvuku ikonou
+        // Hlídání událostí na celé stránce
+        window.addEventListener('scroll', aktualizovatWeb);
+        window.addEventListener('touchmove', aktualizovatWeb); // Podpora pro mobily a tablety
+        window.addEventListener('click', function() {
+            // Hudba naskočí i při běžném kliknutí kamkoliv do prostoru
+            if (audio.paused && !jeZtlumeno) { spustitTichouHudbu(); }
+        });
+
+        // Ruční zapínání/vypínání zvuku ikonou v panelu
         btnZvuk.addEventListener('click', function(e) {
             e.stopPropagation(); 
             if (audio.paused) {
                 jeZtlumeno = false;
-                audio.volume = 0.1;
-                audio.play();
-                svgZvuk.innerHTML = '<path d="M11 5L6 9H2v6h4l5 4V5zM15.54 8.46a5 5 0 0 1 0 7.07"></path>';
+                spustitTichouHudbu();
             } else {
                 jeZtlumeno = true;
                 audio.pause();
@@ -106,7 +108,7 @@
             }
         });
 
-        // 🖥️ FULLSCREEN REŽIM
+        // FULLSCREEN REŽIM
         function toggleFullscreen() {
             var btn = document.getElementById('btn-fullscreen');
             if (!document.fullscreenElement) {
@@ -120,20 +122,22 @@
             }
         }
 
-        // 📜 KINO REŽIM (AUTOMATICKÝ POSUN)
+        // KINO REŽIM (AUTOMATICKÝ POSUN)
         function toggleAutoPosun() {
             var btn = document.getElementById('btn-posun');
             
             if (autoPosunInterval === null) {
                 autoPosunInterval = setInterval(function() {
                     window.scrollBy(0, 1);
-                    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 2) {
+                    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 5) {
                         clearInterval(autoPosunInterval);
                         autoPosunInterval = null;
                         btn.classList.remove('aktivni');
                     }
-                }, 35); // Ideální pomalá, klidná rychlost čtení
+                }, 35);
                 btn.classList.add('aktivni');
+                // Pokud uživatel zapne kino režim, rovnou mu aktivujeme i zvuk
+                if (audio.paused && !jeZtlumeno) { spustitTichouHudbu(); }
             } else {
                 clearInterval(autoPosunInterval);
                 autoPosunInterval = null;

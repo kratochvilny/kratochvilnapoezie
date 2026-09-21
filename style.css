@@ -140,7 +140,30 @@ html, body {
 .autor { font-size: 1.1rem; letter-spacing: 0.15em; font-style: italic; text-transform: uppercase; color: #555; margin: 0; text-align: center; opacity: 0; animation: sbsCisteRozsviceniTextu 4s ease-in-out forwards; }
 @keyframes sbsCisteRozsviceniTextu { 0% { opacity: 0; } 100% { opacity: 1; } }
 .motto-blok { text-align: center; margin-top: 40px; opacity: 0; will-change: opacity; animation: sbsCisteRozsviceniTextu 4s ease-in-out 7s forwards; }
-.scroll-indicator { font-size: 0.9rem; letter-spacing: 0.2em; font-style: italic; color: #4a5d4e; text-align: center; width: 100%; margin: 180px 0 0 0; opacity: 0; will-change: opacity; animation: sbsCisteRozsviceniTextu 2s ease-in-out 5s forwards, sbsDychaniIndikatoru 3s infinite ease-in-out 7s; transition: opacity 0.8s ease-out; }
+
+/* 🔧 NAVRÁCENÍ A UKOTVENÍ VÝZVY: Text bezpečně sedí u dolního okraje první obrazovky */
+.scroll-indicator {
+  font-size: 0.9rem;
+  letter-spacing: 0.2em;
+  font-style: italic;
+  color: #4a5d4e;   
+  text-align: center;
+  
+  /* Pevné ukotvení nad spodní okraj monitoru, aby nezmizel */
+  position: absolute;
+  bottom: 40px; 
+  left: 50%;
+  transform: translateX(-50%);
+  width: auto;
+  margin: 0; 
+  
+  opacity: 0;
+  will-change: opacity;
+  animation: sbsCisteRozsviceniTextu 2s ease-in-out 5s forwards, 
+             sbsDychaniIndikatoru 3s infinite ease-in-out 7s;
+  transition: opacity 0.8s ease-out;
+}
+
 @keyframes sbsDychaniIndikatoru { 0% { opacity: 0.4; } 50% { opacity: 1; } 100% { opacity: 0.4; } }
 .scroll-indicator.skryt { opacity: 0 !important; pointer-events: none; }
 

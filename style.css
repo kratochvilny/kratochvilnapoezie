@@ -29,21 +29,18 @@ html, body {
              sbsKameraPohybUvod 40s infinite ease-in-out 5s;
 }
 
-/* ✒️ BÁSŇÍK: Pevný napravo s neprůstřelným, nekonečným barevným přelivem */
+/* ✒️ BÁSŇÍK: Zpět uprostřed, dýchá a mění barvy bez jakýchkoliv kolizí */
 .bg-basnik {
   background-image: url('basnik01.webp'); 
   mix-blend-mode: multiply; 
   background-size: contain; 
   background-repeat: no-repeat;
-  background-position: calc(100% - 60px) center; 
+  background-position: center center; /* 🔧 Zpět přesně uprostřed okna */
   opacity: 0;
-  
-  /* 🔧 NEPŮSTŘELNÁ ZMĚNA BARVY: Automatický, plynulý barevný cyklus (olivová -> modrá -> sépie) */
   animation: sbsBarevnyKolobehBasnika 25s infinite ease-in-out,
              sbsDychaniBasnika 14s infinite ease-in-out;
 }
 
-/* Definice plynulé proměny barev, která zaručeně funguje všude */
 @keyframes sbsBarevnyKolobehBasnika {
   0%, 100% { filter: sepia(0.6) hue-rotate(60deg) saturate(1.2) brightness(0.95); } /* Olivová */
   33% { filter: sepia(0.4) hue-rotate(190deg) saturate(1.6) brightness(0.85); }   /* Modrá */
@@ -69,7 +66,7 @@ html, body {
 
 @keyframes sbsDychaniBasnika {
   0% { transform: scale(1); }
-  50% { transform: scale(1.03); } 
+  50% { transform: scale(1.04); } 
   100% { transform: scale(1); }
 }
 
@@ -122,8 +119,7 @@ html, body {
   width: 100%;
 }
 
-/* Úvodní velká strana na výšku monitoru */
-.slide-intro-full {
+.slide {
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -133,20 +129,22 @@ html, body {
   align-items: center;
 }
 
-/* 🔧 KONTEJNER KNIHY: Sjednocuje celý blok kapitol s odsazením 10 % zleva */
-.knizni-obsah-kontejner {
+/* 🔧 STŘEDOVÝ KONTEJNER KNIHY: Vrací všechno dokonale vycentrované na osu monitoru */
+.stredovy-obsah-kontejner {
   display: flex;
   flex-direction: column;
-  padding-left: 10vw; 
+  align-items: center; /* Vše na střed */
   padding-bottom: 20vh;
 }
 
-/* 🔧 VYČIŠTĚNÉ KRÁTKÉ ODSTUPY: Sekce už nemají 100vh, ale těsný svislý odstup */
-.slide-grid, .slide-sekce-knihy {
+/* 🔧 KRÁTKÉ ROZESTUPY: Svislé mezery utaženy k sobě */
+.slide-sekce-knihy {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  margin-bottom: 90px; /* Přiměřená, čistá mezera mezi jednotlivými básněmi */
+  align-items: center; /* Vnitřní řádky na střed */
+  margin-bottom: 60px; /* Výrazně zkrácená mezera mezi básněmi */
+  width: 100%;
+  max-width: 600px;
 }
 
 .slide-sekce-knihy h3 {
@@ -156,37 +154,36 @@ html, body {
   letter-spacing: 0.15em; 
   font-size: 1.4rem; 
   color: #1a2a1d; 
-  text-align: left !important; 
+  text-align: center !important; /* 🔧 Nadpisy básní vycentrované */
   width: 100%;
-  max-width: 500px;
-  margin: 0 0 10px 0; /* 🔧 Nadpis sedí hned u básničky */
+  margin: 0 0 10px 0; /* Těsně nad textem */
 }
 
-/* 🔧 EMOCIONÁLNÍ VELIKOST TEXTU: Perfektní, kompaktní řádkování zleva */
+/* 🔧 DOKONALÉ STRÁNKOVÉ PÍSMO: Vycentrované, čisté a kompaktní */
 .class-pismo-verse {
   font-family: 'Georgia', serif;
   font-size: 1.45rem !important; 
-  line-height: 1.5 !important; /* Verše drží těsně u sebe */
+  line-height: 1.5 !important; 
   font-weight: 300;
   color: #000;
   letter-spacing: 0.02em;
-  text-align: left !important; 
+  text-align: center !important; /* 🔧 Samotný text básně vycentrovaný */
   width: 100%;
-  max-width: 500px;
   text-shadow: 0 0 25px rgba(241, 242, 225, 0.95);
   margin: 0;
 }
 
 .slide-sekce-knihy p {
   margin: 0 0 12px 0 !important; 
-  max-width: 520px;
+  text-align: center;
   line-height: 1.7;
 }
 
 .sbs-cti-dale {
   position: absolute;
   bottom: -50px; 
-  left: 0; 
+  left: 50%;
+  transform: translateX(-50%); /* Vycentrované dýchání dole */
   font-size: 0.95rem;
   letter-spacing: 0.15em;
   font-style: italic; 
@@ -201,13 +198,9 @@ html, body {
 @keyframes sbsPulzovaniCtiDale { 0% { opacity: 0.25; } 50% { opacity: 0.95; } 100% { opacity: 0.25; } }
 
 @media (max-width: 768px) {
-  .knizni-obsah-kontejner { padding-left: 20px !important; padding-right: 20px !important; }
-  .slide-sekce-knihy { align-items: center !important; }
-  .slide-sekce-knihy h3 { text-align: center !important; }
-  .class-pismo-verse { text-align: center !important; font-size: 1.25rem !important; }
+  .class-pismo-verse { font-size: 1.25rem !important; }
   .sbs-bocni-menu { display: none !important; }
   .ovladani-panel { position: fixed; top: auto; bottom: 15px; left: 50%; transform: translateX(-50%); gap: 25px; z-index: 100; }
   .sbs-ikona-btn { width: 48px; height: 48px; background: rgba(241, 242, 225, 0.9); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); }
   .scroll-indicator { bottom: 85px; font-size: 0.8rem; }
-  .sbs-cti-dale { left: 50% !important; transform: translateX(-50%); bottom: -45px; }
 }

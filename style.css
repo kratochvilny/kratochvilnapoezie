@@ -363,5 +363,14 @@ html, body {
   /* Jakmile čtenář odskroluje z úvodu dolů, básník se jemně rozsvítí */
   .bg-basnik.zapnout-bg {
     opacity: 0.45 !important;
+      /* 🔧 KLÍČOVÁ POJISTKA PRO MOBIL: Vynutí šalvějové pozadí i na telefonu, 
+     takže bílý text přestane splývat a okamžitě se zobrazí */
+  .obalka-inverzni {
+    background: #2c3e2e !important;
+  }
+  .obalka-inverzni.active {
+    background: #2c3e2e !important;
+  }
+
   }
 }

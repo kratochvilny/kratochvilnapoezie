@@ -1,198 +1,233 @@
-<!DOCTYPE html>
-<html lang="cs">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kratochvilná Poezie</title>
-    <link rel="stylesheet" href="style.css">
-    <style>
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 1.8s ease-out, transform 1.8s ease-out;
-        }
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    </style>
-</head>
-<body>
+/* ==========================================================================
+   🎬 SPOLEČNÝ BAREVNÝ KOLOBĚH PRO CELÝ WEB
+   ========================================================================== */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  font-family: 'Georgia', serif;
+  color: #1a1a1a;
+  overflow-x: hidden;
+  animation: sbsSpolecnyKolobehBarev 15s infinite ease-in-out;
+}
 
-    <audio id="pozadi-audio" src="hudba01.mp3" loop></audio>
+.sbs-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-size: cover; 
+  background-position: center center;
+  background-repeat: no-repeat;
+  opacity: 0;
+  z-index: 1;
+  pointer-events: none;
+  will-change: transform, filter, opacity;
+  transition: opacity 2.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
 
-    <div class="ovladani-panel">
-        <button id="btn-posun" class="sbs-ikona-btn" onclick="toggleAutoPosun()" title="Kino režim">
-            <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-        </button>
-        <button id="btn-fullscreen" class="sbs-ikona-btn" onclick="toggleFullscreen()" title="Celá obrazovka">
-            <svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"></path></svg>
-        </button>
-        <button id="btn-zvuk" class="sbs-ikona-btn" title="Zapnout/Vypnout zvuk">
-            <svg id="svg-zvuk" viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5zM23 9l-6 6M17 9l6 6"></path></svg>
-        </button>
-    </div>
+.bg-kytice {
+  background-image: url('flower01-B01.webp');
+  animation: sbsFilmoveVpluti 5s cubic-bezier(0.25, 1, 0.5, 1) forwards,
+             sbsKameraPohybUvod 40s infinite ease-in-out 5s;
+}
 
-    <nav class="sbs-bocni-menu">
-        <div class="sbs-bocni-polozka" onclick="skocNaSekci('sekce-uvod')">
-            <span class="sbs-cislo">0</span>
-            <span class="sbs-nazev-kapitoly">Úvod</span>
-        </div>
-        <div class="sbs-bocni-polozka" onclick="skocNaSekci('sekce-kapitola01-predmluva')">
-            <span class="sbs-cislo">1</span>
-            <span class="sbs-nazev-kapitoly">Kratochvilná předmluva</span>
-        </div>
-    </nav>
+/* ✒️ BÁSŇÍK: Drží se bezpečně napravo a dýchá */
+.bg-basnik {
+  background-image: url('basnik01.webp'); 
+  mix-blend-mode: multiply; 
+  background-size: contain; 
+  background-repeat: no-repeat;
+  background-position: calc(100% - 60px) center; /* Pevně na pravé polovině */
+  opacity: 0;
+  animation: sbsDychaniBasnika 14s infinite ease-in-out;
+}
 
-    <div id="bg-uvod" class="sbs-background bg-kytice"></div>
-    <div id="bg-kapitola1" class="sbs-background bg-basnik"></div>
+.bg-basnik.zapnout-bg { opacity: 0.55; }
+.bg-kytice:not(.vypnout-bg) { opacity: 0.35; }
+.bg-kytice.vypnout-bg { opacity: 0; }
 
-    <div class="story-container">
-        
-        <section id="sekce-uvod" class="slide slide-intro">
-            <h1 class="nadpis-hlavni">Kratochvilná Poezie</h1>
-            <div class="autor">Kratochvilný Jan</div>
-            <div class="motto-blok">
-                <p style="font-size: 1.4rem; font-style: italic; color: #4a5d4e; margin: 0 0 10px 0;">„Jak jsem myslil, tak jsem psal.“</p>
-                <p style="font-size: 2rem; font-weight: 300; color: #000; margin: 0;">„Svojí mysli, sobě král.“</p>
-            </div>
-            <p id="sbs-indicator" class="scroll-indicator">Vstupte do světa kratochvilné poezie</p>
-        </section>
+@keyframes sbsSpolecnyKolobehBarev {
+  0%, 100% { background-color: #f1f2e1; } 
+  33% { background-color: #e2e8df; }      
+  66% { background-color: #dfdecc; }      
+}
 
-        <section id="sekce-kapitola01-predmluva" class="slide sbs-scena-detekce" data-barva="olivova">
-            <div style="max-width: 650px; width: 100%; text-align: justify; line-height: 1.9; font-size: 1.15rem; color: #222;">
-                <h3 class="reveal">Kratochvilná předmluva</h3>
-                <p class="reveal" style="text-indent: 30px;">Už se těch veršů nějak nastřádalo. Je toho sice na knihu nikoli tučnou, ale řekněme lehce obéznější. A tak jsem začal přemýšlet nad vydáním své knižní prvotiny.</p>
-                <p class="reveal" style="text-indent: 30px;">Nevím proč, ale do hlavy mi při mé „vrozené“ skromnosti skočilo pár veršíků – taková drobná omluva za to, že jsem si vůbec troufnul. Posuďte sami, jak moc je mi skromnost vlastní.</p>
-            </div>
-        </section>
+@keyframes sbsFilmoveVpluti {
+  0% { transform: scale(0.96); filter: brightness(0) blur(20px) sepia(0.2); }
+  100% { transform: scale(1.02); filter: brightness(1) blur(0px) sepia(0.2); }
+}
 
-        <section class="slide sbs-scena-detekce" data-barva="modra">
-            <div style="max-width: 600px; width: 100%;">
-                <h3 class="reveal">Prvotina</h3>
-                <p class="reveal class-pismo-verse">Není to, lidé, vaše vina,<br>že vyšla tahle prvotina.</p>
-            </div>
-        </section>
+@keyframes sbsKameraPohybUvod {
+  0% { transform: scale(1.02) translate(0px, 0px) rotate(0deg); }
+  25% { transform: scale(1.08) translate(-10px, 8px) rotate(0.3deg); }
+  50% { transform: scale(1.05) translate(8px, -10px) rotate(-0.3deg); }
+  75% { transform: scale(1.10) translate(-4px, -4px) rotate(0.2deg); }
+  100% { transform: scale(1.02) translate(0px, 0px) rotate(0deg); }
+}
 
-        <section class="slide sbs-scena-detekce" data-barva="sepia" style="position: relative;">
-            <div style="max-width: 600px; width: 100%;">
-                <h3 class="reveal">Omluva skutečným básníkům</h3>
-                <p class="reveal class-pismo-verse">Drazí básníci, jsem trošku nesmělý,<br>stydím se, že vám lezu do zelí.<br>Však věřte, tyto verše,<br>vám prostě chyběly.</p>
-            </div>
-            <div id="sbs-cti-dale-text" class="sbs-cti-dale">čti dále ↓</div>
-        </section>
+@keyframes sbsDychaniBasnika {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.04); } 
+  100% { transform: scale(1); }
+}
 
-    </div>
+/* 🎛️ PANEL S IKONAMI */
+.ovladani-panel {
+  position: fixed;
+  top: 30px;
+  right: 30px;
+  z-index: 100;
+  display: flex;
+  gap: 15px;
+}
+.sbs-ikona-btn { background: rgba(241, 242, 225, 0.5); border: 1px solid rgba(26, 42, 29, 0.15); border-radius: 50%; width: 42px; height: 42px; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: all 0.3s ease; padding: 0; }
+.sbs-ikona-btn svg { width: 18px; height: 18px; fill: none; stroke: #444; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.sbs-ikona-btn:hover { border-color: rgba(26, 42, 29, 0.6); background: rgba(241, 242, 225, 0.9); }
+.sbs-ikona-btn.aktivni { background: #2c3e2e; border-color: #2c3e2e; }
+.sbs-ikona-btn.aktivni svg { stroke: #f1f2e1; }
 
-    <script>
-        var audio = document.getElementById('pozadi-audio');
-        var btnZvuk = document.getElementById('btn-zvuk');
-        var svgZvuk = document.getElementById('svg-zvuk');
-        var autoPosunInterval = null;
-        var jeZtlumeno = false;
-        var scrollTimeout = null;
+/* SVISLÁ LIŠTA */
+.sbs-bocni-menu { position: fixed; right: 20px; top: 50%; transform: translateY(-50%); z-index: 90; display: flex; flex-direction: column; gap: 12px; align-items: flex-end; }
+.sbs-bocni-polozka { display: flex; flex-direction: row-reverse; align-items: center; gap: 15px; cursor: pointer; }
+.sbs-cislo { font-family: 'Georgia', serif; font-size: 0.9rem; color: #555; background: rgba(241, 242, 225, 0.4); border: 1px solid rgba(26, 42, 29, 0.1); border-radius: 50%; width: 28px; height: 28px; display: flex; justify-content: center; align-items: center; transition: all 0.3s ease; }
+.sbs-nazev-kapitoly { font-family: 'Georgia', serif; font-size: 0.85rem; font-style: italic; color: #2c3e2e; opacity: 0; transform: translateX(15px); transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1); pointer-events: none; white-space: nowrap; text-align: right; }
+.sbs-bocni-polozka:hover .sbs-cislo { background: #2c3e2e; color: #f1f2e1; border-color: #2c3e2e; transform: scale(1.1); }
+.sbs-bocni-polozka:hover .sbs-nazev-kapitoly { opacity: 1; transform: translateX(0); }
 
-        function skocNaSekci(idSekce) {
-            var cilovaSekce = document.getElementById(idSekce);
-            if (cilovaSekce) { cilovaSekce.scrollIntoView({ behavior: 'smooth' }); }
-        }
+.story-container { position: relative; z-index: 2; width: 100%; }
 
-        function aktualizovatWeb() {
-            var odscrollovano = window.scrollY || window.pageYOffset;
-            var vyskaOkna = window.innerHeight;
-            var indicator = document.getElementById('sbs-indicator');
-            var ctiDale = document.getElementById('sbs-cti-dale-text');
-            var bgUvod = document.getElementById('bg-uvod');
-            var bgKapitola1 = document.getElementById('bg-kapitola1');
+.slide-intro-full {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 0 20px;
+  justify-content: center; 
+  align-items: center;
+}
 
-            if (indicator && odscrollovano > 10) { indicator.classList.add('skryt'); }
-            if (ctiDale) { ctiDale.classList.remove('zobrazit'); }
+.nadpis-hlavni { font-size: 3rem; text-transform: uppercase; margin: 0 0 15px 0; text-align: center; display: block; letter-spacing: 0.3em; opacity: 0; color: #1a2a1d; will-change: opacity; animation: sbsCisteRozsviceniTextu 4s ease-in-out forwards; }
+.autor { font-size: 1.1rem; letter-spacing: 0.15em; font-style: italic; text-transform: uppercase; color: #555; margin: 0; text-align: center; opacity: 0; animation: sbsCisteRozsviceniTextu 4s ease-in-out forwards; }
+@keyframes sbsCisteRozsviceniTextu { 0% { opacity: 0; } 100% { opacity: 1; } }
+.motto-blok { text-align: center; margin-top: 40px; opacity: 0; will-change: opacity; animation: sbsCisteRozsviceniTextu 4s ease-in-out 7s forwards; }
+.scroll-indicator { font-size: 0.9rem; letter-spacing: 0.2em; font-style: italic; color: #4a5d4e; text-align: center; width: 100%; margin: 180px 0 0 0; opacity: 0; will-change: opacity; animation: sbsCisteRozsviceniTextu 2s ease-in-out 5s forwards, sbsDychaniIndikatoru 3s infinite ease-in-out 7s; transition: opacity 0.8s ease-out; }
+@keyframes sbsDychaniIndikatoru { 0% { opacity: 0.4; } 50% { opacity: 1; } 100% { opacity: 0.4; } }
+.scroll-indicator.skryt { opacity: 0 !important; pointer-events: none; }
 
-            if (odscrollovano > (vyskaOkna * 0.5)) {
-                if(bgUvod) bgUvod.classList.add('vypnout-bg');
-                if(bgKapitola1) bgKapitola1.classList.add('zapnout-bg');
-            } else {
-                if(bgUvod) bgUvod.classList.remove('vypnout-bg');
-                if(bgKapitola1) bgKapitola1.classList.remove('zapnout-bg');
-            }
+/* ==========================================================================
+   ✉️ STRUKTURA BÍLÝCH OBÁLEK S NEPRAVIDELNÝMI ROHY (Zarovnáno do volného pole)
+   ========================================================================== */
+.knizni-obsah-kontejner {
+  display: flex;
+  flex-direction: column;
+  padding-left: 8vw; /* Bezpečné levé pole monitoru */
+  padding-bottom: 25vh;
+}
 
-            var sceny = document.querySelectorAll('.sbs-scena-detekce');
-            sceny.forEach(function(scena) {
-                var hranice = scena.getBoundingClientRect();
-                if (hranice.top < (vyskaOkna * 0.5) && hranice.bottom > (vyskaOkna * 0.5)) {
-                    var barvaKodu = scena.getAttribute('data-barva');
-                    if(bgKapitola1) {
-                        bgKapitola1.classList.remove('tón-olivova', 'tón-modra', 'tón-sepia');
-                        bgKapitola1.classList.add('tón-' + barvaKodu);
-                    }
-                }
-            });
+.slide-sekce-knihy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 70px;
+  width: 100%;
+  max-width: 460px; /* 🔧 ŠÍŘKA OBÁLKY: Drží text vlevo, aby nezasahoval do básníka vpravo */
+  
+  /* Vzhled dopisní obálky */
+  background: rgba(255, 255, 255, 0.94); /* Čisté bílé pozadí */
+  padding: 30px 35px;
+  box-sizing: border-box;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.04); /* Velmi jemný stín pod dopisem */
+  
+  will-change: transform, opacity;
+  transition: transform 1.8s cubic-bezier(0.15, 0.85, 0.35, 1), opacity 1.8s ease-out;
+}
 
-            var prvkyVerse = document.querySelectorAll('.reveal');
-            prvkyVerse.forEach(function(prvek) {
-                var pozice = prvek.getBoundingClientRect().top;
-                if (pozice < vyskaOkna - 80) { prvek.classList.add('active'); }
-            });
+/* 🔧 ODLIŠNÉ TVARY ROHŮ PRO KAŽDOU OBÁLKU */
+.obalka-zleva { border-radius: 24px 12px 30px 18px; }
+.obalka-zhora { border-radius: 14px 35px 16px 28px; }
+.obalka-zdola { border-radius: 30px 16px 32px 14px; }
 
-            clearTimeout(scrollTimeout);
-            scrollTimeout = setTimeout(function() {
-                if (ctiDale && odscrollovano > (vyskaOkna * 1.5) && autoPosunInterval === null) {
-                    ctiDale.classList.add('zobrazit');
-                }
-            }, 3000);
-        }
+/* ==========================================================================
+   🎬 KINETICKÉ TRAJEKTORIE VJEZDU PRO JEDNOTLIVÉ OBÁLKY
+   ========================================================================== */
 
-        window.addEventListener('scroll', aktualizovatWeb);
-        window.addEventListener('touchmove', aktualizovatWeb);
-        window.addEventListener('load', aktualizovatWeb);
+/* 1. Předmluva: Vjíždí mírně šikmo z levého boku */
+.obalka-zleva {
+  transform: translate3d(-100px, 20px, 0) rotate(-4deg);
+}
 
-        function spustitTichouHudbu() {
-            audio.volume = 0.1;
-            audio.play().then(function() {
-                svgZvuk.innerHTML = '<path d="M11 5L6 9H2v6h4l5 4V5zM15.54 8.46a5 5 0 0 1 0 7.07"></path>';
-            }).catch(function(e) { console.log(e); });
-        }
+/* 2. Prvotina: Sleduje směr zhora dolů, stočená doprava */
+.obalka-zhora {
+  transform: translate3d(0, -120px, 0) rotate(5deg);
+}
 
-        btnZvuk.addEventListener('click', function(e) {
-            e.stopPropagation(); 
-            if (audio.paused) { jeZtlumeno = false; spustitTichouHudbu(); } 
-            else { jeZtlumeno = true; audio.pause(); svgZvuk.innerHTML = '<path d="M11 5L6 9H2v6h4l5 4V5zM23 9l-6 6M17 9l6 6"></path>'; }
-        });
+/* 3. Omluva básníkům: Vystřeluje zdola nahoru, stočená doleva */
+.obalka-zdola {
+  transform: translate3d(20px, 120px, 0) rotate(-3deg);
+}
 
-        function toggleFullscreen() {
-            if (!document.fullscreenElement) { document.documentElement.requestFullscreen(); } 
-            else { document.exitFullscreen(); }
-        }
+/* 🔥 AKTIVNÍ STAV (PŘÍLET): Obálka dosedne hladce na svou pozici a vyrovná se */
+.slide-sekce-knihy.active {
+  transform: translate3d(0, 0, 0) rotate(0deg) !important;
+  opacity: 1 !important;
+}
 
-        function toggleAutoPosun() {
-            var btn = document.getElementById('btn-posun');
-            var indicator = document.getElementById('sbs-indicator');
-            var ctiDale = document.getElementById('sbs-cti-dale-text');
-            var prvkyVerse = document.querySelectorAll('.reveal');
-            
-            if (autoPosunInterval === null) {
-                if (indicator) { indicator.classList.add('skryt'); }
-                if (ctiDale) { ctiDale.classList.remove('zobrazit'); }
-                prvkyVerse.forEach(function(prvek) { prvek.classList.add('active'); });
+/* Stylování vnitřku obálek */
+.slide-sekce-knihy h3 {
+  font-family: 'Georgia', serif; 
+  font-weight: normal; 
+  text-transform: uppercase; 
+  letter-spacing: 0.15em; 
+  font-size: 1.25rem; 
+  color: #1a2a1d; 
+  text-align: left !important;
+  margin: 0 0 14px 0;
+}
 
-                autoPosunInterval = setInterval(function() {
-                    window.scrollBy(0, 1);
-                    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 5) {
-                        clearInterval(autoPosunInterval);
-                        autoPosunInterval = null;
-                        btn.classList.remove('aktivni');
-                        setTimeout(function() { if (ctiDale) { ctiDale.classList.add('zobrazit'); } }, 3000);
-                    }
-                }, 35);
-                btn.classList.add('aktivni');
-                if (audio.paused && !jeZtlumeno) { spustitTichouHudbu(); }
-            } else {
-                clearInterval(autoPosunInterval);
-                autoPosunInterval = null;
-                btn.classList.remove('aktivni');
-                aktualizovatWeb();
-            }
-        }
-    </script>
-</body>
-</html>
+.class-pismo-verse {
+  font-family: 'Georgia', serif;
+  font-size: 1.35rem !important; 
+  line-height: 1.6 !important; 
+  font-weight: 300;
+  color: #111;
+  letter-spacing: 0.02em;
+  text-align: left !important;
+  margin: 0;
+}
+
+.slide-sekce-knihy p {
+  margin: 0 0 12px 0 !important; 
+  line-height: 1.7;
+  font-size: 1.05rem;
+  color: #222;
+}
+
+.sbs-cti-dale {
+  position: absolute;
+  bottom: -45px; 
+  left: 0; 
+  font-size: 0.95rem;
+  letter-spacing: 0.15em;
+  font-style: italic; 
+  color: #4a5d4e; 
+  margin: 0;
+  text-transform: none; 
+  opacity: 0; 
+  will-change: opacity;
+  transition: opacity 1.5s ease-in-out; 
+}
+.sbs-cti-dale.zobrazit { opacity: 1; animation: sbsPulzovaniCtiDale 3s infinite ease-in-out; }
+@keyframes sbsPulzovaniCtiDale { 0% { opacity: 0.25; } 50% { opacity: 0.95; } 100% { opacity: 0.25; } }
+
+/* 📱 RESPONSIVITA PRO MOBILY */
+@media (max-width: 768px) {
+  .knizni-obsah-kontejner { padding-left: 15px !important; padding-right: 15px !important; }
+  .slide-sekce-knihy { max-width: 100% !important; padding: 25px 20px !important; }
+  .sbs-bocni-menu { display: none !important; }
+  .ovladani-panel { position: fixed; top: auto; bottom: 15px; left: 50%; transform: translateX(-50%); gap: 25px; z-index: 100; }
+  .sbs-ikona-btn { width: 48px; height: 48px; background: rgba(241, 242, 225, 0.9); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); }
+  .scroll-indicator { bottom: 85px; font-size: 0.8rem; }
+  .sbs-cti-dale { left: 50% !important; transform: translateX(-50%); bottom: -45px; }
+}

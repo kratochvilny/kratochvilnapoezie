@@ -2,36 +2,41 @@ html, body {
   margin: 0;
   padding: 0;
   width: 100%;
-  background-color: #f1f2e1; /* Krémový podklad odpovídající vaší grafice */
-  font-family: 'Georgia', serif; /* Literární, knižní patkové písmo */
+  background-color: #f1f2e1;
+  font-family: 'Georgia', serif;
   color: #1a1a1a;
   overflow-x: hidden;
 }
 
-/* Fixní pozadí ve stylu SBS - kresba se nehýbe, text pluje nad ní */
+/* 🎬 POHYB POZADÍ: Kytice se jemně zvětšuje a pulzuje, jako by dýchala */
 .sbs-background {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100vh;
-  background-image: url('flower01-B01.webp'); /* Zde bude váš upravený obrázek kytice */
-  background-size: contain; /* Obrázek se nezdeformuje a ukáže celou kresbu */
+  background-image: url('flower01-B01.webp');
+  background-size: contain;
   background-position: center center;
   background-repeat: no-repeat;
-  opacity: 0.25; /* Jemná, atmosférická průhlednost typická pro skici v The Boat */
+  opacity: 0.3;
   z-index: 1;
   pointer-events: none;
+  animation: sbsDychani 20s infinite ease-in-out; /* Plynulý nekonečný pohyb */
 }
 
-/* Hlavní scrollovací kontejner */
+@keyframes sbsDychani {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05) rotate(1deg); } /* Mírné zvětšení a pootočení */
+  100% { transform: scale(1); }
+}
+
 .story-container {
   position: relative;
   z-index: 2;
   width: 100%;
 }
 
-/* Jednotlivé sekce příběhu, které se objevují při skrolování */
 .slide {
   min-height: 100vh;
   display: flex;
@@ -42,14 +47,20 @@ html, body {
   padding: 40px 20px;
 }
 
-/* Styly pro dramatickou typografii */
+/* 🎬 POHYB TEXTU: Titul se po načtení webu plynule vynoří a roztáhne */
 .nadpis-hlavni {
   font-size: 3rem;
-  letter-spacing: 0.3em; /* Široké, filmové rozestupy písmen */
+  letter-spacing: 0.3em;
   text-transform: uppercase;
   margin-bottom: 10px;
   color: #2c3e2e;
   text-align: center;
+  animation: vynoreniTitulu 2.5s ease-out forwards;
+}
+
+@keyframes vynoreniTitulu {
+  0% { opacity: 0; transform: translateY(30px); letter-spacing: 0.1em; }
+  100% { opacity: 1; transform: translateY(0); letter-spacing: 0.3em; }
 }
 
 .autor {
@@ -59,20 +70,27 @@ html, body {
   text-transform: uppercase;
   color: #666;
   margin-bottom: 50px;
+  animation: fadeIn 3s ease-out forwards;
 }
 
+/* 🎬 POHYB VERŠE: Text podmanivě pluje v prostoru */
 .vers {
-  font-size: 2.2rem;
+  font-size: 2.5rem;
   line-height: 1.8;
   text-align: center;
   font-weight: 300;
   max-width: 800px;
   color: #000;
-  /* Mírný stín pro absolutní čitelnost textu v prostoru */
-  text-shadow: 0 0 10px rgba(241, 242, 225, 0.8); 
+  text-shadow: 0 0 15px rgba(241, 242, 225, 0.9);
+  animation: plutiVerse 6s infinite ease-in-out; /* Jemné kolébání textu */
 }
 
-/* Indikátor, že má uživatel skrolovat dolů */
+@keyframes plutiVerse {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
 .scroll-indicator {
   margin-top: 40px;
   font-size: 0.8rem;
@@ -83,7 +101,12 @@ html, body {
 }
 
 @keyframes pulse {
-  0% { opacity: 0.3; }
-  50% { opacity: 1; }
-  100% { opacity: 0.3; }
+  0% { opacity: 0.3; transform: translateY(0); }
+  50% { opacity: 1; transform: translateY(5px); }
+  100% { opacity: 0.3; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
 }

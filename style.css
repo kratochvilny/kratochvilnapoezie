@@ -7,6 +7,7 @@ html, body {
   color: #1a1a1a;
 }
 
+/* 🎬 UNIVERZÁLNÍ ZÁKLAD PRO FILMOVÁ PLÁTNA NA POZADÍ */
 .sbs-background {
   position: fixed;
   top: 0;
@@ -22,22 +23,50 @@ html, body {
   will-change: transform, filter, opacity;
   transition: opacity 2.5s cubic-bezier(0.25, 1, 0.5, 1);
 }
-/* ✒️ BÁSŇÍK: Pevný napravo s uměleckými šmouhami štětcem a barevným přelivem - OPRAVENO PROTI MIZENÍ */
+
+/* 🌿 PLÁTNO A: ÚVODNÍ KYTICE (DOPLNĚNO) */
+.bg-kytice {
+  background-image: url('flower01-B01.webp');
+  animation: sbsFilmoveVpluti 5s cubic-bezier(0.25, 1, 0.5, 1) forwards,
+             sbsKameraPohybUvod 40s infinite ease-in-out 5s;
+}
+
+/* ✒️ BÁSŇÍK: Pevný napravo s uměleckým rozpitím okrajů a barevným přelivem */
 .bg-basnik {
   background-image: url('basnik01.webp'); 
+  mix-blend-mode: multiply; /* Bezpečné splynutí linek s papírem */
   background-size: contain; 
   background-repeat: no-repeat;
-  background-position: center center; 
+  background-position: calc(100% - 60px) center; 
   opacity: 0;
   
-  /* 🔧 NEPRŮSTŘELNÁ UMELECKÁ MASKA ŠTĚTCE: 
-     Radial a linear přechod jemně vymažou roztřepené okraje skenu, ale nezpůsobí ztrátu grafiky */
+  /* 🔧 UMĚLECKÁ MASKA ŠTĚTCE: Plynule rozpije a roztřepí okraje skenu do ztracena */
   -webkit-mask-image: radial-gradient(circle, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 80%);
   mask-image: radial-gradient(circle, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 80%);
   
+  /* Vyhlazený přechod pro sametovou změnu barevných filtrů */
+  transition: opacity 2.5s ease-in-out, filter 3s ease-in-out !important; 
+  
+  animation: sbsDychaniBasnika 14s infinite ease-in-out;
+}
+
+/* 🔧 SPUŠTĚNÍ BAREVNÉHO KOLOBĚHU (DOPLNĚNO): Aktivuje se při odskrolování z úvodu */
+.bg-basnik.zapnout-bg {
+  opacity: 0.55;
   animation: sbsBarevnyKolobehBasnika 25s infinite ease-in-out,
              sbsDychaniBasnika 14s infinite ease-in-out;
 }
+
+/* 🎨 DEFINICE BAREVNÉHO KOLOBĚHU (DOPLNĚNO): Olivová -> Modrá -> Sépie */
+@keyframes sbsBarevnyKolobehBasnika {
+  0%, 100% { filter: sepia(0.6) hue-rotate(60deg) saturate(1.2) brightness(0.95); }
+  33% { filter: sepia(0.4) hue-rotate(190deg) saturate(1.6) brightness(0.85); }
+  66% { filter: sepia(0.8) hue-rotate(0deg) saturate(0.9) brightness(1); }
+}
+
+/* Řízení plynulého prolínání vrstev pozadí */
+.bg-kytice:not(.vypnout-bg) { opacity: 0.35; }
+.bg-kytice.vypnout-bg { opacity: 0; }
 
 @keyframes sbsFilmoveVpluti {
   0% { transform: scale(0.96); filter: brightness(0) blur(20px) sepia(0.2); }
@@ -231,6 +260,7 @@ html, body {
   pointer-events: none;
 }
 
+/* 🔧 UTAŽENÉ MEZERY NADPISŮ: Krátký, těsný odstup nadpisu od textu */
 .slide h3 {
   font-family: 'Georgia', serif; 
   font-weight: normal; 
@@ -241,13 +271,14 @@ html, body {
   text-align: left !important; 
   width: 100%;
   max-width: 500px;
-  margin: 0 0 12px 0; 
+  margin: 0 0 10px 0; /* Utaženo na minimum */
 }
 
+/* 🔧 DOKONALÉ STRÁNKOVÉ PÍSMO VERŠŮ: Zarovnáno čistě vlevo, utažené řádkování */
 .class-pismo-verse {
   font-family: 'Georgia', serif;
   font-size: 1.45rem !important; 
-  line-height: 1.6 !important; 
+  line-height: 1.5 !important; /* Verše sedí krásně blízko u sebe */
   font-weight: 300;
   color: #000;
   letter-spacing: 0.02em;
@@ -258,8 +289,11 @@ html, body {
   margin: 0;
 }
 
+/* Utažení odstavců pro předmluvu */
 .slide p {
-  margin: 0 0 14px 0 !important; 
+  margin: 0 0 12px 0 !important; 
+  max-width: 500px;
+  line-height: 1.7;
 }
 
 .sbs-cti-dale {

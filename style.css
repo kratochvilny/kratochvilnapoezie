@@ -44,16 +44,24 @@ html, body {
   will-change: filter, opacity;
 }
 
-.bg-basnik.zapnout-bg {
-  animation: sbsZrozeniStetcem 4s cubic-bezier(0.4, 0, 0.2, 1) forwards,
-             sbsKameraPohyb 40s infinite ease-in-out 4s, 
-             sbsTonovaniGrafiky 60s infinite ease-in-out 4s;
+/* ✒️ PLÁTNO B: BÁSŇÍK NA PRAVÉ STRANĚ (ČISTÉ PROLNUTÍ BEZ BAREVNÝCH HRAN) */
+.bg-basnik {
+  background-image: url('basnik01.webp'); 
+  background-size: contain; 
+  background-repeat: no-repeat;
+  background-position: calc(100% - 50px) center; 
+  opacity: 0;
+  will-change: opacity;
 }
 
-@keyframes sbsZrozeniStetcem {
-  0% { opacity: 0; filter: contrast(40) brightness(0) sepia(0.2); }
-  20% { opacity: 0.35; filter: contrast(25) brightness(0.3) sepia(0.2); }
-  100% { opacity: 0.55; filter: contrast(1) brightness(1) sepia(0.2); }
+.bg-basnik.zapnout-bg {
+  animation: sbsCisteZrozeni 3s ease-in-out forwards,
+             sbsKameraPohyb 40s infinite ease-in-out 3s;
+}
+
+@keyframes sbsCisteZrozeni {
+  0% { opacity: 0; }
+  100% { opacity: 0.35; }
 }
 
 /* Řízení plynulého prolínání vrstev pozadí */

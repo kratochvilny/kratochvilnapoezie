@@ -15,7 +15,6 @@
             opacity: 1;
             transform: translateY(0);
         }
-        /* Skryjeme zdrojový nadpis přímo v textu básně, pokud ho chcete vidět jen v liště */
         .nazev-sekce-zdroj {
             display: none;
         }
@@ -38,7 +37,7 @@
         </button>
     </div>
 
-    <!-- 🎛️ SVISLÁ LIŠTA (Názvy kapitol se vyplní zcela automaticky ze souborů) -->
+    <!-- SVISLÁ LIŠTA (Pravá strana) -->
     <nav class="sbs-bocni-menu">
         <div class="sbs-bocni-polozka" onclick="skocNaSekci('sekce-uvod')">
             <span class="sbs-cislo">0</span>
@@ -50,29 +49,25 @@
         </div>
         <div class="sbs-bocni-polozka" onclick="skocNaSekci('sekce-kapitola02')">
             <span class="sbs-cislo">2</span>
-            <span id="label-sekce-kapitola02" class="sbs-nazev-kapitoly">Načítání...</span>
-        </div>
-        <div class="sbs-bocni-polozka" onclick="skocNaSekci('sekce-kapitola03')">
-            <span class="sbs-cislo">3</span>
-            <span id="label-sekce-kapitola03" class="sbs-nazev-kapitoly">...</span>
-        </div>
-        <div class="sbs-bocni-polozka" onclick="skocNaSekci('sekce-kapitola04')">
-            <span class="sbs-cislo">4</span>
-            <span id="label-sekce-kapitola04" class="sbs-nazev-kapitoly">...</span>
-        </div>
-        <div class="sbs-bocni-polozka" onclick="skocNaSekci('sekce-kapitola05')">
-            <span class="sbs-cislo">5</span>
-            <span id="label-sekce-kapitola05" class="sbs-nazev-kapitoly">...</span>
+            <span id="label-sekce-kapitola02" class="sbs-nazev-kapitoly">...</span>
         </div>
     </nav>
 
     <div class="sbs-background"></div>
 
     <div class="story-container">
-        <section id="sekce-uvod" class="slide slide-intro">
+        <!-- 1. ÚVODNÍ OBRAZOVKA -->
+        <section id="sekce-uvod" class="slide slide-intro" style="position: relative;">
             <h1 class="nadpis-hlavni">Kratochvilná Poezie</h1>
             <div class="autor">Kratochvilný Jan</div>
-            <p id="sbs-indicator" class="scroll-indicator">Vstupte do světa kratochvilné poezie</p>
+            
+            <!-- 🔧 PŘIDÁNO MOTTO: Objeví se na spodku první strany po začátku rolování -->
+            <div id="sbs-motto" class="reveal" style="text-align: center; margin-top: 40px; max-width: 700px; padding: 0 20px;">
+                <p style="font-size: 1.4rem; font-style: italic; color: #4a5d4e; margin: 0 0 10px 0;">„Jak jsem myslil, tak jsem psal.“</p>
+                <p style="font-size: 1.8rem; font-weight: 300; color: #000; margin: 0;">„Svojí mysli, sobě král.“</p>
+            </div>
+
+            <p id="sbs-indicator" class="scroll-indicator">Vstupte do sveta kratochvilne poezie</p>
         </section>
 
         <!-- KONTEJNER PRO EXTERNÍ KAPITOLY -->
@@ -87,40 +82,31 @@
         var jeZtlumeno = false;
         var scrollTimeout = null;
 
-        // Seznam vašich externích HTML souborů
-        var seznamKapitol = ['kapitola01.html', 'kapitola02.html']; 
+        var seznamKapitol = ['kapitola01.html']; 
         var kontejner = document.getElementById('externi-kapitoly');
 
         Promise.all(seznamKapitol.map(url => fetch(url).then(res => res.text())))
             .then(htmlObsahy => {
                 kontejner.innerHTML = htmlObsahy.join('');
                 
-                // 🧠 AUTOMATICKÉ VYTAŽENÍ NÁZVŮ: Projedeme stažené kapitoly a přečteme jejich <h2>
                 seznamKapitol.forEach(function(url) {
-                    var idKapitoly = url.replace('.html', ''); // Vytvoří např. "kapitola01"
+                    var idKapitoly = url.replace('.html', '');
                     var stazenaSekce = document.getElementById('sekce-' + idKapitoly);
-                    
                     if (stazenaSekce) {
                         var nalezenyNadpis = stazenaSekce.querySelector('.nazev-sekce-zdroj');
                         var labelVListe = document.getElementById('label-sekce-' + idKapitoly);
-                        
-                        // Pokud v souboru najdeme nadpis, propíšeme ho automaticky do boční lišty
-                        if (nalezenyNadpis && labelVListe) {
-                            labelVListe.innerText = nalezenyNadpis.innerText;
-                        }
+                        if (nalezenyNadpis && labelVListe) { labelVListe.innerText = nalezenyNadpis.innerText; }
                     }
                 });
 
                 window.addEventListener('scroll', aktualizovatWeb);
                 window.addEventListener('touchmove', aktualizovatWeb);
                 aktualizovatWeb();
-            }).catch(err => console.error("Chyba při stahování: ", err));
+            }).catch(err => console.error(err));
 
         function skocNaSekci(idSekce) {
             var cilovaSekce = document.getElementById(idSekce);
-            if (cilovaSekce) {
-                cilovaSekce.scrollIntoView({ behavior: 'smooth' });
-            }
+            if (cilovaSekce) { cilovaSekce.scrollIntoView({ behavior: 'smooth' }); }
         }
 
         function aktualizovatWeb() {
@@ -128,17 +114,21 @@
             var vyskaOkna = window.innerHeight;
             
             var indicator = document.getElementById('sbs-indicator');
+            var motto = document.getElementById('sbs-motto');
             var ctiDale = document.getElementById('sbs-cti-dale-text');
 
+            // 1. Zmizení úvodního textu
             if (indicator && odscrollovano > 10) { indicator.classList.add('skryt'); }
             if (ctiDale) { ctiDale.classList.remove('zobrazit'); }
 
+            // 2. 🔧 REAKCE NA ROLOVÁNÍ: Rozsvícení motta na první straně při sebemenším pohybu
+            if (motto && odscrollovano > 15) { motto.classList.add('active'); }
+
+            // 3. Rozsvícení všech veršů v kapitolách
             var prvkyVerse = document.querySelectorAll('.reveal');
             prvkyVerse.forEach(function(prvek) {
                 var pozice = prvek.getBoundingClientRect().top;
-                if (pozice < vyskaOkna - 100) {
-                    prvek.classList.add('active');
-                }
+                if (pozice < vyskaOkna - 100) { prvek.classList.add('active'); }
             });
 
             clearTimeout(scrollTimeout);
@@ -158,14 +148,8 @@
 
         btnZvuk.addEventListener('click', function(e) {
             e.stopPropagation(); 
-            if (audio.paused) {
-                jeZtlumeno = false;
-                spustitTichouHudbu();
-            } else {
-                jeZtlumeno = true;
-                audio.pause();
-                svgZvuk.innerHTML = '<path d="M11 5L6 9H2v6h4l5 4V5zM23 9l-6 6M17 9l6 6"></path>';
-            }
+            if (audio.paused) { jeZtlumeno = false; audio.volume = 0.1; spustitTichouHudbu(); } 
+            else { jeZtlumeno = true; audio.pause(); svgZvuk.innerHTML = '<path d="M11 5L6 9H2v6h4l5 4V5zM23 9l-6 6M17 9l6 6"></path>'; }
         });
 
         function toggleFullscreen() {
@@ -184,13 +168,14 @@
         function toggleAutoPosun() {
             var btn = document.getElementById('btn-posun');
             var indicator = document.getElementById('sbs-indicator');
+            var motto = document.getElementById('sbs-motto');
             var ctiDale = document.getElementById('sbs-cti-dale-text');
             var prvkyVerse = document.querySelectorAll('.reveal');
             
             if (autoPosunInterval === null) {
                 if (indicator) { indicator.classList.add('skryt'); }
+                if (motto) { motto.classList.add('active'); }
                 if (ctiDale) { ctiDale.classList.remove('zobrazit'); }
-
                 prvkyVerse.forEach(function(prvek) { prvek.classList.add('active'); });
 
                 autoPosunInterval = setInterval(function() {

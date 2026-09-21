@@ -6,7 +6,6 @@
     <title>Kratochvilná Poezie</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Pojistka pro hladké odhalení prvků */
         .reveal {
             opacity: 0;
             transform: translateY(30px);
@@ -56,8 +55,8 @@
             <!-- Hlavní ústřední verš -->
             <p class="vers reveal">„Svojí mysli, sobě král.“</p>
 
-            <!-- 🔧 NOVÝ PRVEK: Odložená nápověda „Čti dále ↓“, která se ukáže až po 3 sekundách -->
-            <div class="reveal sbs-cti-dale">Čti dále ↓</div>
+            <!-- 🔧 PŘESNÉ ZNĚNÍ MALÝMI PÍSMENY: Čti dále se zhasínacím ID -->
+            <div id="sbs-cti-dale-text" class="sbs-cti-dale">čti dále ↓</div>
         </section>
 
     </div>
@@ -68,22 +67,46 @@
         var svgZvuk = document.getElementById('svg-zvuk');
         var autoPosunInterval = null;
         var jeZtlumeno = false;
+        
+        // Pomocné stopky pro detekci absolutního zastavení stránky
+        var scrollTimeout = null;
 
         function aktualizovatWeb() {
             var odscrollovano = window.scrollY || window.pageYOffset;
             var vyskaOkna = window.innerHeight;
             
             var indicator = document.getElementById('sbs-indicator');
+            var ctiDale = document.getElementById('sbs-cti-dale-text');
+
+            // 1. Jakmile se stránka pohne, spodní text první strany zmizí
             if (indicator && odscrollovano > 10) {
                 indicator.classList.add('skryt');
             }
 
+            // 2. Jakmile se stránka HÝBE, nápis „čti dále ↓“ okamžitě zhasne (ochrana před blbým cestováním)
+            if (ctiDale) {
+                ctiDale.classList.remove('zobrazit');
+            }
+
+            // 3. Rozsvícení samotných veršů básně za jízdy
             var prvkyVerse = document.querySelectorAll('.reveal');
             if (odscrollovano > (vyskaOkna * 0.3)) {
                 prvkyVerse.forEach(function(prvek) {
                     prvek.classList.add('active');
                 });
             }
+
+            // 🔧 MECHANISMUS 3 VTEŘIN PO ZASTAVENÍ:
+            // Smazat předchozí odpočet, protože se stránka stále hýbe
+            clearTimeout(scrollTimeout);
+
+            // Nastavit nový odpočet: spustí se až 3 vteřiny (3000 ms) po úplném zastavení skrolu
+            scrollTimeout = setTimeout(function() {
+                // Rozsvítit „čti dále ↓“ pouze tehdy, pokud je uživatel opravdu dole u básničky
+                if (ctiDale && odscrollovano > (vyskaOkna * 0.5) && autoPosunInterval === null) {
+                    ctiDale.classList.add('zobrazit');
+                }
+            }, 3000);
         }
 
         window.addEventListener('scroll', aktualizovatWeb);
@@ -125,10 +148,12 @@
         function toggleAutoPosun() {
             var btn = document.getElementById('btn-posun');
             var indicator = document.getElementById('sbs-indicator');
+            var ctiDale = document.getElementById('sbs-cti-dale-text');
             var prvkyVerse = document.querySelectorAll('.reveal');
             
             if (autoPosunInterval === null) {
                 if (indicator) { indicator.classList.add('skryt'); }
+                if (ctiDale) { ctiDale.classList.remove('zobrazit'); }
 
                 prvkyVerse.forEach(function(prvek) {
                     prvek.classList.add('active');
@@ -136,10 +161,17 @@
 
                 autoPosunInterval = setInterval(function() {
                     window.scrollBy(0, 1);
+                    
+                    // 🔧 KINO STOP: Jakmile automatický posun dojede přesně na konec stránek a zastaví se
                     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 5) {
                         clearInterval(autoPosunInterval);
                         autoPosunInterval = null;
                         btn.classList.remove('aktivni');
+                        
+                        // Automatický posun skončil, odpočítáme 3 sekundy klidu a rozsvítíme kurzívu
+                        setTimeout(function() {
+                            if (ctiDale) { ctiDale.classList.add('zobrazit'); }
+                        }, 3000);
                     }
                 }, 35);
                 btn.classList.add('aktivni');
@@ -148,6 +180,8 @@
                 clearInterval(autoPosunInterval);
                 autoPosunInterval = null;
                 btn.classList.remove('aktivni');
+                // Pokud uživatel vypne kino režim ručně tlačítkem, hned spustíme hlídače klidu
+                aktualizovatWeb();
             }
         }
     </script>

@@ -271,14 +271,63 @@ html, body {
 @keyframes sbsPulzovaniCtiDale { 0% { opacity: 0.25; } 50% { opacity: 0.95; } 100% { opacity: 0.25; } }
 
 /* 📱 RESPONSIVITA PRO MOBILY */
+/* ==========================================================================
+   📱 🔧 FINÁLNÍ DOKONALÁ RESPONSIVITA PRO MOBILY NA STOJATO
+   ========================================================================== */
 @media (max-width: 768px) {
-  .knizni-obsah-kontejner { padding-left: 15px !important; padding-right: 15px !important; margin-top: 30vh; }
-  .slide-sekce-knihy { max-width: 100% !important; padding: 25px 20px !important; align-items: center !important; }
-  .slide-sekce-knihy h3 { text-align: center !important; white-space: normal !important; }
-  .class-pismo-verse { text-align: center !important; font-size: 1.25rem !important; }
+  /* Úprava svislých rozestupů celého kontejneru na mobilu */
+  .knizni-obsah-kontejner { 
+    padding-left: 15px !important; 
+    padding-right: 15px !important; 
+    margin-top: 25vh !important; /* Menší mezera pod úvodem pro menší displej */
+  }
+
+  /* Zmenšení a úprava obálek, aby netvořily obří nudle a nevylézaly z displeje */
+  .slide-sekce-knihy { 
+    max-width: 100% !important; 
+    padding: 22px 20px !important; 
+    margin-bottom: 50px !important; /* Těsnější rozestupy mezi dopisy */
+    align-items: center !important; 
+    border-radius: 16px !important; /* Jemnější, čistější rohy pro mobily */
+  }
+
+  /* Nadpisy kapitol uvnitř obálek se na mobilu vycentrují a zmenší */
+  .slide-sekce-knihy h3 { 
+    text-align: center !important; 
+    white-space: normal !important; /* Povolí bezpečné zalomení dlouhého názvu básně na mobilu */
+    font-size: 1.15rem !important;
+  }
+
+  /* Písmo veršů na mobilu */
+  .class-pismo-verse { 
+    text-align: center !important; 
+    font-size: 1.2rem !important; 
+    line-height: 1.5 !important;
+  }
+
+  /* 🔧 OPRAVA VELIKOSTI NADPISU: Už se stoprocentně nevylije z displeje mobilu */
+  .nadpis-hlavni { 
+    font-size: 1.8rem !important; /* Bezpečné, elegantní mobilní písmo */
+    letter-spacing: 0.15em !important; 
+    line-height: 1.3 !important; 
+    padding: 0 10px; 
+  }
+  
+  .autor { font-size: 0.9rem !important; letter-spacing: 0.1em !important; }
+  .motto-blok p { font-size: 1.1rem !important; }
+  .motto-blok p + p { font-size: 1.4rem !important; }
+
+  /* Skrytí boční lišty a zvětšení tlačítek dole pro pohodlné mačkání prstem */
   .sbs-bocni-menu { display: none !important; }
   .ovladani-panel { position: fixed; top: auto; bottom: 15px; left: 50%; transform: translateX(-50%); gap: 25px; z-index: 100; }
   .sbs-ikona-btn { width: 48px; height: 48px; background: rgba(241, 242, 225, 0.9); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); }
-  .scroll-indicator { bottom: 85px; font-size: 0.8rem; }
-  .sbs-cti-dale { left: 50% !important; transform: translateX(-50%); bottom: -45px; }
+  .scroll-indicator { bottom: 75px; font-size: 0.75rem; }
+  .sbs-cti-dale { left: 50% !important; transform: translateX(-50%); bottom: -40px; font-size: 0.8rem; }
+
+  /* 🔧 OPRAVA BÁSŇÍKA NA MOBILU: Centrován a zmenšen tak, aby byl vidět CELÝ od hlavy k patě */
+  .bg-basnik { 
+    background-position: center calc(100% - 80px) !important; /* Usazen doprostřed spodní části displeje */
+    background-size: 55vh !important; /* Pevná svislá výška zaručí, že se klobouk ani boty NIKDY neuříznou */
+    opacity: 0.45 !important; /* Jemnější prolnutí, aby texty přes něj na mobilu perfektně zářily */
+  } 
 }

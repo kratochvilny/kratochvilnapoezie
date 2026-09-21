@@ -32,18 +32,25 @@ html, body {
              sbsTonovaniGrafiky 60s infinite ease-in-out;
 }
 
-/* ✒️ PLÁTNO B: BÁSŇÍK NA PRAVÉ STRANĚ (UPRAVENÝ NÁZEV SOUBORU) */
+
+/* ✒️ PLÁTNO B: BÁSŇÍK NA PRAVÉ STRANĚ (EFEKT TAHŮ ŠTĚTCEM) */
 .bg-basnik {
-  background-image: url('basnik01.webp'); /* 🔧 Nový název souboru */
+  background-image: url('basnik01.webp'); 
   mix-blend-mode: multiply; 
-  background-size: contain; /* Zaručí plnou viditelnost od klobouku po boty */
+  background-size: contain; 
   background-repeat: no-repeat;
-  
-  /* 🔧 UKOTVENÍ NAPRAVO: Básník stojí pevně na pravé straně monitoru s 50px odstupem */
   background-position: calc(100% - 50px) center; 
-  
-  animation: sbsKameraPohyb 40s infinite ease-in-out, 
+  filter: contrast(30) brightness(0) sepia(0.2);
+  opacity: 0;
+  transition: opacity 4s ease-in-out, filter 4s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: filter, opacity;
+  animation: sbsKameraPohyb 40s infinite ease-in-out 4s, 
              sbsTonovaniGrafiky 60s infinite ease-in-out;
+}
+
+.bg-basnik.zapnout-bg {
+  opacity: 0.55;
+  filter: contrast(1) brightness(1) sepia(0.2);
 }
 
 /* Řízení plynulého prolínání vrstev pozadí */

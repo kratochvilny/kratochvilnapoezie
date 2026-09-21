@@ -6,6 +6,8 @@ html, body {
   background-color: #f1f2e1;
   font-family: 'Georgia', serif;
   color: #1a1a1a;
+  -webkit-font-smoothing: antialiased; /* 🔧 FIX: Vyhlazení hran písma na Macu/iPhonu */
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* 🎬 CELOOBRAZOVKOVÉ PLÁTNO OD KRAJE KE KRAJI */
@@ -39,7 +41,7 @@ html, body {
   100% { filter: sepia(0.2) hue-rotate(0deg); }
 }
 
-/* 🎛️ PANEL S IKONAMI V PRAVÉM HORNÍM ROHU */
+/* 🎛️ PANEL S IKONAMI */
 .ovladani-panel {
   position: fixed;
   top: 30px;
@@ -80,10 +82,6 @@ html, body {
   transform: scale(1.05);
 }
 
-.sbs-ikona-btn:hover svg {
-  stroke: #000;
-}
-
 .sbs-ikona-btn.aktivni {
   background: #2c3e2e;
   border-color: #2c3e2e;
@@ -113,7 +111,7 @@ html, body {
   padding-top: 60px;
 }
 
-/* 🔧 VYŽÁDANÝ POHYB: Přesný, původní filmový vpluv nadpisu, který jste poslal */
+/* 🔧 ABSOLUTNÍ VYHLAZENÍ NADPISU: Vynucení hardwarové 3D akcelerace bez kostrbatění */
 .nadpis-hlavni {
   font-size: 3rem;
   text-transform: uppercase;
@@ -122,17 +120,31 @@ html, body {
   text-align: center;
   display: block;
   
-  /* Animace přesně podle vašeho zadání: nájezd trvá 2.5s a přejde do nekonečného jemného dýchání */
-  animation: vynoreniTitulu 2.5s ease-out forwards,
-             sbsJemnyTepKratochvile 10s infinite ease-in-out 2.5s;
+  /* Hlídání plynulosti pro grafickou kartu */
+  will-change: transform, opacity;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform: translate3d(0, 0, 0); 
+  
+  /* Plynulejší časová křivka linear/ease-out namísto trhaných skoků */
+  animation: vynoreniTitulu 3.5s ease-out forwards,
+             sbsJemnyTepKratochvile 12s infinite ease-in-out 3.5s;
 }
 
 @keyframes vynoreniTitulu {
-  0% { opacity: 0; transform: translateY(30px); letter-spacing: 0.1em; }
-  100% { opacity: 1; transform: translateY(0); letter-spacing: 0.3em; }
+  0% { 
+    opacity: 0; 
+    transform: translate3d(0, 25px, 0); 
+    letter-spacing: 0.15em; /* Zmenšený rozsah rozestupu, aby písmena neskákala z dálky */
+  }
+  100% { 
+    opacity: 1; 
+    transform: translate3d(0, 0, 0); 
+    letter-spacing: 0.3em; 
+  }
 }
 
-/* Původní filmové vplutí autora */
+/* Vyhlazení pro autora */
 .autor {
   font-size: 1.1rem;
   letter-spacing: 0.15em;
@@ -140,6 +152,8 @@ html, body {
   text-transform: uppercase;
   color: #555;
   margin: 0;
+  will-change: opacity;
+  transform: translate3d(0, 0, 0);
   animation: fadeIn 3s ease-out forwards;
 }
 
@@ -148,11 +162,11 @@ html, body {
   100% { opacity: 1; }
 }
 
-/* Kontinuální mikroskopické dýchání nápisu po usazení */
+/* Zpomalené mikroskopické dýchání (prodlouženo na 12 sekund pro maximální klid a plynulost) */
 @keyframes sbsJemnyTepKratochvile {
-  0% { transform: translateY(0px) scale(1); }
-  50% { transform: translateY(-4px) scale(1.015); }
-  100% { transform: translateY(0px) scale(1); }
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(0, -3px, 0) scale(1.01); } /* Posun jen o 3 pixely a zvětšení o 1 % */
+  100% { transform: translate3d(0, 0, 0) scale(1); }
 }
 
 /* ŠIPKA UKOTVENÁ PŘESNĚ 3 CM OD SPODNÍHO OKRAJE */
@@ -160,19 +174,20 @@ html, body {
   position: absolute;
   bottom: 110px; 
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate3d(-50%, 0, 0);
   font-size: 0.8rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: #666;
+  will-change: transform, opacity;
   animation: pulse 2s infinite;
   margin: 0;
 }
 
 @keyframes pulse {
-  0% { opacity: 0.3; transform: translateX(-50%) translateY(0); }
-  50% { opacity: 1; transform: translateX(-50%) translateY(6px); }
-  100% { opacity: 0.3; transform: translateX(-50%) translateY(0); }
+  0% { opacity: 0.3; transform: translate3d(-50%, 0, 0); }
+  50% { opacity: 1; transform: translate3d(-50%, 6px, 0); }
+  100% { opacity: 0.3; transform: translate3d(-50%, 0, 0); }
 }
 
 .slide-poem {
@@ -187,11 +202,13 @@ html, body {
   max-width: 800px;
   color: #000;
   text-shadow: 0 0 25px rgba(241, 242, 225, 0.95);
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
   animation: plutiVerse 6s infinite ease-in-out;
 }
 
 @keyframes plutiVerse {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-8px); }
-  100% { transform: translateY(0px); }
+  0% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(0, -6px, 0); }
+  100% { transform: translate3d(0, 0, 0); }
 }

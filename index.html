@@ -15,13 +15,17 @@
             opacity: 1;
             transform: translateY(0);
         }
+        /* Skryjeme zdrojový nadpis přímo v textu básně, pokud ho chcete vidět jen v liště */
+        .nazev-sekce-zdroj {
+            display: none;
+        }
     </style>
 </head>
 <body>
 
     <audio id="pozadi-audio" src="hudba01.mp3" loop></audio>
 
-    <!-- OVLÁDACÍ PANEL (VLEVO NEBO VPRAVO NAHOŘE) -->
+    <!-- OVLÁDACÍ PANEL -->
     <div class="ovladani-panel">
         <button id="btn-posun" class="sbs-ikona-btn" onclick="toggleAutoPosun()" title="Kino režim">
             <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
@@ -34,7 +38,7 @@
         </button>
     </div>
 
-    <!-- 🎛️ SVISLÁ LIŠTA S ČÍSLY 1 AŽ 11 (PRAVÁ STRANA) -->
+    <!-- 🎛️ SVISLÁ LIŠTA (Názvy kapitol se vyplní zcela automaticky ze souborů) -->
     <nav class="sbs-bocni-menu">
         <div class="sbs-bocni-polozka" onclick="skocNaSekci('sekce-uvod')">
             <span class="sbs-cislo">0</span>
@@ -42,38 +46,36 @@
         </div>
         <div class="sbs-bocni-polozka" onclick="skocNaSekci('sekce-kapitola01')">
             <span class="sbs-cislo">1</span>
-            <span class="sbs-nazev-kapitoly">Svojí mysli král</span>
+            <span id="label-sekce-kapitola01" class="sbs-nazev-kapitoly">Načítání...</span>
         </div>
         <div class="sbs-bocni-polozka" onclick="skocNaSekci('sekce-kapitola02')">
             <span class="sbs-cislo">2</span>
-            <span class="sbs-nazev-kapitoly">Druhá kratochvíle</span>
+            <span id="label-sekce-kapitola02" class="sbs-nazev-kapitoly">Načítání...</span>
         </div>
         <div class="sbs-bocni-polozka" onclick="skocNaSekci('sekce-kapitola03')">
             <span class="sbs-cislo">3</span>
-            <span class="sbs-nazev-kapitoly">Třetí oddíl</span>
+            <span id="label-sekce-kapitola03" class="sbs-nazev-kapitoly">...</span>
         </div>
         <div class="sbs-bocni-polozka" onclick="skocNaSekci('sekce-kapitola04')">
             <span class="sbs-cislo">4</span>
-            <span class="sbs-nazev-kapitoly">Čtvrtý oddíl</span>
+            <span id="label-sekce-kapitola04" class="sbs-nazev-kapitoly">...</span>
         </div>
         <div class="sbs-bocni-polozka" onclick="skocNaSekci('sekce-kapitola05')">
             <span class="sbs-cislo">5</span>
-            <span class="sbs-nazev-kapitoly">Pátý oddíl</span>
+            <span id="label-sekce-kapitola05" class="sbs-nazev-kapitoly">...</span>
         </div>
-        <!-- Pro čísla 6 až 11 stačí zkopírovat řádek výše a změnit čísla a ID sekcí -->
     </nav>
 
     <div class="sbs-background"></div>
 
     <div class="story-container">
-        <!-- Hlavní úvod zůstává v hlavním indexu -->
         <section id="sekce-uvod" class="slide slide-intro">
             <h1 class="nadpis-hlavni">Kratochvilná Poezie</h1>
             <div class="autor">Kratochvilný Jan</div>
             <p id="sbs-indicator" class="scroll-indicator">Vstupte do světa kratochvilné poezie</p>
         </section>
 
-        <!-- 🔧 TADY JE NEVIDITELNÝ KONTEJNER: Sem skript automaticky naskládá externí soubory kapitol -->
+        <!-- KONTEJNER PRO EXTERNÍ KAPITOLY -->
         <div id="externi-kapitoly"></div>
     </div>
 
@@ -85,20 +87,35 @@
         var jeZtlumeno = false;
         var scrollTimeout = null;
 
-        // 🧠 AUTOMATICKÝ STAHOVAČ KAPITOL: Načte externí soubory bez zahlcení indexu
-        var seznamKapitol = ['kapitola01.html', 'kapitola02.html']; // Sem dopíšete 'kapitola03.html' atd.
+        // Seznam vašich externích HTML souborů
+        var seznamKapitol = ['kapitola01.html', 'kapitola02.html']; 
         var kontejner = document.getElementById('externi-kapitoly');
 
         Promise.all(seznamKapitol.map(url => fetch(url).then(res => res.text())))
             .then(htmlObsahy => {
                 kontejner.innerHTML = htmlObsahy.join('');
-                // Po úspěšném stažení inicializujeme sledování skrolu
+                
+                // 🧠 AUTOMATICKÉ VYTAŽENÍ NÁZVŮ: Projedeme stažené kapitoly a přečteme jejich <h2>
+                seznamKapitol.forEach(function(url) {
+                    var idKapitoly = url.replace('.html', ''); // Vytvoří např. "kapitola01"
+                    var stazenaSekce = document.getElementById('sekce-' + idKapitoly);
+                    
+                    if (stazenaSekce) {
+                        var nalezenyNadpis = stazenaSekce.querySelector('.nazev-sekce-zdroj');
+                        var labelVListe = document.getElementById('label-sekce-' + idKapitoly);
+                        
+                        // Pokud v souboru najdeme nadpis, propíšeme ho automaticky do boční lišty
+                        if (nalezenyNadpis && labelVListe) {
+                            labelVListe.innerText = nalezenyNadpis.innerText;
+                        }
+                    }
+                });
+
                 window.addEventListener('scroll', aktualizovatWeb);
                 window.addEventListener('touchmove', aktualizovatWeb);
                 aktualizovatWeb();
-            }).catch(err => console.error("Chyba při stahování kapitol: ", err));
+            }).catch(err => console.error("Chyba při stahování: ", err));
 
-        // Funkce pro plynulý skok na vybranou kapitolu z boční lišty
         function skocNaSekci(idSekce) {
             var cilovaSekce = document.getElementById(idSekce);
             if (cilovaSekce) {
@@ -116,7 +133,6 @@
             if (indicator && odscrollovano > 10) { indicator.classList.add('skryt'); }
             if (ctiDale) { ctiDale.classList.remove('zobrazit'); }
 
-            // Aktivace odhalování veršů pro všechny stažené kapitoly
             var prvkyVerse = document.querySelectorAll('.reveal');
             prvkyVerse.forEach(function(prvek) {
                 var pozice = prvek.getBoundingClientRect().top;
@@ -125,7 +141,6 @@
                 }
             });
 
-            // Čti dále odpočet po zastavení
             clearTimeout(scrollTimeout);
             scrollTimeout = setTimeout(function() {
                 if (ctiDale && odscrollovano > (vyskaOkna * 0.5) && autoPosunInterval === null) {

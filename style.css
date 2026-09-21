@@ -39,7 +39,7 @@ html, body {
   100% { filter: sepia(0.2) hue-rotate(0deg); }
 }
 
-/* 🎛️ PANEL S IKONAMI */
+/* 🎛️ PANEL S IKONAMI (POČÍTAČOVÁ VERZE) */
 .ovladani-panel {
   position: fixed;
   top: 30px;
@@ -50,7 +50,7 @@ html, body {
 }
 
 .sbs-ikona-btn {
-  background: rgba(241, 242, 225, 0.4);
+  background: rgba(241, 242, 225, 0.5);
   border: 1px solid rgba(26, 42, 29, 0.15);
   border-radius: 50%;
   width: 42px;
@@ -59,7 +59,7 @@ html, body {
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  transition: all 0.4s ease;
+  transition: all 0.3s ease;
   padding: 0;
 }
 
@@ -71,13 +71,11 @@ html, body {
   stroke-width: 1.5;
   stroke-linecap: round;
   stroke-linejoin: round;
-  transition: all 0.3s ease;
 }
 
 .sbs-ikona-btn:hover {
   border-color: rgba(26, 42, 29, 0.6);
   background: rgba(241, 242, 225, 0.9);
-  transform: scale(1.05);
 }
 
 .sbs-ikona-btn.aktivni {
@@ -103,14 +101,14 @@ html, body {
   align-items: center;
   box-sizing: border-box;
   position: relative;
+  padding: 0 20px;
 }
 
-/* 🔧 NÁVRAT ZPĚT: Úvodní sekce má opět standardní horní pozici */
 .slide-intro {
   padding-top: 0; 
 }
 
-/* Hlavní nadpis - čisté vybarvení na původním místě */
+/* Hlavní nadpis (Počítačová verze) */
 .nadpis-hlavni {
   font-size: 3rem;
   text-transform: uppercase;
@@ -125,7 +123,7 @@ html, body {
              sbsJemnyTepKratochvile 12s infinite ease-in-out 4s;
 }
 
-/* Autor na původním místě */
+/* Autor */
 .autor {
   font-size: 1.1rem;
   letter-spacing: 0.15em;
@@ -148,7 +146,7 @@ html, body {
   100% { transform: translateY(0px) scale(1); }
 }
 
-/* 🔧 PERFEKTNÍ POZICE: „OTEVŘÍT SBÍRKU ↓“ je posunuto dolů, přesně 3 cm od spodku obrazovky */
+/* ŠIPKA A TEXT „OTEVŘÍT SBÍRKU“ (Počítačová verze) */
 .scroll-indicator {
   position: absolute;
   bottom: 110px; 
@@ -170,10 +168,7 @@ html, body {
   100% { opacity: 0.3; transform: translateX(-50%) translateY(0); }
 }
 
-.slide-poem {
-  padding: 0 20px;
-}
-
+/* Hlavní verš poezie (Počítačová verze) */
 .vers {
   font-size: 2.6rem;
   line-height: 1.8;
@@ -189,4 +184,57 @@ html, body {
   0% { transform: translateY(0px); }
   50% { transform: translateY(-6px); }
   100% { transform: translateY(0px); }
+}
+
+
+/* ==========================================================================
+   📱 🔧 MOBILNÍ RESPONSIVITA (Pro obrazovky užší než 768px – telefony na stojato)
+   ========================================================================== */
+@media (max-width: 768px) {
+  
+  /* Přesun tlačítek z rohu do středu, aby se na mobilu vešla a neschovala se */
+  .ovladani-panel {
+    position: absolute;
+    top: auto;
+    bottom: 220px; /* Umístění v bezpečné spodní zóně úvodu */
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%);
+    gap: 20px;
+  }
+
+  /* Zmenšení tlačítek pro pohodlné mačkání prstem */
+  .sbs-ikona-btn {
+    width: 46px;
+    height: 46px;
+    background: rgba(241, 242, 225, 0.8); /* Větší krytí, aby na mobilu svítila */
+  }
+
+  /* 🔧 OPRAVA TEXTU: Výrazné zmenšení nadpisu a rozestupů na mobilu */
+  .nadpis-hlavni {
+    font-size: 1.8rem; /* Menší čisté písmo */
+    letter-spacing: 0.15em; /* Užší rozestupy, aby se slova nerozlamovala */
+    line-height: 1.4;
+    margin-bottom: 10px;
+    padding: 0 10px;
+  }
+
+  .autor {
+    font-size: 0.95rem;
+    letter-spacing: 0.1em;
+  }
+
+  /* 🔧 OPRAVA VERŠE: Zmenšení textu básně pro malé displeje */
+  .vers {
+    font-size: 1.6rem;
+    line-height: 1.6;
+    padding: 0 15px;
+  }
+
+  /* Posun výzvy na mobilu o kousek výše (nad spodní lišty mobilu) */
+  .scroll-indicator {
+    bottom: 80px;
+    font-size: 0.75rem;
+    width: 100%;
+  }
 }

@@ -1,5 +1,5 @@
 /* ==========================================================================
-   🎬 SPOLEČNÝ BAREVNÝ KOLOBĚH PRO CELÝ WEB (Mění se synchronně každých 5s)
+   🎬 SPOLEČNÝ BAREVNÝ KOLOBĚH PRO CELÝ WEB
    ========================================================================== */
 html, body {
   margin: 0;
@@ -8,8 +8,6 @@ html, body {
   font-family: 'Georgia', serif;
   color: #1a1a1a;
   overflow-x: hidden;
-  
-  /* 🔧 SPOLEČNÉ VYLADĚNÍ PODKLADU: Celá stránka mění barvu každých 5 vteřin (celkem 15s smyčka) */
   animation: sbsSpolecnyKolobehBarev 15s infinite ease-in-out;
 }
 
@@ -29,40 +27,31 @@ html, body {
   transition: opacity 2.5s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-/* 🌿 PLÁTNO A: ÚVODNÍ KYTICE */
 .bg-kytice {
   background-image: url('flower01-B01.webp');
   animation: sbsFilmoveVpluti 5s cubic-bezier(0.25, 1, 0.5, 1) forwards,
              sbsKameraPohybUvod 40s infinite ease-in-out 5s;
 }
 
-/* ✒️ PLÁTNO B: BÁSŇÍK (ČISTÁ PEROKRESBA BEZ OKRAJŮ) */
+/* ✒️ BÁSŇÍK: Drží se bezpečně napravo a dýchá */
 .bg-basnik {
   background-image: url('basnik01.webp'); 
-  mix-blend-mode: multiply; /* Bílé okraje papíru skenu kompletně zmizí do podkladu */
+  mix-blend-mode: multiply; 
   background-size: contain; 
   background-repeat: no-repeat;
-  background-position: calc(100% - 60px) center; 
+  background-position: calc(100% - 60px) center; /* Pevně na pravé polovině */
   opacity: 0;
-  
-  /* 🔧 DÝCHÁNÍ: Básník se mírně zvětšuje/zmenšuje, barvu přebírá ze společné animace */
   animation: sbsDychaniBasnika 14s infinite ease-in-out;
 }
 
-/* Když uživatel sjede na básně, pozadí s básníkem se aktivuje */
-.bg-basnik.zapnout-bg {
-  opacity: 0.55;
-}
-
-/* Prolínání vrstev pozadí */
+.bg-basnik.zapnout-bg { opacity: 0.55; }
 .bg-kytice:not(.vypnout-bg) { opacity: 0.35; }
 .bg-kytice.vypnout-bg { opacity: 0; }
 
-/* 🔧 DEFINICE SPOLEČNÉHO FILMOVÉHO KOLOBĚHU (Změna tónu každých 5 sekund) */
 @keyframes sbsSpolecnyKolobehBarev {
-  0%, 100% { background-color: #f1f2e1; } /* 0s až 5s: Tichá krémová s olivovým nádechem */
-  33% { background-color: #e2e8df; }      /* 5s až 10s: Plynulý přechod do jemné mechové / olivové */
-  66% { background-color: #dfdecc; }      /* 100% sytost sépiového podkladu u třetí sloky */
+  0%, 100% { background-color: #f1f2e1; } 
+  33% { background-color: #e2e8df; }      
+  66% { background-color: #dfdecc; }      
 }
 
 @keyframes sbsFilmoveVpluti {
@@ -93,169 +82,132 @@ html, body {
   display: flex;
   gap: 15px;
 }
-
-.sbs-ikona-btn {
-  background: rgba(241, 242, 225, 0.5);
-  border: 1px solid rgba(26, 42, 29, 0.15);
-  border-radius: 50%;
-  width: 42px;
-  height: 42px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  padding: 0;
-}
+.sbs-ikona-btn { background: rgba(241, 242, 225, 0.5); border: 1px solid rgba(26, 42, 29, 0.15); border-radius: 50%; width: 42px; height: 42px; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: all 0.3s ease; padding: 0; }
 .sbs-ikona-btn svg { width: 18px; height: 18px; fill: none; stroke: #444; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
 .sbs-ikona-btn:hover { border-color: rgba(26, 42, 29, 0.6); background: rgba(241, 242, 225, 0.9); }
 .sbs-ikona-btn.aktivni { background: #2c3e2e; border-color: #2c3e2e; }
 .sbs-ikona-btn.aktivni svg { stroke: #f1f2e1; }
 
-/* 🎛️ SVISLÁ LIŠTA (PRAVÁ STRANA) */
-.sbs-bocni-menu {
-  position: fixed;
-  right: 20px; 
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 90;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  align-items: flex-end;
-}
+/* SVISLÁ LIŠTA */
+.sbs-bocni-menu { position: fixed; right: 20px; top: 50%; transform: translateY(-50%); z-index: 90; display: flex; flex-direction: column; gap: 12px; align-items: flex-end; }
 .sbs-bocni-polozka { display: flex; flex-direction: row-reverse; align-items: center; gap: 15px; cursor: pointer; }
 .sbs-cislo { font-family: 'Georgia', serif; font-size: 0.9rem; color: #555; background: rgba(241, 242, 225, 0.4); border: 1px solid rgba(26, 42, 29, 0.1); border-radius: 50%; width: 28px; height: 28px; display: flex; justify-content: center; align-items: center; transition: all 0.3s ease; }
 .sbs-nazev-kapitoly { font-family: 'Georgia', serif; font-size: 0.85rem; font-style: italic; color: #2c3e2e; opacity: 0; transform: translateX(15px); transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1); pointer-events: none; white-space: nowrap; text-align: right; }
 .sbs-bocni-polozka:hover .sbs-cislo { background: #2c3e2e; color: #f1f2e1; border-color: #2c3e2e; transform: scale(1.1); }
 .sbs-bocni-polozka:hover .sbs-nazev-kapitoly { opacity: 1; transform: translateX(0); }
 
-.story-container {
-  position: relative;
-  z-index: 2;
-  width: 100%;
-}
+.story-container { position: relative; z-index: 2; width: 100%; }
 
-.slide {
+.slide-intro-full {
   height: 100vh;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
   padding: 0 20px;
-  align-items: flex-start;
-  justify-content: center;
-  padding-left: 10vw; 
-}
-
-.slide-intro {
   justify-content: center; 
-  align-items: center !important;
-  padding-left: 20px !important;
+  align-items: center;
 }
 
-.nadpis-hlavni {
-  font-size: 3rem;
-  text-transform: uppercase;
-  margin: 0 0 15px 0;
-  text-align: center;
-  display: block;
-  letter-spacing: 0.3em; 
-  opacity: 0;
-  color: #1a2a1d;
-  will-change: opacity;
-  animation: sbsCisteRozsviceniTextu 4s ease-in-out forwards;
+.nadpis-hlavni { font-size: 3rem; text-transform: uppercase; margin: 0 0 15px 0; text-align: center; display: block; letter-spacing: 0.3em; opacity: 0; color: #1a2a1d; will-change: opacity; animation: sbsCisteRozsviceniTextu 4s ease-in-out forwards; }
+.autor { font-size: 1.1rem; letter-spacing: 0.15em; font-style: italic; text-transform: uppercase; color: #555; margin: 0; text-align: center; opacity: 0; animation: sbsCisteRozsviceniTextu 4s ease-in-out forwards; }
+@keyframes sbsCisteRozsviceniTextu { 0% { opacity: 0; } 100% { opacity: 1; } }
+.motto-blok { text-align: center; margin-top: 40px; opacity: 0; will-change: opacity; animation: sbsCisteRozsviceniTextu 4s ease-in-out 7s forwards; }
+.scroll-indicator { font-size: 0.9rem; letter-spacing: 0.2em; font-style: italic; color: #4a5d4e; text-align: center; width: 100%; margin: 180px 0 0 0; opacity: 0; will-change: opacity; animation: sbsCisteRozsviceniTextu 2s ease-in-out 5s forwards, sbsDychaniIndikatoru 3s infinite ease-in-out 7s; transition: opacity 0.8s ease-out; }
+@keyframes sbsDychaniIndikatoru { 0% { opacity: 0.4; } 50% { opacity: 1; } 100% { opacity: 0.4; } }
+.scroll-indicator.skryt { opacity: 0 !important; pointer-events: none; }
+
+/* ==========================================================================
+   ✉️ STRUKTURA BÍLÝCH OBÁLEK S NEPRAVIDELNÝMI ROHY (Zarovnáno do volného pole)
+   ========================================================================== */
+.knizni-obsah-kontejner {
+  display: flex;
+  flex-direction: column;
+  padding-left: 8vw; /* Bezpečné levé pole monitoru */
+  padding-bottom: 25vh;
 }
 
-.autor {
-  font-size: 1.1rem;
-  letter-spacing: 0.15em;
-  font-style: italic;
-  text-transform: uppercase;
-  color: #555;
-  margin: 0;
-  text-align: center;
-  opacity: 0;
-  animation: sbsCisteRozsviceniTextu 4s ease-in-out forwards;
-}
-
-@keyframes sbsCisteRozsviceniTextu {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
-}
-
-.motto-blok {
-  text-align: center; 
-  margin-top: 40px; 
-  opacity: 0;
-  will-change: opacity;
-  animation: sbsCisteRozsviceniTextu 4s ease-in-out 7s forwards;
-}
-
-.scroll-indicator {
-  font-size: 0.9rem;
-  letter-spacing: 0.2em;
-  font-style: italic;
-  color: #4a5d4e;   
-  text-align: center;
+.slide-sekce-knihy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 70px;
   width: 100%;
-  margin: 180px 0 0 0; 
-  opacity: 0;
-  will-change: opacity;
-  animation: sbsCisteRozsviceniTextu 2s ease-in-out 5s forwards, 
-             sbsDychaniIndikatoru 3s infinite ease-in-out 7s;
-  transition: opacity 0.8s ease-out;
+  max-width: 460px; /* 🔧 ŠÍŘKA OBÁLKY: Drží text vlevo, aby nezasahoval do básníka vpravo */
+  
+  /* Vzhled dopisní obálky */
+  background: rgba(255, 255, 255, 0.94); /* Čisté bílé pozadí */
+  padding: 30px 35px;
+  box-sizing: border-box;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.04); /* Velmi jemný stín pod dopisem */
+  
+  will-change: transform, opacity;
+  transition: transform 1.8s cubic-bezier(0.15, 0.85, 0.35, 1), opacity 1.8s ease-out;
 }
 
-@keyframes sbsDychaniIndikatoru {
-  0% { opacity: 0.4; }
-  50% { opacity: 1; }
-  100% { opacity: 0.4; }
+/* 🔧 ODLIŠNÉ TVARY ROHŮ PRO KAŽDOU OBÁLKU */
+.obalka-zleva { border-radius: 24px 12px 30px 18px; }
+.obalka-zhora { border-radius: 14px 35px 16px 28px; }
+.obalka-zdola { border-radius: 30px 16px 32px 14px; }
+
+/* ==========================================================================
+   🎬 KINETICKÉ TRAJEKTORIE VJEZDU PRO JEDNOTLIVÉ OBÁLKY
+   ========================================================================== */
+
+/* 1. Předmluva: Vjíždí mírně šikmo z levého boku */
+.obalka-zleva {
+  transform: translate3d(-100px, 20px, 0) rotate(-4deg);
 }
 
-.scroll-indicator.skryt {
-  opacity: 0 !important;
-  pointer-events: none;
+/* 2. Prvotina: Sleduje směr zhora dolů, stočená doprava */
+.obalka-zhora {
+  transform: translate3d(0, -120px, 0) rotate(5deg);
 }
 
-/* 🔧 VYČIŠTĚNÉ SVISLÉ MEZERY NADPISŮ */
-.slide h3 {
+/* 3. Omluva básníkům: Vystřeluje zdola nahoru, stočená doleva */
+.obalka-zdola {
+  transform: translate3d(20px, 120px, 0) rotate(-3deg);
+}
+
+/* 🔥 AKTIVNÍ STAV (PŘÍLET): Obálka dosedne hladce na svou pozici a vyrovná se */
+.slide-sekce-knihy.active {
+  transform: translate3d(0, 0, 0) rotate(0deg) !important;
+  opacity: 1 !important;
+}
+
+/* Stylování vnitřku obálek */
+.slide-sekce-knihy h3 {
   font-family: 'Georgia', serif; 
   font-weight: normal; 
   text-transform: uppercase; 
   letter-spacing: 0.15em; 
-  font-size: 1.4rem; 
+  font-size: 1.25rem; 
   color: #1a2a1d; 
-  text-align: left !important; 
-  width: 100%;
-  max-width: 500px;
-  margin: 0 0 10px 0; 
+  text-align: left !important;
+  margin: 0 0 14px 0;
 }
 
-/* 🔧 UTAŽENÉ MEZERY VERŠŮ: Krátké, kompaktní literární řádkování */
 .class-pismo-verse {
   font-family: 'Georgia', serif;
-  font-size: 1.45rem !important; 
-  line-height: 1.5 !important; 
+  font-size: 1.35rem !important; 
+  line-height: 1.6 !important; 
   font-weight: 300;
-  color: #000;
+  color: #111;
   letter-spacing: 0.02em;
-  text-align: left !important; 
-  width: 100%;
-  max-width: 500px;
-  text-shadow: 0 0 25px rgba(241, 242, 225, 0.95);
+  text-align: left !important;
   margin: 0;
 }
 
-.slide p {
+.slide-sekce-knihy p {
   margin: 0 0 12px 0 !important; 
-  max-width: 500px;
   line-height: 1.7;
+  font-size: 1.05rem;
+  color: #222;
 }
 
 .sbs-cti-dale {
   position: absolute;
-  bottom: 80px; 
-  left: 10vw; 
+  bottom: -45px; 
+  left: 0; 
   font-size: 0.95rem;
   letter-spacing: 0.15em;
   font-style: italic; 
@@ -266,31 +218,16 @@ html, body {
   will-change: opacity;
   transition: opacity 1.5s ease-in-out; 
 }
+.sbs-cti-dale.zobrazit { opacity: 1; animation: sbsPulzovaniCtiDale 3s infinite ease-in-out; }
+@keyframes sbsPulzovaniCtiDale { 0% { opacity: 0.25; } 50% { opacity: 0.95; } 100% { opacity: 0.25; } }
 
-.sbs-cti-dale.zobrazit {
-  opacity: 1;
-  animation: sbsPulzovaniCtiDale 3s infinite ease-in-out;
-}
-
-@keyframes sbsPulzovaniCtiDale {
-  0% { opacity: 0.25; }  
-  50% { opacity: 0.95; }  
-  100% { opacity: 0.25; } 
-}
-
-/* ==========================================================================
-   📱 RESPONSIVITA PRO MOBILY
-   ========================================================================== */
+/* 📱 RESPONSIVITA PRO MOBILY */
 @media (max-width: 768px) {
-  .slide { align-items: center !important; padding-left: 20px !important; }
-  .slide h3 { text-align: center !important; }
-  .class-pismo-verse { text-align: center !important; font-size: 1.25rem !important; line-height: 1.7 !important; }
+  .knizni-obsah-kontejner { padding-left: 15px !important; padding-right: 15px !important; }
+  .slide-sekce-knihy { max-width: 100% !important; padding: 25px 20px !important; }
   .sbs-bocni-menu { display: none !important; }
   .ovladani-panel { position: fixed; top: auto; bottom: 15px; left: 50%; transform: translateX(-50%); gap: 25px; z-index: 100; }
   .sbs-ikona-btn { width: 48px; height: 48px; background: rgba(241, 242, 225, 0.9); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); }
-  .nadpis-hlavni { font-size: 2.2rem; letter-spacing: 0.15em; line-height: 1.4; padding: 0 10px; }
-  .autor { font-size: 0.95rem; letter-spacing: 0.1em; }
-  .scroll-indicator { bottom: 85px; font-size: 0.8rem; line-height: 1.4; }
-  .sbs-cti-dale { left: 50% !important; transform: translateX(-50%); bottom: 85px; font-size: 0.85rem; }
-  .bg-basnik { background-position: center center; } 
+  .scroll-indicator { bottom: 85px; font-size: 0.8rem; }
+  .sbs-cti-dale { left: 50% !important; transform: translateX(-50%); bottom: -45px; }
 }

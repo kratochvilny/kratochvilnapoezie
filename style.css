@@ -2,13 +2,14 @@ html, body {
   margin: 0;
   padding: 0;
   width: 100%;
-  background-color: #f1f2e1; /* Výchozí barva odpovídající vaší grafice */
+  height: 100%; /* Zaručí plnou výšku podkladu odshora dolů */
+  background-color: #f1f2e1;
   font-family: 'Georgia', serif;
   color: #1a1a1a;
   overflow-x: hidden;
 }
 
-/* 🎬 SKUTEČNÉ FILMOVÉ PLÁTNO VE STYLU "THE BOAT" */
+/* 🎬 SKUTEČNÉ FILMOVÉ PLÁTNO OD KRAJE KE KRAJI (STYLE "THE BOAT") */
 .sbs-background {
   position: fixed;
   top: 0;
@@ -16,35 +17,38 @@ html, body {
   width: 100vw;
   height: 100vh;
   
-  /* Obrázek tvoří celou scénu a roztáhne se tak, aby pokryl každý kousek monitoru */
+  /* Načtení obrázku */
   background-image: url('flower01-B01.webp');
+  
+  /* 🔥 KLÍČOVÁ OPRAVA: Obrázek teď nekompromisně pokryje celou plochu monitoru */
   background-size: cover; 
+  
   background-position: center center;
   background-repeat: no-repeat;
-  opacity: 0.45; /* Krásná, optimální filmová průhlednost pro čtení textu */
+  opacity: 0.45; /* Optimální průhlednost kresby pro čtení textu */
   z-index: 1;
   pointer-events: none;
   
   will-change: transform, filter; 
-  /* Spuštění dvou animací: jedna pro filmový pohyb plátna, druhá pro změnu tónování papíru */
+  /* Spuštění plynulého vplouvání obrazu a tónování barev */
   animation: sbsKameraPohyb 40s infinite ease-in-out, sbsTonovaniGrafiky 60s infinite ease-in-out;
 }
 
-/* 🎥 ANIMACE POHYBU KAMERY: Obraz vplouvá, mírně se přibližuje a putuje do stran */
+/* 🎥 POHYB KAMERY: Celý obraz putuje a vplouvá jemně do stran */
 @keyframes sbsKameraPohyb {
-  0% { transform: scale(1.05) translate(0px, 0px) rotate(0deg); }
-  25% { transform: scale(1.12) translate(-15px, 10px) rotate(0.5deg); }  /* Vplouvání doprava a dolů */
-  50% { transform: scale(1.08) translate(10px, -15px) rotate(-0.5deg); }  /* Putování kamery jinam */
-  75% { transform: scale(1.15) translate(-5px, -5px) rotate(0.3deg); }
-  100% { transform: scale(1.05) translate(0px, 0px) rotate(0deg); }       /* Plynulý návrat na začátek */
+  0% { transform: scale(1.02) translate(0px, 0px) rotate(0deg); }
+  25% { transform: scale(1.08) translate(-10px, 8px) rotate(0.3deg); }  /* Vplouvání doprava a dolů */
+  50% { transform: scale(1.05) translate(8px, -10px) rotate(-0.3deg); }  /* Putování kamery jinam */
+  75% { transform: scale(1.10) translate(-4px, -4px) rotate(0.2deg); }
+  100% { transform: scale(1.02) translate(0px, 0px) rotate(0deg); }       /* Plynulý návrat */
 }
 
-/* 🎨 ANIMACE TÓNOVÁNÍ: Celá grafika (papír i kresba) plynule mění barevný odstín */
+/* 🎨 TÓNOVÁNÍ GRAFIKY: Celé plátno plynule mění barevné nálady */
 @keyframes sbsTonovaniGrafiky {
   0% { filter: sepia(0.2) hue-rotate(0deg); }
-  33% { filter: sepia(0.3) hue-rotate(330deg) saturate(1.1); } /* Nádech do jemně růžové nálady */
-  66% { filter: sepia(0.1) hue-rotate(180deg) saturate(0.9); } /* Nádech do chladnější tiché modré */
-  100% { filter: sepia(0.2) hue-rotate(0deg); }                /* Návrat k původní krémové litografii */
+  33% { filter: sepia(0.3) hue-rotate(330deg) saturate(1.1); } /* Jemný růžový nádech */
+  66% { filter: sepia(0.1) hue-rotate(180deg) saturate(0.9); } /* Tichá holubí modř */
+  100% { filter: sepia(0.2) hue-rotate(0deg); }                /* Návrat ke krémové */
 }
 
 .story-container {
@@ -61,10 +65,10 @@ html, body {
   align-items: center;
   box-sizing: border-box;
   padding: 40px 20px;
-  padding-top: 150px; /* Zachovaný třícentimetrový posun pro text */
+  padding-top: 150px; /* Zachovaný 3cm posun obsahu dolů */
 }
 
-/* Plynulé roztažení textu při otevření */
+/* Plynulé roztáhnutí textu při načtení webu */
 .nadpis-hlavni {
   font-size: 3rem;
   letter-spacing: 0.3em;
@@ -90,7 +94,7 @@ html, body {
   animation: fadeIn 3s ease-out forwards;
 }
 
-/* Jemné vznášení samotného verše */
+/* Jemné vznášení verše v prostoru */
 .vers {
   font-size: 2.5rem;
   line-height: 1.8;

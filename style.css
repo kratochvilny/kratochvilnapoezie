@@ -150,7 +150,7 @@ html, body {
   100% { transform: translateY(0px) scale(1); }
 }
 
-/* SPODNÍ NÁPIS: Ukotvený 3 cm od spodního okraje, při pohybu okamžitě zmizí */
+/* SPODNÍ NÁPIS: Opravené dýchání, které se nehádá s prolnutím */
 .scroll-indicator {
   position: absolute;
   bottom: 80px;     
@@ -166,11 +166,14 @@ html, body {
   margin: 0;
   opacity: 1;
   will-change: opacity, transform;
-  animation: sbsPlynuleSyceniBarvy 4s ease-in-out forwards, 
-             pulse 2s infinite 4s;
+  
+  /* 🔧 OPRAVENO: Jedna plynulá dýchající animace namísto dvou hádajících se */
+  animation: pulse 3s infinite ease-in-out;
+  
   transition: opacity 0.8s ease-out, transform 0.8s ease-out;
 }
 
+/* Text pulzuje z viditelných 40 % do 100 % jasu a nikdy nezhasne do nuly */
 @keyframes pulse {
   0% { opacity: 0.4; }
   50% { opacity: 1; }

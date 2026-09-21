@@ -9,14 +9,20 @@
         .reveal {
             opacity: 0;
             transform: translateY(30px);
-            transition: opacity 1.5s ease, transform 1.5s ease;
+            transition: opacity 1.8s ease-out, transform 1.8s ease-out;
         }
         .reveal.active {
             opacity: 1;
             transform: translateY(0);
         }
-        .nazev-sekce-zdroj {
-            display: none;
+        /* 🔧 NEPRŮSTŘELNÝ RÁM: Promítne kapitolu odděleně a bez chyb */
+        .sbs-iframe-kapitola {
+            width: 100%;
+            height: auto;
+            min-height: 400vh; /* Pokryje všechny 4 velké scény kapitoly */
+            border: none;
+            display: block;
+            overflow: hidden;
         }
     </style>
 </head>
@@ -37,15 +43,15 @@
         </button>
     </div>
 
-    <!-- SVISLÁ LIŠTA (Otočená doleva, názvy kapitol se sosají samy) -->
+    <!-- SVISLÁ LIŠTA -->
     <nav class="sbs-bocni-menu">
         <div class="sbs-bocni-polozka" onclick="skocNaSekci('sekce-uvod')">
             <span class="sbs-cislo">0</span>
             <span class="sbs-nazev-kapitoly">Úvod</span>
         </div>
-        <div class="sbs-bocni-polozka" onclick="skocNaSekci('sekce-kapitola01')">
+        <div class="sbs-bocni-polozka" onclick="skocNaSekci('iframe-k01')">
             <span class="sbs-cislo">1</span>
-            <span id="label-sekce-kapitola01" class="sbs-nazev-kapitoly">Načítání...</span>
+            <span class="sbs-nazev-kapitoly">Kratochvilná předmluva</span>
         </div>
     </nav>
 
@@ -53,12 +59,11 @@
 
     <div class="story-container">
         
-       <!-- 1. ÚVODNÍ OBRAZOVKA -->
+        <!-- 🎬 SCÉNA 0: ÚVODNÍ STRANA -->
         <section id="sekce-uvod" class="slide slide-intro">
             <h1 class="nadpis-hlavni">Kratochvilná Poezie</h1>
             <div class="autor">Kratochvilný Jan</div>
             
-            <!-- 🔧 PŘIDÁNA TŘÍDA: motto-blok zajistí to přesné zpoždění o 3 sekundy -->
             <div class="motto-blok">
                 <p style="font-size: 1.4rem; font-style: italic; color: #4a5d4e; margin: 0 0 10px 0;">
                     „Jak jsem myslil, tak jsem psal.“
@@ -68,12 +73,12 @@
                 </p>
             </div>
 
-            <!-- Spodní výzva -->
             <p id="sbs-indicator" class="scroll-indicator">Vstupte do světa kratochvilné poezie</p>
         </section>
 
-        <!-- KONTEJNER PRO EXTERNÍ KAPITOLY -->
-        <div id="externi-kapitoly"></div>
+        <!-- 🔧 DRUHÁ ČÁST KÓDU: Bezpečné promítnutí samostatného souboru kapitoly -->
+        <iframe id="iframe-k01" src="kapitola01.html" class="sbs-iframe-kapitola" scrolling="no"></iframe>
+
     </div>
 
     <script>
@@ -82,33 +87,6 @@
         var svgZvuk = document.getElementById('svg-zvuk');
         var autoPosunInterval = null;
         var jeZtlumeno = false;
-        var scrollTimeout = null;
-
-        var seznamKapitol = ['kapitola01.html']; 
-        var kontejner = document.getElementById('externi-kapitoly');
-
-        Promise.all(seznamKapitol.map(url => fetch(url).then(res => res.text())))
-            .then(htmlObsahy => {
-                kontejner.innerHTML = htmlObsahy.join('');
-                
-                seznamKapitol.forEach(function(url) {
-                    var idKapitoly = url.replace('.html', ''); 
-                    var stazenaSekce = document.getElementById('sekce-' + idKapitoly);
-                    
-                    if (stazenaSekce) {
-                        var nalezenyNadpis = stazenaSekce.querySelector('.nazev-sekce-zdroj');
-                        var labelVListe = document.getElementById('label-sekce-' + idKapitoly);
-                        if (nalezenyNadpis && labelVListe) {
-                            labelVListe.innerText = nalezenyNadpis.innerText;
-                        }
-                    }
-                });
-
-                window.addEventListener('scroll', aktualizovatWeb);
-                window.addEventListener('touchmove', aktualizovatWeb);
-                // První kontrola ihned po načtení
-                aktualizovatWeb();
-            }).catch(err => console.error(err));
 
         function skocNaSekci(idSekce) {
             var cilovaSekce = document.getElementById(idSekce);
@@ -119,30 +97,16 @@
 
         function aktualizovatWeb() {
             var odscrollovano = window.scrollY || window.pageYOffset;
-            var vyskaOkna = window.innerHeight;
-            
             var indicator = document.getElementById('sbs-indicator');
-            var ctiDale = document.getElementById('sbs-cti-dale-text');
 
-            if (indicator && odscrollovano > 10) { indicator.classList.add('skryt'); }
-            if (ctiDale) { ctiDale.classList.remove('zobrazit'); }
-
-            var prvkyVerse = document.querySelectorAll('.reveal');
-            prvkyVerse.forEach(function(prvek) {
-                var pozice = prvek.getBoundingClientRect().top;
-                if (pozice < vyskaOkna - 60) {
-                    prvek.classList.add('active');
-                }
-            });
-
-            // 🔧 ODPOČET ČTI DÁLE: Čeká přesně 3 sekundy po absolutním klidu stránky
-            clearTimeout(scrollTimeout);
-            scrollTimeout = setTimeout(function() {
-                if (ctiDale && odscrollovano > (vyskaOkna * 0.5) && autoPosunInterval === null) {
-                    ctiDale.classList.add('zobrazit');
-                }
-            }, 3000);
+            if (indicator && odscrollovano > 10) { 
+                indicator.classList.add('skryt'); 
+            }
         }
+
+        window.addEventListener('scroll', aktualizovatWeb);
+        window.addEventListener('touchmove', aktualizovatWeb);
+        window.addEventListener('load', aktualizovatWeb);
 
         function spustitTichouHudbu() {
             audio.volume = 0.1;
@@ -179,14 +143,9 @@
         function toggleAutoPosun() {
             var btn = document.getElementById('btn-posun');
             var indicator = document.getElementById('sbs-indicator');
-            var ctiDale = document.getElementById('sbs-cti-dale-text');
-            var prvkyVerse = document.querySelectorAll('.reveal');
             
             if (autoPosunInterval === null) {
                 if (indicator) { indicator.classList.add('skryt'); }
-                if (ctiDale) { ctiDale.classList.remove('zobrazit'); }
-
-                prvkyVerse.forEach(function(prvek) { prvek.classList.add('active'); });
 
                 autoPosunInterval = setInterval(function() {
                     window.scrollBy(0, 1);
@@ -194,7 +153,6 @@
                         clearInterval(autoPosunInterval);
                         autoPosunInterval = null;
                         btn.classList.remove('aktivni');
-                        setTimeout(function() { if (ctiDale) { ctiDale.classList.add('zobrazit'); } }, 3000);
                     }
                 }, 35);
                 btn.classList.add('aktivni');

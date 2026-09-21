@@ -166,10 +166,7 @@ html, body {
   margin: 0;
   opacity: 1;
   will-change: opacity, transform;
-  
-  /* 🔧 OPRAVENO: Jedna plynulá dýchající animace namísto dvou hádajících se */
   animation: pulse 3s infinite ease-in-out;
-  
   transition: opacity 0.8s ease-out, transform 0.8s ease-out;
 }
 

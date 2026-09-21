@@ -9,7 +9,7 @@ html, body {
   overflow-x: hidden;
 }
 
-/* 🎬 CELOOBRAZOVKOVÉ PLÁTNO OD KRAJE KE KRAJI */
+/* 🎬 🎥 SKUTEČNÉ FILMOVÉ PLÁTNO: Grafika při načtení plynule vpluje z temnoty a mlhy (Styl THE BOAT) */
 .sbs-background {
   position: fixed;
   top: 0;
@@ -24,9 +24,29 @@ html, body {
   z-index: 1;
   pointer-events: none;
   will-change: transform, filter; 
-  animation: sbsKameraPohyb 40s infinite ease-in-out, sbsTonovaniGrafiky 60s infinite ease-in-out;
+  
+  /* Spuštění tří animací: 
+     1. sbsFilmoveVpluti (proběhne jen jednou na začátku po dobu 5 vteřin)
+     2. sbsKameraPohyb (nekonečné plující posouvání kamery do stran)
+     3. sbsTonovaniGrafiky (nekonečná jemná proměna barevných nálad papíru) */
+  animation: sbsFilmoveVpluti 5s cubic-bezier(0.25, 1, 0.5, 1) forwards,
+             sbsKameraPohyb 40s infinite ease-in-out 5s, 
+             sbsTonovaniGrafiky 60s infinite ease-in-out;
 }
 
+/* 👁️ KOUZLO VPLOUTÍ: Obraz začíná zcela černý, rozmazaný a zmenšený, během 5 vteřin se plynule rozzáří a zaostří */
+@keyframes sbsFilmoveVpluti {
+  0% { 
+    transform: scale(0.96); /* Obraz vplouvá z mírného odstupu */
+    filter: brightness(0) blur(20px) sepia(0.2); /* Úplná tma a mlha */
+  }
+  100% { 
+    transform: scale(1.02); /* Plynule vyroste do své výchozí pozice */
+    filter: brightness(1) blur(0px) sepia(0.2);  /* Dokonalé vyjasnění a zaostření kresby */
+  }
+}
+
+/* Původní plynulé posouvání kamery (spustí se automaticky navazujícím způsobem po 5 vteřinách) */
 @keyframes sbsKameraPohyb {
   0% { transform: scale(1.02) translate(0px, 0px) rotate(0deg); }
   25% { transform: scale(1.08) translate(-10px, 8px) rotate(0.3deg); }
@@ -120,8 +140,7 @@ html, body {
   opacity: 0;
   color: #1a2a1d;
   will-change: opacity, transform;
-  animation: sbsPlynuleSyceniBarvy 4s ease-in-out forwards,
-             sbsJemnyTepKratochvile 12s infinite ease-in-out 4s;
+  animation: sbsPlynuleSyceniBarvy 4s ease-in-out forwards;
 }
 
 /* Autor */
@@ -140,12 +159,6 @@ html, body {
 @keyframes sbsPlynuleSyceniBarvy {
   0% { opacity: 0; }
   100% { opacity: 1; }
-}
-
-@keyframes sbsJemnyTepKratochvile {
-  0% { transform: translateY(0px) scale(1); }
-  50% { transform: translateY(-3px) scale(1.01); }
-  100% { transform: translateY(0px) scale(1); }
 }
 
 /* VSTUPTE DO SVĚTA... */
@@ -198,7 +211,7 @@ html, body {
   100% { transform: translateY(0px); }
 }
 
-/* 📜 JEMNÝ NÁPIS MALÝMI PÍSMENY V KURZÍVĚ */
+/* JEMNÝ NÁPIS MALÝMI PÍSMENY V KURZÍVĚ */
 .sbs-cti-dale {
   position: absolute;
   bottom: 80px; 
@@ -207,7 +220,7 @@ html, body {
   font-size: 0.95rem;
   letter-spacing: 0.15em;
   font-style: italic; 
-  color: #4a5d4e; /* Sjednoceno s olivovým tónem úvodního nápisu */
+  color: #4a5d4e; 
   text-align: center;
   margin: 0;
   text-transform: none; 
@@ -216,17 +229,15 @@ html, body {
   transition: opacity 1.5s ease-in-out; 
 }
 
-/* 🔧 FUNKČNÍ ÚPRAVA: Když skript vydá povel k zobrazení, nápis naskočí a začne nekonečně plynule dýchat (zesvětlovat a ztmavovat) */
 .sbs-cti-dale.zobrazit {
   opacity: 1;
   animation: sbsPulzovaniCtiDale 3s infinite ease-in-out;
 }
 
-/* Definice nekonečného filmového přelivu jasu pro kurzívu */
 @keyframes sbsPulzovaniCtiDale {
-  0% { opacity: 0.25; }  /* Ztmavne / zesvětlá do matna */
-  50% { opacity: 0.95; }  /* Rozsvítí se do plné sytosti */
-  100% { opacity: 0.25; } /* Opětovné plynulé pohasnutí */
+  0% { opacity: 0.25; }  
+  50% { opacity: 0.95; }  
+  100% { opacity: 0.25; } 
 }
 
 /* ==========================================================================

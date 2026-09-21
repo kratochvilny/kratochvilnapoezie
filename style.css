@@ -9,7 +9,7 @@ html, body {
   overflow-x: hidden;
 }
 
-/* 🎬 FILMOVÉ PLÁTNO OD KRAJE KE KRAJI */
+/* 🎬 CELOOBRAZOVKOVÉ PLÁTNO OD KRAJE KE KRAJI */
 .sbs-background {
   position: fixed;
   top: 0;
@@ -24,8 +24,8 @@ html, body {
   z-index: 1;
   pointer-events: none;
   will-change: transform, filter; 
-  animation: sbsFilmoveVpluti 6s cubic-bezier(0.25, 1, 0.5, 1) forwards,
-             sbsKameraPohyb 40s infinite ease-in-out 6s, 
+  animation: sbsFilmoveVpluti 5s cubic-bezier(0.25, 1, 0.5, 1) forwards,
+             sbsKameraPohyb 40s infinite ease-in-out 5s, 
              sbsTonovaniGrafiky 60s infinite ease-in-out;
 }
 
@@ -78,7 +78,7 @@ html, body {
 .sbs-ikona-btn.aktivni { background: #2c3e2e; border-color: #2c3e2e; }
 .sbs-ikona-btn.aktivni svg { stroke: #f1f2e1; }
 
-/* 🎛️ SVISLÁ ČÍSLICOVÁ LIŠTA (PRAVÁ STRANA) */
+/* 🎛️ SVISLÁ LIŠTA (PRAVÁ STRANA) */
 .sbs-bocni-menu {
   position: fixed;
   right: 20px; 
@@ -150,7 +150,7 @@ html, body {
   align-items: center;
 }
 
-/* 🔧 ZPOMALENÝ HLAVNÍ NADPIS: Trvá plných 7 vteřin, než se plynule nasytí na scéně */
+/* Hlavní nadpis - plynulé nasytí trvá 4 sekundy */
 .nadpis-hlavni {
   font-size: 3rem;
   text-transform: uppercase;
@@ -161,10 +161,10 @@ html, body {
   opacity: 0;
   color: #1a2a1d;
   will-change: opacity;
-  animation: sbsPlynuleSyceniBarvy 7s ease-in-out forwards;
+  animation: sbsCisteRozsviceniTextu 4s ease-in-out forwards;
 }
 
-/* 🔧 ZPOMALENÝ AUTOR: Načítá se stejně klidně po dobu 7 vteřin */
+/* Autor - plynulé nasycení trvá 4 sekundy */
 .autor {
   font-size: 1.1rem;
   letter-spacing: 0.15em;
@@ -174,16 +174,26 @@ html, body {
   margin: 0;
   text-align: center;
   opacity: 0;
-  animation: sbsPlynuleSyceniBarvy 7s ease-in-out forwards;
+  animation: sbsCisteRozsviceniTextu 4s ease-in-out forwards;
 }
 
-@keyframes sbsPlynuleSyceniBarvy {
+@keyframes sbsCisteRozsviceniTextu {
   0% { opacity: 0; }
   100% { opacity: 1; }
 }
 
-/* 🔧 EXTRA ODLOŽENÝ SPODNÍ NÁPIS: 
-   Čeká schovaný celé 4 vteřiny a pak se extrémně líně 5 vteřin rozsvěcuje (celkem 9s) */
+/* 🔧 TITULNÍ MOTTO (OPRAVENO): 
+   Načítá se plynule 4 sekundy, ale začne až přesně v 7. sekundě (4s nadpis + 3s vyžádaná pauza) */
+.motto-blok {
+  text-align: center; 
+  margin-top: 40px; 
+  opacity: 0;
+  will-change: opacity;
+  animation: sbsCisteRozsviceniTextu 4s ease-in-out 7s forwards;
+}
+
+/* 🔧 VSTUPTE DO SVĚTA... (OPRAVENO): 
+   Spustí se v NAPROSTO STEJNÝ MOMENT jako motto (zpoždění 7s). Nájezd trvá 4s, pak přejde do dýchání jasu. */
 .scroll-indicator {
   font-size: 0.9rem;
   letter-spacing: 0.2em;
@@ -194,15 +204,15 @@ html, body {
   margin: 180px 0 0 0; 
   opacity: 0;
   will-change: opacity;
-  animation: sbsPlynuleSyceniBarvy 5s ease-in-out 4s forwards, 
-             pulse 3s infinite ease-in-out 9s;
+  animation: sbsCisteRozsviceniTextu 4s ease-in-out 7s forwards, 
+             sbsDychaniIndikatoru 3s infinite ease-in-out 11s; /* Dýchání sepne po úplném rozsvícení */
   transition: opacity 0.8s ease-out;
 }
 
-@keyframes pulse {
-  0% { opacity: 0.3; }
+@keyframes sbsDychaniIndikatoru {
+  0% { opacity: 0.4; }
   50% { opacity: 1; }
-  100% { opacity: 0.3; }
+  100% { opacity: 0.4; }
 }
 
 .scroll-indicator.skryt {

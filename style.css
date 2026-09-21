@@ -1,0 +1,89 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  background-color: #f1f2e1; /* Krémový podklad odpovídající vaší grafice */
+  font-family: 'Georgia', serif; /* Literární, knižní patkové písmo */
+  color: #1a1a1a;
+  overflow-x: hidden;
+}
+
+/* Fixní pozadí ve stylu SBS - kresba se nehýbe, text pluje nad ní */
+.sbs-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-image: url('pozadi.jpg'); /* Zde bude váš upravený obrázek kytice */
+  background-size: contain; /* Obrázek se nezdeformuje a ukáže celou kresbu */
+  background-position: center center;
+  background-repeat: no-repeat;
+  opacity: 0.25; /* Jemná, atmosférická průhlednost typická pro skici v The Boat */
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Hlavní scrollovací kontejner */
+.story-container {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+}
+
+/* Jednotlivé sekce příběhu, které se objevují při skrolování */
+.slide {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 40px 20px;
+}
+
+/* Styly pro dramatickou typografii */
+.nadpis-hlavni {
+  font-size: 3rem;
+  letter-spacing: 0.3em; /* Široké, filmové rozestupy písmen */
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  color: #2c3e2e;
+  text-align: center;
+}
+
+.autor {
+  font-size: 1.2rem;
+  letter-spacing: 0.15em;
+  font-style: italic;
+  text-transform: uppercase;
+  color: #666;
+  margin-bottom: 50px;
+}
+
+.vers {
+  font-size: 2.2rem;
+  line-height: 1.8;
+  text-align: center;
+  font-weight: 300;
+  max-width: 800px;
+  color: #000;
+  /* Mírný stín pro absolutní čitelnost textu v prostoru */
+  text-shadow: 0 0 10px rgba(241, 242, 225, 0.8); 
+}
+
+/* Indikátor, že má uživatel skrolovat dolů */
+.scroll-indicator {
+  margin-top: 40px;
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #888;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.3; }
+  50% { opacity: 1; }
+  100% { opacity: 0.3; }
+}

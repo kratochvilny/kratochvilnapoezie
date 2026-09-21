@@ -6,7 +6,6 @@
     <title>Kratochvilná Poezie</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* 🔧 NEPRŮSTŘELNÝ FIX: Spolehlivé a hladké odhalení textu */
         .reveal {
             opacity: 0;
             transform: translateY(30px);
@@ -60,42 +59,30 @@
         var autoPosunInterval = null;
         var jeZtlumeno = false;
 
-        // 🧠 ZBRUSU NOVÝ MECHANISMUS SLEDOVÁNÍ POHYBU STRÁNKY
-        function aktualizovatWeb() {
+        // 🧠 Sledování skrolování čistě pro odhalení textu
+        function kontrolaSkrolu() {
             var odscrollovano = window.scrollY || window.pageYOffset;
             var vyskaOkna = window.innerHeight;
             var element = document.querySelector('.reveal');
 
-            // 1. Spolehlivé zobrazení druhého verše, jakmile uživatel odscroluje aspoň o kousek z úvodní strany
             if (element && odscrollovano > (vyskaOkna * 0.3)) {
                 element.classList.add('active');
             }
-
-            // 2. 🎵 AKTIVACE HUDBY POHYBEM: Spustí se okamžitě při sebemenším skrolu
-            if (audio.paused && !jeZtlumeno && odscrollovano > 2) {
-                spustitTichouHudbu();
-            }
         }
 
-        // Pomocná funkce pro bezpečné zapnutí audia na 10% hlasitost
+        window.addEventListener('scroll', kontrolaSkrolu);
+        window.addEventListener('touchmove', kontrolaSkrolu);
+        window.addEventListener('load', kontrolaSkrolu);
+
+        // 🔧 PŘÍSNÁ SPRÁVA AUDIA: Žádné automatické spouštění skrolováním ani klikáním do prázdna
         function spustitTichouHudbu() {
             audio.volume = 0.1;
             audio.play().then(function() {
                 svgZvuk.innerHTML = '<path d="M11 5L6 9H2v6h4l5 4V5zM15.54 8.46a5 5 0 0 1 0 7.07"></path>';
-            }).catch(function(e) { 
-                console.log("Čeká se na přímější kliknutí uživatele kvůli politice prohlížeče."); 
-            });
+            }).catch(function(e) { console.log(e); });
         }
 
-        // Hlídání událostí na celé stránce
-        window.addEventListener('scroll', aktualizovatWeb);
-        window.addEventListener('touchmove', aktualizovatWeb); // Podpora pro mobily a tablety
-        window.addEventListener('click', function() {
-            // Hudba naskočí i při běžném kliknutí kamkoliv do prostoru
-            if (audio.paused && !jeZtlumeno) { spustitTichouHudbu(); }
-        });
-
-        // Ruční zapínání/vypínání zvuku ikonou v panelu
+        // Zvuk reaguje výhradně na stisknutí tlačítka reproduktoru
         btnZvuk.addEventListener('click', function(e) {
             e.stopPropagation(); 
             if (audio.paused) {
@@ -136,7 +123,8 @@
                     }
                 }, 35);
                 btn.classList.add('aktivni');
-                // Pokud uživatel zapne kino režim, rovnou mu aktivujeme i zvuk
+                
+                // Při zapnutí kina se hudba spustí jako součást filmového zážitku
                 if (audio.paused && !jeZtlumeno) { spustitTichouHudbu(); }
             } else {
                 clearInterval(autoPosunInterval);

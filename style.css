@@ -20,16 +20,16 @@ html, body {
   z-index: 1;
   pointer-events: none;
   will-change: transform, filter, opacity;
-  transition: opacity 2.5s cubic-bezier(0.25, 1, 0.5, 1);
+  transition: opacity 2s ease-in-out;
 }
 
 .bg-kytice {
   background-image: url('flower01-B01.webp');
   animation: sbsFilmoveVpluti 5s cubic-bezier(0.25, 1, 0.5, 1) forwards,
-             sbsKameraPohybUvod 40s infinite ease-in-out 5s, 
-             sbsTonovaniGrafiky 60s infinite ease-in-out;
+             sbsKameraPohybUvod 40s infinite ease-in-out 5s;
 }
 
+/* ✒️ BÁSŇÍK: Pevný napravo s neprůstřelným, nekonečným barevným přelivem */
 .bg-basnik {
   background-image: url('basnik01.webp'); 
   mix-blend-mode: multiply; 
@@ -37,13 +37,18 @@ html, body {
   background-repeat: no-repeat;
   background-position: calc(100% - 60px) center; 
   opacity: 0;
-  transition: opacity 2.5s ease-in-out, filter 3s ease-in-out !important; 
-  animation: sbsDychaniBasnika 16s infinite ease-in-out;
+  
+  /* 🔧 NEPŮSTŘELNÁ ZMĚNA BARVY: Automatický, plynulý barevný cyklus (olivová -> modrá -> sépie) */
+  animation: sbsBarevnyKolobehBasnika 25s infinite ease-in-out,
+             sbsDychaniBasnika 14s infinite ease-in-out;
 }
 
-.bg-basnik.tón-olivova { filter: sepia(0.6) hue-rotate(60deg) saturate(1.2) brightness(0.95); }
-.bg-basnik.tón-modra { filter: sepia(0.4) hue-rotate(190deg) saturate(1.6) brightness(0.85); }
-.bg-basnik.tón-sepia { filter: sepia(0.8) hue-rotate(0deg) saturate(0.9) brightness(1); }
+/* Definice plynulé proměny barev, která zaručeně funguje všude */
+@keyframes sbsBarevnyKolobehBasnika {
+  0%, 100% { filter: sepia(0.6) hue-rotate(60deg) saturate(1.2) brightness(0.95); } /* Olivová */
+  33% { filter: sepia(0.4) hue-rotate(190deg) saturate(1.6) brightness(0.85); }   /* Modrá */
+  66% { filter: sepia(0.8) hue-rotate(0deg) saturate(0.9) brightness(1); }       /* Sépie */
+}
 
 .bg-kytice:not(.vypnout-bg) { opacity: 0.35; }
 .bg-kytice.vypnout-bg { opacity: 0; }
@@ -62,16 +67,9 @@ html, body {
   100% { transform: scale(1.02) translate(0px, 0px) rotate(0deg); }
 }
 
-@keyframes sbsTonovaniGrafiky {
-  0% { background-color: #f1f2e1; }
-  33% { background-color: #ebedd5; }
-  66% { background-color: #e5e8ca; }
-  100% { background-color: #f1f2e1; }
-}
-
 @keyframes sbsDychaniBasnika {
   0% { transform: scale(1); }
-  50% { transform: scale(1.04); } 
+  50% { transform: scale(1.03); } 
   100% { transform: scale(1); }
 }
 
@@ -95,9 +93,7 @@ html, body {
   align-items: center;
   cursor: pointer;
   transition: all 0.3s ease;
-  padding: 0;
 }
-
 .sbs-ikona-btn svg { width: 18px; height: 18px; fill: none; stroke: #444; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
 .sbs-ikona-btn:hover { border-color: rgba(26, 42, 29, 0.6); background: rgba(241, 242, 225, 0.9); }
 .sbs-ikona-btn.aktivni { background: #2c3e2e; border-color: #2c3e2e; }
@@ -114,43 +110,9 @@ html, body {
   gap: 12px;
   align-items: flex-end;
 }
-
-.sbs-bocni-polozka {
-  display: flex;
-  flex-direction: row-reverse; 
-  align-items: center;
-  gap: 15px;
-  cursor: pointer;
-}
-
-.sbs-cislo {
-  font-family: 'Georgia', serif;
-  font-size: 0.9rem;
-  color: #555;
-  background: rgba(241, 242, 225, 0.4);
-  border: 1px solid rgba(26, 42, 29, 0.1);
-  border-radius: 50%;
-  width: 28px;
-  height: 28px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: all 0.3s ease;
-}
-
-.sbs-nazev-kapitoly {
-  font-family: 'Georgia', serif;
-  font-size: 0.85rem;
-  font-style: italic;
-  color: #2c3e2e;
-  opacity: 0;
-  transform: translateX(15px); 
-  transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-  pointer-events: none;
-  white-space: nowrap;
-  text-align: right; 
-}
-
+.sbs-bocni-polozka { display: flex; flex-direction: row-reverse; align-items: center; gap: 15px; cursor: pointer; }
+.sbs-cislo { font-family: 'Georgia', serif; font-size: 0.9rem; color: #555; background: rgba(241, 242, 225, 0.4); border: 1px solid rgba(26, 42, 29, 0.1); border-radius: 50%; width: 28px; height: 28px; display: flex; justify-content: center; align-items: center; transition: all 0.3s ease; }
+.sbs-nazev-kapitoly { font-family: 'Georgia', serif; font-size: 0.85rem; font-style: italic; color: #2c3e2e; opacity: 0; transform: translateX(15px); transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1); pointer-events: none; white-space: nowrap; text-align: right; }
 .sbs-bocni-polozka:hover .sbs-cislo { background: #2c3e2e; color: #f1f2e1; border-color: #2c3e2e; transform: scale(1.1); }
 .sbs-bocni-polozka:hover .sbs-nazev-kapitoly { opacity: 1; transform: translateX(0); }
 
@@ -160,88 +122,34 @@ html, body {
   width: 100%;
 }
 
-.slide {
+/* Úvodní velká strana na výšku monitoru */
+.slide-intro-full {
   height: 100vh;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
   padding: 0 20px;
-  align-items: flex-start;
-  justify-content: center;
-  padding-left: 10vw; 
-}
-
-.slide-intro {
   justify-content: center; 
-  align-items: center !important;
-  padding-left: 20px !important;
+  align-items: center;
 }
 
-.nadpis-hlavni {
-  font-size: 3rem;
-  text-transform: uppercase;
-  margin: 0 0 15px 0;
-  text-align: center;
-  display: block;
-  letter-spacing: 0.3em; 
-  opacity: 0;
-  color: #1a2a1d;
-  will-change: opacity;
-  animation: sbsCisteRozsviceniTextu 4s ease-in-out forwards;
+/* 🔧 KONTEJNER KNIHY: Sjednocuje celý blok kapitol s odsazením 10 % zleva */
+.knizni-obsah-kontejner {
+  display: flex;
+  flex-direction: column;
+  padding-left: 10vw; 
+  padding-bottom: 20vh;
 }
 
-.autor {
-  font-size: 1.1rem;
-  letter-spacing: 0.15em;
-  font-style: italic;
-  text-transform: uppercase;
-  color: #555;
-  margin: 0;
-  text-align: center;
-  opacity: 0;
-  animation: sbsCisteRozsviceniTextu 4s ease-in-out forwards;
+/* 🔧 VYČIŠTĚNÉ KRÁTKÉ ODSTUPY: Sekce už nemají 100vh, ale těsný svislý odstup */
+.slide-grid, .slide-sekce-knihy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 90px; /* Přiměřená, čistá mezera mezi jednotlivými básněmi */
 }
 
-@keyframes sbsCisteRozsviceniTextu {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
-}
-
-.motto-blok {
-  text-align: center; 
-  margin-top: 40px; 
-  opacity: 0;
-  will-change: opacity;
-  animation: sbsCisteRozsviceniTextu 4s ease-in-out 7s forwards;
-}
-
-.scroll-indicator {
-  font-size: 0.9rem;
-  letter-spacing: 0.2em;
-  font-style: italic;
-  color: #4a5d4e;   
-  text-align: center;
-  width: 100%;
-  margin: 180px 0 0 0; 
-  opacity: 0;
-  will-change: opacity;
-  animation: sbsCisteRozsviceniTextu 4s ease-in-out 7s forwards, 
-             sbsDychaniIndikatoru 3s infinite ease-in-out 11s;
-  transition: opacity 0.8s ease-out;
-}
-
-@keyframes sbsDychaniIndikatoru {
-  0% { opacity: 0.4; }
-  50% { opacity: 1; }
-  100% { opacity: 0.4; }
-}
-
-.scroll-indicator.skryt {
-  opacity: 0 !important;
-  pointer-events: none;
-}
-
-.slide h3 {
+.slide-sekce-knihy h3 {
   font-family: 'Georgia', serif; 
   font-weight: normal; 
   text-transform: uppercase; 
@@ -251,13 +159,14 @@ html, body {
   text-align: left !important; 
   width: 100%;
   max-width: 500px;
-  margin: 0 0 12px 0; 
+  margin: 0 0 10px 0; /* 🔧 Nadpis sedí hned u básničky */
 }
 
+/* 🔧 EMOCIONÁLNÍ VELIKOST TEXTU: Perfektní, kompaktní řádkování zleva */
 .class-pismo-verse {
   font-family: 'Georgia', serif;
   font-size: 1.45rem !important; 
-  line-height: 1.6 !important; 
+  line-height: 1.5 !important; /* Verše drží těsně u sebe */
   font-weight: 300;
   color: #000;
   letter-spacing: 0.02em;
@@ -268,14 +177,16 @@ html, body {
   margin: 0;
 }
 
-.slide p {
-  margin: 0 0 14px 0 !important; 
+.slide-sekce-knihy p {
+  margin: 0 0 12px 0 !important; 
+  max-width: 520px;
+  line-height: 1.7;
 }
 
 .sbs-cti-dale {
   position: absolute;
-  bottom: 80px; 
-  left: 10vw; 
+  bottom: -50px; 
+  left: 0; 
   font-size: 0.95rem;
   letter-spacing: 0.15em;
   font-style: italic; 
@@ -286,28 +197,17 @@ html, body {
   will-change: opacity;
   transition: opacity 1.5s ease-in-out; 
 }
-
-.sbs-cti-dale.zobrazit {
-  opacity: 1;
-  animation: sbsPulzovaniCtiDale 3s infinite ease-in-out;
-}
-
-@keyframes sbsPulzovaniCtiDale {
-  0% { opacity: 0.25; }  
-  50% { opacity: 0.95; }  
-  100% { opacity: 0.25; } 
-}
+.sbs-cti-dale.zobrazit { opacity: 1; animation: sbsPulzovaniCtiDale 3s infinite ease-in-out; }
+@keyframes sbsPulzovaniCtiDale { 0% { opacity: 0.25; } 50% { opacity: 0.95; } 100% { opacity: 0.25; } }
 
 @media (max-width: 768px) {
-  .slide { align-items: center !important; padding-left: 20px !important; }
-  .slide h3 { text-align: center !important; }
-  .class-pismo-verse { text-align: center !important; font-size: 1.25rem !important; line-height: 1.7 !important; }
+  .knizni-obsah-kontejner { padding-left: 20px !important; padding-right: 20px !important; }
+  .slide-sekce-knihy { align-items: center !important; }
+  .slide-sekce-knihy h3 { text-align: center !important; }
+  .class-pismo-verse { text-align: center !important; font-size: 1.25rem !important; }
   .sbs-bocni-menu { display: none !important; }
   .ovladani-panel { position: fixed; top: auto; bottom: 15px; left: 50%; transform: translateX(-50%); gap: 25px; z-index: 100; }
   .sbs-ikona-btn { width: 48px; height: 48px; background: rgba(241, 242, 225, 0.9); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); }
-  .nadpis-hlavni { font-size: 2.2rem; letter-spacing: 0.15em; line-height: 1.4; padding: 0 10px; }
-  .autor { font-size: 0.95rem; letter-spacing: 0.1em; }
-  .scroll-indicator { bottom: 85px; font-size: 0.8rem; line-height: 1.4; }
-  .sbs-cti-dale { left: 50% !important; transform: translateX(-50%); bottom: 85px; font-size: 0.85rem; }
-  .bg-basnik { background-position: center center; } 
+  .scroll-indicator { bottom: 85px; font-size: 0.8rem; }
+  .sbs-cti-dale { left: 50% !important; transform: translateX(-50%); bottom: -45px; }
 }

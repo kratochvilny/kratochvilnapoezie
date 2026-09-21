@@ -8,7 +8,7 @@ html, body {
 
   /* 🎬 BANNER BAREV: Nastavení výchozí barvy a spuštění extrémně pomalé animace (60 sekund) */
   background-color: #f1f2e1; 
-  animation: sbsBarvyPozadi 60s infinite ease-in-out;
+  animation: sbsBarvyPozadi 20s infinite ease-in-out;
 }
 
 /* 🎨 Definice jemňounkých barevných proměn podkladu */

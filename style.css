@@ -109,8 +109,13 @@ html, body {
   flex-direction: column;
   box-sizing: border-box;
   padding: 0 20px;
-  justify-content: center; 
+   /* 🔧 ZMĚNA: Tlačíme obsah odshora dolů */
+  justify-content: flex-start; 
   align-items: center;
+  position: relative;
+   /* 🔧 TENTO ŘÁDEK POSUNE NADPIS: Odrazí ho o přesnou 1 pětinu (20vh) odshora, 
+     takže nápis začne přesně na začátku 2. pětiny obrazovky */
+  padding-top: 20vh; 
 }
 
 .nadpis-hlavni { font-size: 3rem; text-transform: uppercase; margin: 0 0 15px 0; text-align: center; display: block; letter-spacing: 0.3em; opacity: 0; color: #1a2a1d; will-change: opacity; animation: sbsCisteRozsviceniTextu 4s ease-in-out forwards; }

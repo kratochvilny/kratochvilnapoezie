@@ -15,7 +15,7 @@ html, body {
   left: 0;
   width: 100%;
   height: 100vh;
-  background-image: url('pozadi.jpg'); /* Zde bude váš upravený obrázek kytice */
+  background-image: url('flower01-B01.webp'); /* Zde bude váš upravený obrázek kytice */
   background-size: contain; /* Obrázek se nezdeformuje a ukáže celou kresbu */
   background-position: center center;
   background-repeat: no-repeat;

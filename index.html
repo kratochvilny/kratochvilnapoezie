@@ -37,7 +37,7 @@
         </button>
     </div>
 
-    <!-- SVISLÁ LIŠTA (Pravá strana) -->
+    <!-- SVISLÁ LIŠTA (Otočená doleva, názvy kapitol se sosají samy) -->
     <nav class="sbs-bocni-menu">
         <div class="sbs-bocni-polozka" onclick="skocNaSekci('sekce-uvod')">
             <span class="sbs-cislo">0</span>
@@ -47,27 +47,29 @@
             <span class="sbs-cislo">1</span>
             <span id="label-sekce-kapitola01" class="sbs-nazev-kapitoly">Načítání...</span>
         </div>
-        <div class="sbs-bocni-polozka" onclick="skocNaSekci('sekce-kapitola02')">
-            <span class="sbs-cislo">2</span>
-            <span id="label-sekce-kapitola02" class="sbs-nazev-kapitoly">...</span>
-        </div>
     </nav>
 
     <div class="sbs-background"></div>
 
     <div class="story-container">
+        
         <!-- 1. ÚVODNÍ OBRAZOVKA -->
-        <section id="sekce-uvod" class="slide slide-intro" style="position: relative;">
+        <section id="sekce-uvod" class="slide slide-intro">
             <h1 class="nadpis-hlavni">Kratochvilná Poezie</h1>
             <div class="autor">Kratochvilný Jan</div>
             
-            <!-- 🔧 PŘIDÁNO MOTTO: Objeví se na spodku první strany po začátku rolování -->
-            <div id="sbs-motto" class="reveal" style="text-align: center; margin-top: 40px; max-width: 700px; padding: 0 20px;">
-                <p style="font-size: 1.4rem; font-style: italic; color: #4a5d4e; margin: 0 0 10px 0;">„Jak jsem myslil, tak jsem psal.“</p>
-                <p style="font-size: 1.8rem; font-weight: 300; color: #000; margin: 0;">„Svojí mysli, sobě král.“</p>
+            <!-- 🔧 POHYB MOTTA: Toto textové motto se bleskově prolné o kus níže při skrolování -->
+            <div class="reveal" style="text-align: center; margin-top: 40px; will-change: opacity, transform;">
+                <p style="font-size: 1.4rem; font-style: italic; color: #4a5d4e; margin: 0 0 10px 0;">
+                    „Jak jsem myslil, tak jsem psal.“
+                </p>
+                <p style="font-size: 2rem; font-weight: 300; color: #000; margin: 0;">
+                    „Svojí mysli, sobě král.“
+                </p>
             </div>
 
-            <p id="sbs-indicator" class="scroll-indicator">Vstupte do sveta kratochvilne poezie</p>
+            <!-- Extra odložená výzva k posunu -->
+            <p id="sbs-indicator" class="scroll-indicator">Vstupte do světa kratochvilné poezie</p>
         </section>
 
         <!-- KONTEJNER PRO EXTERNÍ KAPITOLY -->
@@ -90,23 +92,29 @@
                 kontejner.innerHTML = htmlObsahy.join('');
                 
                 seznamKapitol.forEach(function(url) {
-                    var idKapitoly = url.replace('.html', '');
+                    var idKapitoly = url.replace('.html', ''); 
                     var stazenaSekce = document.getElementById('sekce-' + idKapitoly);
+                    
                     if (stazenaSekce) {
                         var nalezenyNadpis = stazenaSekce.querySelector('.nazev-sekce-zdroj');
                         var labelVListe = document.getElementById('label-sekce-' + idKapitoly);
-                        if (nalezenyNadpis && labelVListe) { labelVListe.innerText = nalezenyNadpis.innerText; }
+                        if (nalezenyNadpis && labelVListe) {
+                            labelVListe.innerText = nalezenyNadpis.innerText;
+                        }
                     }
                 });
 
                 window.addEventListener('scroll', aktualizovatWeb);
                 window.addEventListener('touchmove', aktualizovatWeb);
+                // První kontrola ihned po načtení
                 aktualizovatWeb();
             }).catch(err => console.error(err));
 
         function skocNaSekci(idSekce) {
             var cilovaSekce = document.getElementById(idSekce);
-            if (cilovaSekce) { cilovaSekce.scrollIntoView({ behavior: 'smooth' }); }
+            if (cilovaSekce) {
+                cilovaSekce.scrollIntoView({ behavior: 'smooth' });
+            }
         }
 
         function aktualizovatWeb() {
@@ -114,23 +122,20 @@
             var vyskaOkna = window.innerHeight;
             
             var indicator = document.getElementById('sbs-indicator');
-            var motto = document.getElementById('sbs-motto');
             var ctiDale = document.getElementById('sbs-cti-dale-text');
 
-            // 1. Zmizení úvodního textu
             if (indicator && odscrollovano > 10) { indicator.classList.add('skryt'); }
             if (ctiDale) { ctiDale.classList.remove('zobrazit'); }
 
-            // 2. 🔧 REAKCE NA ROLOVÁNÍ: Rozsvícení motta na první straně při sebemenším pohybu
-            if (motto && odscrollovano > 15) { motto.classList.add('active'); }
-
-            // 3. Rozsvícení všech veršů v kapitolách
             var prvkyVerse = document.querySelectorAll('.reveal');
             prvkyVerse.forEach(function(prvek) {
                 var pozice = prvek.getBoundingClientRect().top;
-                if (pozice < vyskaOkna - 100) { prvek.classList.add('active'); }
+                if (pozice < vyskaOkna - 60) {
+                    prvek.classList.add('active');
+                }
             });
 
+            // 🔧 ODPOČET ČTI DÁLE: Čeká přesně 3 sekundy po absolutním klidu stránky
             clearTimeout(scrollTimeout);
             scrollTimeout = setTimeout(function() {
                 if (ctiDale && odscrollovano > (vyskaOkna * 0.5) && autoPosunInterval === null) {
@@ -148,8 +153,14 @@
 
         btnZvuk.addEventListener('click', function(e) {
             e.stopPropagation(); 
-            if (audio.paused) { jeZtlumeno = false; audio.volume = 0.1; spustitTichouHudbu(); } 
-            else { jeZtlumeno = true; audio.pause(); svgZvuk.innerHTML = '<path d="M11 5L6 9H2v6h4l5 4V5zM23 9l-6 6M17 9l6 6"></path>'; }
+            if (audio.paused) {
+                jeZtlumeno = false;
+                spustitTichouHudbu();
+            } else {
+                jeZtlumeno = true;
+                audio.pause();
+                svgZvuk.innerHTML = '<path d="M11 5L6 9H2v6h4l5 4V5zM23 9l-6 6M17 9l6 6"></path>';
+            }
         });
 
         function toggleFullscreen() {
@@ -168,14 +179,13 @@
         function toggleAutoPosun() {
             var btn = document.getElementById('btn-posun');
             var indicator = document.getElementById('sbs-indicator');
-            var motto = document.getElementById('sbs-motto');
             var ctiDale = document.getElementById('sbs-cti-dale-text');
             var prvkyVerse = document.querySelectorAll('.reveal');
             
             if (autoPosunInterval === null) {
                 if (indicator) { indicator.classList.add('skryt'); }
-                if (motto) { motto.classList.add('active'); }
                 if (ctiDale) { ctiDale.classList.remove('zobrazit'); }
+
                 prvkyVerse.forEach(function(prvek) { prvek.classList.add('active'); });
 
                 autoPosunInterval = setInterval(function() {

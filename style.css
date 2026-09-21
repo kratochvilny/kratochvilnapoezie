@@ -212,7 +212,7 @@ html, body {
 
   /* 🔧 OPRAVA TEXTU: Výrazné zmenšení nadpisu a rozestupů na mobilu */
   .nadpis-hlavni {
-    font-size: 1.8rem; /* Menší čisté písmo */
+    font-size: 2.4rem; /* Menší čisté písmo */
     letter-spacing: 0.15em; /* Užší rozestupy, aby se slova nerozlamovala */
     line-height: 1.4;
     margin-bottom: 10px;

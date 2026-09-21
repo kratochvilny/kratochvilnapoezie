@@ -2,14 +2,13 @@ html, body {
   margin: 0;
   padding: 0;
   width: 100%;
-  min-height: 200vh;
   background-color: #f1f2e1;
   font-family: 'Georgia', serif;
   color: #1a1a1a;
   overflow-x: hidden;
 }
 
-/* 🎬 🎥 FILMOVÉ PLÁTNO: Grafika plynule vpluje z temnoty a mlhy (Styl THE BOAT) */
+/* 🎬 FILMOVÉ PLÁTNO OD KRAJE KE KRAJI */
 .sbs-background {
   position: fixed;
   top: 0;
@@ -24,23 +23,14 @@ html, body {
   z-index: 1;
   pointer-events: none;
   will-change: transform, filter; 
-  
-  /* Tripple animace: Úvodní vplutí (5s), plynulý nekonečný pohyb kamery a tónování barev */
   animation: sbsFilmoveVpluti 5s cubic-bezier(0.25, 1, 0.5, 1) forwards,
              sbsKameraPohyb 40s infinite ease-in-out 5s, 
              sbsTonovaniGrafiky 60s infinite ease-in-out;
 }
 
-/* Kytice začíná černá a rozmazaná, během 5 vteřin se plynule zaostří a rozzáří */
 @keyframes sbsFilmoveVpluti {
-  0% { 
-    transform: scale(0.96);
-    filter: brightness(0) blur(20px) sepia(0.2);
-  }
-  100% { 
-    transform: scale(1.02);
-    filter: brightness(1) blur(0px) sepia(0.2);
-  }
+  0% { transform: scale(0.96); filter: brightness(0) blur(20px) sepia(0.2); }
+  100% { transform: scale(1.02); filter: brightness(1) blur(0px) sepia(0.2); }
 }
 
 @keyframes sbsKameraPohyb {
@@ -82,27 +72,71 @@ html, body {
   padding: 0;
 }
 
-.sbs-ikona-btn svg {
-  width: 18px;
-  height: 18px;
-  fill: none;
-  stroke: #444;
-  stroke-width: 1.5;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+.sbs-ikona-btn svg { width: 18px; height: 18px; fill: none; stroke: #444; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.sbs-ikona-btn:hover { border-color: rgba(26, 42, 29, 0.6); background: rgba(241, 242, 225, 0.9); }
+.sbs-ikona-btn.aktivni { background: #2c3e2e; border-color: #2c3e2e; }
+.sbs-ikona-btn.aktivni svg { stroke: #f1f2e1; }
+
+/* 📄 🎛️ SVISLÁ ČÍSLICOVÁ LIŠTA (PRAVÁ STRANA) */
+.sbs-bocni-menu {
+  position: fixed;
+  right: 30px;
+  top: 50%;
+  transform: translateY(-50%); /* Přesné vycentrování na střed výšky */
+  z-index: 90;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-end;
 }
 
-.sbs-ikona-btn:hover {
-  border-color: rgba(26, 42, 29, 0.6);
-  background: rgba(241, 242, 225, 0.9);
+.sbs-bocni-polozka {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  cursor: pointer;
 }
 
-.sbs-ikona-btn.aktivni {
+/* Styl čísla (jemný kroužek s číslicí) */
+.sbs-cislo {
+  font-family: 'Georgia', serif;
+  font-size: 0.9rem;
+  color: #555;
+  background: rgba(241, 242, 225, 0.4);
+  border: 1px solid rgba(26, 42, 29, 0.1);
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+/* Název kapitoly (výchozí stav je neviditelný, vysune se doleva) */
+.sbs-nazev-kapitoly {
+  font-family: 'Georgia', serif;
+  font-size: 0.85rem;
+  font-style: italic;
+  color: #2c3e2e;
+  opacity: 0;
+  transform: translateX(10px);
+  transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+/* 🔥 HOVER EFEKT: Po najetí myši na položku se rozsvítí číslo a plynule vypluje název kapitoly */
+.sbs-bocni-polozka:hover .sbs-cislo {
   background: #2c3e2e;
+  color: #f1f2e1;
   border-color: #2c3e2e;
+  transform: scale(1.1);
 }
-.sbs-ikona-btn.aktivni svg {
-  stroke: #f1f2e1;
+
+.sbs-bocni-polozka:hover .sbs-nazev-kapitoly {
+  opacity: 1;
+  transform: translateX(0);
 }
 
 /* 📜 SEKCIONÁLNÍ STRUKTURA */
@@ -120,12 +154,8 @@ html, body {
   padding: 0 20px;
 }
 
-.slide-intro {
-  justify-content: center; 
-  align-items: center;
-}
+.slide-intro { justify-content: center; align-items: center; }
 
-/* Hlavní nadpis */
 .nadpis-hlavni {
   font-size: 3rem;
   text-transform: uppercase;
@@ -139,7 +169,6 @@ html, body {
   animation: sbsCisteRozsviceniTextu 4s ease-in-out forwards;
 }
 
-/* Autor */
 .autor {
   font-size: 1.1rem;
   letter-spacing: 0.15em;
@@ -152,12 +181,9 @@ html, body {
   animation: sbsCisteRozsviceniTextu 4s ease-in-out forwards;
 }
 
-@keyframes sbsCisteRozsviceniTextu {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
-}
+@keyframes sbsCisteRozsviceniTextu { 0% { opacity: 0; } 100% { opacity: 1; } }
 
-/* 🔧 VSTUPTE DO SVĚTA... (Stoprocentně pojištěné svícení a dýchání jasu) */
+/* VSTUPTE DO SVĚTA... */
 .scroll-indicator {
   font-size: 0.9rem;
   letter-spacing: 0.2em;
@@ -165,32 +191,18 @@ html, body {
   color: #4a5d4e;   
   text-align: center;
   width: 100%;
-  margin: 180px 0 0 0; /* Zachovaná 5 cm mezera pod autorem */
-  
-  /* Startovní viditelnost je natvrdo 1, animace pulse řeší plynulé dýchání jasu */
+  margin: 180px 0 0 0; 
   opacity: 1;
   will-change: opacity;
   animation: sbsDychaniIndikatoru 3s infinite ease-in-out;
   transition: opacity 0.8s ease-out;
 }
 
-@keyframes sbsDychaniIndikatoru {
-  0% { opacity: 0.4; }
-  50% { opacity: 1; }
-  100% { opacity: 0.4; }
-}
-
-.scroll-indicator.skryt {
-  opacity: 0 !important;
-  pointer-events: none;
-}
+@keyframes sbsDychaniIndikatoru { 0% { opacity: 0.4; } 50% { opacity: 1; } 100% { opacity: 0.4; } }
+.scroll-indicator.skryt { opacity: 0 !important; pointer-events: none; }
 
 /* Druhá strana s veršem */
-.slide-poem {
-  justify-content: center; 
-  align-items: center;
-  position: relative; 
-}
+.slide-poem { justify-content: center; align-items: center; position: relative; }
 
 .vers {
   font-size: 2.6rem;
@@ -203,13 +215,9 @@ html, body {
   animation: plutiVerse 6s infinite ease-in-out;
 }
 
-@keyframes plutiVerse {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-6px); }
-  100% { transform: translateY(0px); }
-}
+@keyframes plutiVerse { 0% { transform: translateY(0px); } 50% { transform: translateY(-6px); } 100% { transform: translateY(0px); } }
 
-/* JEMNÝ NÁPIS MALÝMI PÍSMENY V KURZÍVĚ */
+/* JEMNÝ NÁPIS MALÝMI PÍSMENY V KURZÍVÊ */
 .sbs-cti-dale {
   position: absolute;
   bottom: 80px; 
@@ -227,64 +235,19 @@ html, body {
   transition: opacity 1.5s ease-in-out; 
 }
 
-.sbs-cti-dale.zobrazit {
-  opacity: 1;
-  animation: sbsPulzovaniCtiDale 3s infinite ease-in-out;
-}
-
-@keyframes sbsPulzovaniCtiDale {
-  0% { opacity: 0.25; }  
-  50% { opacity: 0.95; }  
-  100% { opacity: 0.25; } 
-}
+.sbs-cti-dale.zobrazit { opacity: 1; animation: sbsPulzovaniCtiDale 3s infinite ease-in-out; }
+@keyframes sbsPulzovaniCtiDale { 0% { opacity: 0.25; } 50% { opacity: 0.95; } 100% { opacity: 0.25; } }
 
 /* ==========================================================================
-   📱 RESPONSIVITA PRO MOBILY
+   📱 RESPONSIVITA PRO MOBILY (Na mobilu se boční lišta skryje, aby nepřekážela textu)
    ========================================================================== */
 @media (max-width: 768px) {
-  .ovladani-panel {
-    position: fixed;
-    top: auto;
-    bottom: 15px; 
-    left: 50%;
-    transform: translateX(-50%);
-    gap: 25px;
-    z-index: 100;
-  }
-
-  .sbs-ikona-btn {
-    width: 48px;
-    height: 48px;
-    background: rgba(241, 242, 225, 0.9);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-  }
-
-  .nadpis-hlavni {
-    font-size: 2.2rem; 
-    letter-spacing: 0.15em; 
-    line-height: 1.4;
-    padding: 0 10px;
-  }
-
-  .autor {
-    font-size: 0.95rem;
-    letter-spacing: 0.1em;
-  }
-
-  .vers {
-    font-size: 1.6rem;
-    line-height: 1.6;
-    padding: 0 15px;
-  }
-
-  .scroll-indicator {
-    bottom: 85px; 
-    font-size: 0.8rem;
-    line-height: 1.4;
-  }
-
-  .sbs-cti-dale {
-    bottom: 85px;
-    font-size: 0.85rem;
-  }
+  .sbs-bocni-menu { display: none !important; } /* Skrytí navigace na malých displejích */
+  .ovladani-panel { position: fixed; top: auto; bottom: 15px; left: 50%; transform: translateX(-50%); gap: 25px; z-index: 100; }
+  .sbs-ikona-btn { width: 48px; height: 48px; background: rgba(241, 242, 225, 0.9); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); }
+  .nadpis-hlavni { font-size: 2.2rem; letter-spacing: 0.15em; line-height: 1.4; padding: 0 10px; }
+  .autor { font-size: 0.95rem; letter-spacing: 0.1em; }
+  .vers { font-size: 1.6rem; line-height: 1.6; padding: 0 15px; }
+  .scroll-indicator { bottom: 85px; font-size: 0.8rem; line-height: 1.4; }
+  .sbs-cti-dale { bottom: 85px; font-size: 0.85rem; }
 }

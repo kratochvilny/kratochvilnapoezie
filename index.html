@@ -6,10 +6,11 @@
     <title>Kratochvilná Poezie</title>
     <link rel="stylesheet" href="style.css">
     <style>
+        /* Sametový odhalovací efekt pro texty */
         .reveal {
             opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 1.8s ease-out, transform 1.8s ease-out;
+            transform: translateY(20px);
+            transition: opacity 1.5s ease-out, transform 1.5s ease-out;
         }
         .reveal.active {
             opacity: 1;
@@ -21,6 +22,7 @@
 
     <audio id="pozadi-audio" src="hudba01.mp3" loop></audio>
 
+    <!-- OVLÁDACÍ PANEL -->
     <div class="ovladani-panel">
         <button id="btn-posun" class="sbs-ikona-btn" onclick="toggleAutoPosun()" title="Kino režim">
             <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
@@ -33,6 +35,7 @@
         </button>
     </div>
 
+    <!-- SVISLÁ LIŠTA (Pravá strana) -->
     <nav class="sbs-bocni-menu">
         <div class="sbs-bocni-polozka" onclick="skocNaSekci('sekce-uvod')">
             <span class="sbs-cislo">0</span>
@@ -44,43 +47,50 @@
         </div>
     </nav>
 
+    <!-- FILMOVÁ PLÁTNA NA POZADÍ -->
     <div id="bg-uvod" class="sbs-background bg-kytice"></div>
-    <div id="bg-kapitola1" class="sbs-background bg-basnik"></div>
+    <div id="bg-kapitola1" class="sbs-background bg-basnik zapnout-bg"></div>
 
     <div class="story-container">
         
-        <section id="sekce-uvod" class="slide slide-intro">
+        <!-- OBRAZOVKA 0: ÚVODNÍ STRANA -->
+        <section id="sekce-uvod" class="slide-intro-full">
             <h1 class="nadpis-hlavni">Kratochvilná Poezie</h1>
             <div class="autor">Kratochvilný Jan</div>
             <div class="motto-blok">
-                <p style="font-size: 1.4rem; font-style: italic; color: #4a5d4e; margin: 0 0 10px 0;">„Jak jsem myslil, tak jsem psal.“</p>
+                <p style="font-size: 1.4rem; font-style: italic; color: #4a5d4e; margin: 0 0 10px 0;">„Jak jsem myslil, tak vanished psal.“</p>
                 <p style="font-size: 2rem; font-weight: 300; color: #000; margin: 0;">„Svojí mysli, sobě král.“</p>
             </div>
             <p id="sbs-indicator" class="scroll-indicator">Vstupte do světa kratochvilné poezie</p>
         </section>
 
-        <section id="sekce-kapitola01-predmluva" class="slide sbs-scena-detekce" data-barva="olivova">
-            <div style="max-width: 650px; width: 100%; text-align: justify; line-height: 1.9; font-size: 1.15rem; color: #222;">
+        <!-- ==========================================================================
+             📖 ÚTULNÝ KNIŽNÍ BLOK: Krátké odstupy, vše sedí dokonale u sebe zleva
+             ========================================================================== -->
+        <div class="knizni-obsah-kontejner">
+            
+            <!-- Sloka 1: Předmluva -->
+            <section id="sekce-kapitola01-predmluva" class="slide-sekce-knihy">
                 <h3 class="reveal">Kratochvilná předmluva</h3>
                 <p class="reveal" style="text-indent: 30px;">Už se těch veršů nějak nastřádalo. Je toho sice na knihu nikoli tučnou, ale řekněme lehce obéznější. A tak jsem začal přemýšlet nad vydáním své knižní prvotiny.</p>
                 <p class="reveal" style="text-indent: 30px;">Nevím proč, ale do hlavy mi při mé „vrozené“ skromnosti skočilo pár veršíků – taková drobná omluva za to, že jsem si vůbec troufnul. Posuďte sami, jak moc je mi skromnost vlastní.</p>
-            </div>
-        </section>
+            </section>
 
-        <section class="slide sbs-scena-detekce" data-barva="modra">
-            <div style="max-width: 600px; width: 100%;">
+            <!-- Sloka 2: Prvotina -->
+            <section class="slide-sekce-knihy">
                 <h3 class="reveal">Prvotina</h3>
                 <p class="reveal class-pismo-verse">Není to, lidé, vaše vina,<br>že vyšla tahle prvotina.</p>
-            </div>
-        </section>
+            </section>
 
-        <section class="slide sbs-scena-detekce" data-barva="sepia" style="position: relative;">
-            <div style="max-width: 600px; width: 100%;">
+            <!-- Sloka 3: Omluva skutečným básníkům -->
+            <section class="slide-sekce-knihy" style="position: relative;">
                 <h3 class="reveal">Omluva skutečným básníkům</h3>
                 <p class="reveal class-pismo-verse">Drazí básníci, jsem trošku nesmělý,<br>stydím se, že vám lezu do zelí.<br>Však věřte, tyto verše,<br>vám prostě chyběly.</p>
-            </div>
-            <div id="sbs-cti-dale-text" class="sbs-cti-dale">čti dále ↓</div>
-        </section>
+                
+                <div id="sbs-cti-dale-text" class="sbs-cti-dale">čti dále ↓</div>
+            </section>
+
+        </div>
 
     </div>
 
@@ -103,40 +113,26 @@
             var indicator = document.getElementById('sbs-indicator');
             var ctiDale = document.getElementById('sbs-cti-dale-text');
             var bgUvod = document.getElementById('bg-uvod');
-            var bgKapitola1 = document.getElementById('bg-kapitola1');
 
             if (indicator && odscrollovano > 10) { indicator.classList.add('skryt'); }
             if (ctiDale) { ctiDale.classList.remove('zobrazit'); }
 
-            if (odscrollovano > (vyskaOkna * 0.5)) {
+            // Plynulé odclonění úvodní kytice
+            if (odscrollovano > (vyskaOkna * 0.4)) {
                 if(bgUvod) bgUvod.classList.add('vypnout-bg');
-                if(bgKapitola1) bgKapitola1.classList.add('zapnout-bg');
             } else {
                 if(bgUvod) bgUvod.classList.remove('vypnout-bg');
-                if(bgKapitola1) bgKapitola1.classList.remove('zapnout-bg');
             }
-
-            var sceny = document.querySelectorAll('.sbs-scena-detekce');
-            sceny.forEach(function(scena) {
-                var hranice = scena.getBoundingClientRect();
-                if (hranice.top < (vyskaOkna * 0.5) && hranice.bottom > (vyskaOkna * 0.5)) {
-                    var barvaKodu = scena.getAttribute('data-barva');
-                    if(bgKapitola1) {
-                        bgKapitola1.classList.remove('tón-olivova', 'tón-modra', 'tón-sepia');
-                        bgKapitola1.classList.add('tón-' + barvaKodu);
-                    }
-                }
-            });
 
             var prvkyVerse = document.querySelectorAll('.reveal');
             prvkyVerse.forEach(function(prvek) {
                 var pozice = prvek.getBoundingClientRect().top;
-                if (pozice < vyskaOkna - 80) { prvek.classList.add('active'); }
+                if (pozice < vyskaOkna - 40) { prvek.classList.add('active'); }
             });
 
             clearTimeout(scrollTimeout);
             scrollTimeout = setTimeout(function() {
-                if (ctiDale && odscrollovano > (vyskaOkna * 1.5) && autoPosunInterval === null) {
+                if (ctiDale && odscrollovano > (vyskaOkna * 0.8) && autoPosunInterval === null) {
                     ctiDale.classList.add('zobrazit');
                 }
             }, 3000);

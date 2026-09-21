@@ -2,46 +2,49 @@ html, body {
   margin: 0;
   padding: 0;
   width: 100%;
-  overflow-x: hidden;
+  background-color: #f1f2e1; /* Výchozí barva odpovídající vaší grafice */
   font-family: 'Georgia', serif;
   color: #1a1a1a;
-
-  /* 🎬 BANNER BAREV: Nastavení výchozí barvy a spuštění extrémně pomalé animace (60 sekund) */
-  background-color: #f1f2e1; 
-  animation: sbsBarvyPozadi 20s infinite ease-in-out;
+  overflow-x: hidden;
 }
 
-/* 🎨 Definice jemňounkých barevných proměn podkladu */
-@keyframes sbsBarvyPozadi {
-  0% { background-color: #f1f2e1; }   /* Výchozí teplá krémová */
-  25% { background-color: #f3e6e8; }  /* Velmi jemná pudrová růžová */
-  50% { background-color: #e3ebea; }  /* Tichá, matná šedozelená */
-  75% { background-color: #e6ecf2; }  /* Jemňounká holubí modrá */
-  100% { background-color: #f1f2e1; } /* Návrat zpět do krémové */
-}
-
-/* Fixní filmové pozadí s kyticí (animace dýchání zůstává) */
+/* 🎬 SKUTEČNÉ FILMOVÉ PLÁTNO VE STYLU "THE BOAT" */
 .sbs-background {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
+  
+  /* Obrázek tvoří celou scénu a roztáhne se tak, aby pokryl každý kousek monitoru */
   background-image: url('flower01-B01.webp');
-  background-size: contain;
+  background-size: cover; 
   background-position: center center;
   background-repeat: no-repeat;
-  opacity: 0.35;
+  opacity: 0.45; /* Krásná, optimální filmová průhlednost pro čtení textu */
   z-index: 1;
   pointer-events: none;
-  will-change: transform; 
-  animation: sbsDychani 25s infinite ease-in-out;
+  
+  will-change: transform, filter; 
+  /* Spuštění dvou animací: jedna pro filmový pohyb plátna, druhá pro změnu tónování papíru */
+  animation: sbsKameraPohyb 40s infinite ease-in-out, sbsTonovaniGrafiky 60s infinite ease-in-out;
 }
 
-@keyframes sbsDychani {
-  0% { transform: scale(1) rotate(0deg); }
-  50% { transform: scale(1.08) rotate(1.5deg); }
-  100% { transform: scale(1) rotate(0deg); }
+/* 🎥 ANIMACE POHYBU KAMERY: Obraz vplouvá, mírně se přibližuje a putuje do stran */
+@keyframes sbsKameraPohyb {
+  0% { transform: scale(1.05) translate(0px, 0px) rotate(0deg); }
+  25% { transform: scale(1.12) translate(-15px, 10px) rotate(0.5deg); }  /* Vplouvání doprava a dolů */
+  50% { transform: scale(1.08) translate(10px, -15px) rotate(-0.5deg); }  /* Putování kamery jinam */
+  75% { transform: scale(1.15) translate(-5px, -5px) rotate(0.3deg); }
+  100% { transform: scale(1.05) translate(0px, 0px) rotate(0deg); }       /* Plynulý návrat na začátek */
+}
+
+/* 🎨 ANIMACE TÓNOVÁNÍ: Celá grafika (papír i kresba) plynule mění barevný odstín */
+@keyframes sbsTonovaniGrafiky {
+  0% { filter: sepia(0.2) hue-rotate(0deg); }
+  33% { filter: sepia(0.3) hue-rotate(330deg) saturate(1.1); } /* Nádech do jemně růžové nálady */
+  66% { filter: sepia(0.1) hue-rotate(180deg) saturate(0.9); } /* Nádech do chladnější tiché modré */
+  100% { filter: sepia(0.2) hue-rotate(0deg); }                /* Návrat k původní krémové litografii */
 }
 
 .story-container {
@@ -58,15 +61,16 @@ html, body {
   align-items: center;
   box-sizing: border-box;
   padding: 40px 20px;
-  padding-top: 150px; /* Zachovaný posun obsahu o 3 cm dolů */
+  padding-top: 150px; /* Zachovaný třícentimetrový posun pro text */
 }
 
+/* Plynulé roztažení textu při otevření */
 .nadpis-hlavni {
   font-size: 3rem;
   letter-spacing: 0.3em;
   text-transform: uppercase;
   margin-bottom: 10px;
-  color: #2c3e2e;
+  color: #1a2a1d;
   text-align: center;
   animation: vynoreniTitulu 2.5s ease-out forwards;
 }
@@ -81,11 +85,12 @@ html, body {
   letter-spacing: 0.15em;
   font-style: italic;
   text-transform: uppercase;
-  color: #666;
+  color: #444;
   margin-bottom: 50px;
   animation: fadeIn 3s ease-out forwards;
 }
 
+/* Jemné vznášení samotného verše */
 .vers {
   font-size: 2.5rem;
   line-height: 1.8;
@@ -93,7 +98,7 @@ html, body {
   font-weight: 300;
   max-width: 800px;
   color: #000;
-  text-shadow: 0 0 15px rgba(241, 242, 225, 0.9);
+  text-shadow: 0 0 20px rgba(241, 242, 225, 0.95);
   animation: plutiVerse 6s infinite ease-in-out;
 }
 
@@ -108,7 +113,7 @@ html, body {
   font-size: 0.8rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: #888;
+  color: #666;
   animation: pulse 2s infinite;
 }
 

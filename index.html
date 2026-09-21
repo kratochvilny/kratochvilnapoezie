@@ -6,7 +6,6 @@
     <title>Kratochvilná Poezie</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Sametový odhalovací efekt pro texty */
         .reveal {
             opacity: 0;
             transform: translateY(20px);
@@ -35,7 +34,7 @@
         </button>
     </div>
 
-    <!-- SVISLÁ LIŠTA (Pravá strana) -->
+    <!-- SVISLÁ LIŠTA -->
     <nav class="sbs-bocni-menu">
         <div class="sbs-bocni-polozka" onclick="skocNaSekci('sekce-uvod')">
             <span class="sbs-cislo">0</span>
@@ -54,37 +53,37 @@
     <div class="story-container">
         
         <!-- OBRAZOVKA 0: ÚVODNÍ STRANA -->
-        <section id="sekce-uvod" class="slide-intro-full">
+        <section id="sekce-uvod" class="slide">
             <h1 class="nadpis-hlavni">Kratochvilná Poezie</h1>
             <div class="autor">Kratochvilný Jan</div>
             <div class="motto-blok">
-                <p style="font-size: 1.4rem; font-style: italic; color: #4a5d4e; margin: 0 0 10px 0;">„Jak jsem myslil, tak vanished psal.“</p>
+                <p style="font-size: 1.4rem; font-style: italic; color: #4a5d4e; margin: 0 0 10px 0;">„Jak jsem myslil, tak jsem psal.“</p>
                 <p style="font-size: 2rem; font-weight: 300; color: #000; margin: 0;">„Svojí mysli, sobě král.“</p>
             </div>
             <p id="sbs-indicator" class="scroll-indicator">Vstupte do světa kratochvilné poezie</p>
         </section>
 
         <!-- ==========================================================================
-             📖 ÚTULNÝ KNIŽNÍ BLOK: Krátké odstupy, vše sedí dokonale u sebe zleva
+             📖 VYCENTROVANÝ OBSAH: Krátké rozestupy, všechno krásně na středu
              ========================================================================== -->
-        <div class="knizni-obsah-kontejner">
+        <div class="stredovy-obsah-kontejner">
             
             <!-- Sloka 1: Předmluva -->
             <section id="sekce-kapitola01-predmluva" class="slide-sekce-knihy">
-                <h3 class="reveal">Kratochvilná předmluva</h3>
+                <h3>Kratochvilná předmluva</h3>
                 <p class="reveal" style="text-indent: 30px;">Už se těch veršů nějak nastřádalo. Je toho sice na knihu nikoli tučnou, ale řekněme lehce obéznější. A tak jsem začal přemýšlet nad vydáním své knižní prvotiny.</p>
                 <p class="reveal" style="text-indent: 30px;">Nevím proč, ale do hlavy mi při mé „vrozené“ skromnosti skočilo pár veršíků – taková drobná omluva za to, že jsem si vůbec troufnul. Posuďte sami, jak moc je mi skromnost vlastní.</p>
             </section>
 
             <!-- Sloka 2: Prvotina -->
             <section class="slide-sekce-knihy">
-                <h3 class="reveal">Prvotina</h3>
+                <h3>Prvotina</h3>
                 <p class="reveal class-pismo-verse">Není to, lidé, vaše vina,<br>že vyšla tahle prvotina.</p>
             </section>
 
             <!-- Sloka 3: Omluva skutečným básníkům -->
             <section class="slide-sekce-knihy" style="position: relative;">
-                <h3 class="reveal">Omluva skutečným básníkům</h3>
+                <h3>Omluva skutečným básníkům</h3>
                 <p class="reveal class-pismo-verse">Drazí básníci, jsem trošku nesmělý,<br>stydím se, že vám lezu do zelí.<br>Však věřte, tyto verše,<br>vám prostě chyběly.</p>
                 
                 <div id="sbs-cti-dale-text" class="sbs-cti-dale">čti dále ↓</div>
@@ -117,7 +116,6 @@
             if (indicator && odscrollovano > 10) { indicator.classList.add('skryt'); }
             if (ctiDale) { ctiDale.classList.remove('zobrazit'); }
 
-            // Plynulé odclonění úvodní kytice
             if (odscrollovano > (vyskaOkna * 0.4)) {
                 if(bgUvod) bgUvod.classList.add('vypnout-bg');
             } else {

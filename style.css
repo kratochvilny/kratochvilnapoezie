@@ -241,6 +241,13 @@ html, body {
   opacity: 1 !important;
 }
 
+/* 🔧 KLÍČOVÁ POJISTKA PROTI BÍLÉMU PRUHU: 
+   Zajistí, že po dosednutí a aktivování obálky zůstane pozadí natvrdo tmavě šalvějové a nezbělá! */
+.obalka-inverzni.active {
+  background: #2c3e2e !important;
+}
+
+
 /* ==========================================================================
    🚫 TYPOGRAFIE: Zákaz zalamování nadpisů
    ========================================================================== */

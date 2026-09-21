@@ -1,4 +1,4 @@
-html<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="cs">
 <head>
     <meta charset="UTF-8">
@@ -40,7 +40,7 @@ html<!DOCTYPE html>
             <span class="sbs-cislo">0</span>
             <span class="sbs-nazev-kapitoly">Úvod</span>
         </div>
-        <div class="sbs-bocni-polozka" onclick="skocNaSekci('sekce-kapitola01-predmluva')">
+        <div class="sbs-bocni-polozka" onclick="skocNaSekci('kapitola1-kotva')">
             <span class="sbs-cislo">1</span>
             <span class="sbs-nazev-kapitoly">Kratochvilná předmluva</span>
         </div>
@@ -69,8 +69,10 @@ html<!DOCTYPE html>
             <p id="sbs-indicator" class="scroll-indicator">Vstupte do světa kratochvilné poezie</p>
         </section>
 
-        <!-- ZDE SE AUTOMATICKY ROZBALÍ OBSAH SOUBORU KAPITOLA01.HTML -->
-        <div id="externi-obsah-kapitoly"></div>
+        <!-- 🔧 NATÍVNÍ IMPORT: Tento tag bezpečně vtáhne soubor kapitoly na 100 % bez chyb JavaScriptu -->
+        <div id="kapitola1-kotva" style="width:100%;">
+            <object data="kapitola01.html" type="text/html" style="width:100%; height:300vh; display:block; overflow:hidden;" onload="inicializovatKapitolu(this)"></object>
+        </div>
 
     </div>
 
@@ -81,16 +83,15 @@ html<!DOCTYPE html>
         var autoPosunInterval = null;
         var jeZtlumeno = false;
         var scrollTimeout = null;
+        var vnitrniDokumentKapitoly = null;
 
-        // Bezpečné načtení textu z externího souboru
-        fetch('kapitola01.html')
-            .then(res => res.text())
-            .then(data => {
-                document.getElementById('externi-obsah-kapitoly').innerHTML = data;
-                window.addEventListener('scroll', aktualizovatWeb);
-                window.addEventListener('touchmove', aktualizovatWeb);
-                aktualizovatWeb();
-            }).catch(err => console.error("Chyba načítání:", err));
+        // Skript si po bezpečném načtení osahá vnitřek souboru kapitoly
+        function inicializovatKapitolu(objekt) {
+            vnitrniDokumentKapitoly = objekt.contentDocument || objekt.contentWindow.document;
+            window.addEventListener('scroll', aktualizovatWeb);
+            window.addEventListener('touchmove', aktualizovatWeb);
+            aktualizovatWeb();
+        }
 
         function skocNaSekci(idSekce) {
             var cilovaSekce = document.getElementById(idSekce);
@@ -104,12 +105,10 @@ html<!DOCTYPE html>
             var vyskaOkna = window.innerHeight;
             
             var indicator = document.getElementById('sbs-indicator');
-            var ctiDale = document.getElementById('sbs-cti-dale-text');
             var bgUvod = document.getElementById('bg-uvod');
             var bgKapitola1 = document.getElementById('bg-kapitola1');
 
             if (indicator && odscrollovano > 10) { indicator.classList.add('skryt'); }
-            if (ctiDale) { ctiDale.classList.remove('zobrazit'); }
 
             if (odscrollovano > (vyskaOkna * 0.5)) {
                 if(bgUvod) bgUvod.classList.add('vypnout-bg');
@@ -119,21 +118,40 @@ html<!DOCTYPE html>
                 if(bgKapitola1) bgKapitola1.classList.remove('zapnout-bg');
             }
 
-            var prvkyVerse = document.querySelectorAll('.reveal');
-            prvkyVerse.forEach(function(prvek) {
-                var pozice = prvek.getBoundingClientRect().top;
-                if (pozice < vyskaOkna - 80) {
-                    prvek.classList.add('active');
-                }
-            });
+            // 🧠 ČTENÍ PARAMETRŮ Z EXTERNÍHO SOUBORU
+            if (vnitrniDokumentKapitoly) {
+                var sceny = vnitrniDokumentKapitoly.querySelectorAll('.sbs-scena-detekce');
+                var ctiDale = vnitrniDokumentKapitoly.getElementById('sbs-cti-dale-text');
+                
+                if (ctiDale) { ctiDale.classList.remove('zobrazit'); }
 
-            clearTimeout(scrollTimeout);
-            scrollTimeout = setTimeout(function() {
-                if (ctiDale && odscrollovano > (vyskaOkna * 1.5) && autoPosunInterval === null) {
-                    ctiDale.classList.add('zobrazit');
-                }
-            }, 3000);
+                sceny.forEach(function(scena) {
+                    var hranice = scena.getBoundingClientRect();
+                    
+                    // Rozsvěcování textů uvnitř kapitoly
+                    var prvkyUvnitr = scena.querySelectorAll('.reveal');
+                    if (hranice.top < vyskaOkna - 80) {
+                        prvkyUvnitr.forEach(p => p.classList.add('active'));
+                    }
+
+                    // Detekce barvy zapsané v souboru kapitoly
+                    if (hranice.top < (vyskaOkna * 0.5) && hranice.bottom > (vyskaOkna * 0.5)) {
+                        var barvaKodu = scena.getAttribute('data-barva');
+                        bgKapitola1.classList.remove('tón-olivova', 'tón-modra', 'tón-sepia');
+                        bgKapitola1.classList.add('tón-' + barvaKodu);
+                    }
+                });
+
+                clearTimeout(scrollTimeout);
+                scrollTimeout = setTimeout(function() {
+                    if (ctiDale && odscrollovano > (vyskaOkna * 1.5) && autoPosunInterval === null) {
+                        ctiDale.classList.add('zobrazit');
+                    }
+                }, 3000);
+            }
         }
+
+        window.addEventListener('load', aktualizovatWeb);
 
         function spustitTichouHudbu() {
             audio.volume = 0.1;
@@ -165,13 +183,9 @@ html<!DOCTYPE html>
         function toggleAutoPosun() {
             var btn = document.getElementById('btn-posun');
             var indicator = document.getElementById('sbs-indicator');
-            var ctiDale = document.getElementById('sbs-cti-dale-text');
-            var prvkyVerse = document.querySelectorAll('.reveal');
             
             if (autoPosunInterval === null) {
                 if (indicator) { indicator.classList.add('skryt'); }
-                if (ctiDale) { ctiDale.classList.remove('zobrazit'); }
-                prvkyVerse.forEach(function(prvek) { prvek.classList.add('active'); });
 
                 autoPosunInterval = setInterval(function() {
                     window.scrollBy(0, 1);
@@ -179,7 +193,6 @@ html<!DOCTYPE html>
                         clearInterval(autoPosunInterval);
                         autoPosunInterval = null;
                         btn.classList.remove('aktivni');
-                        setTimeout(function() { if (ctiDale) { ctiDale.classList.add('zobrazit'); } }, 3000);
                     }
                 }, 35);
                 btn.classList.add('aktivni');

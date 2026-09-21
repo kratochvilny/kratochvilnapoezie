@@ -32,42 +32,45 @@ html, body {
              sbsTonovaniGrafiky 60s infinite ease-in-out;
 }
 
-
-/* ✒️ PLÁTNO B: BÁSŇÍK NA PRAVÉ STRANĚ (EFEKT TAHŮ ŠTĚTCEM - OPRAVENO) */
+/* 🔧 ✒️ PLÁTNO B: BÁSŇÍK NA PRAVÉ STRANĚ (FILMOVÝ PŘÍJEZD Z BOKU A ZESVĚTLENÍ) */
 .bg-basnik {
   background-image: url('basnik01.webp'); 
-  mix-blend-mode: multiply; 
+  mix-blend-mode: multiply; /* Totální vypaření bílých okrajů skenu do barvy papíru */
   background-size: contain; 
   background-repeat: no-repeat;
-  background-position: calc(100% - 50px) center; 
+  background-position: right center; 
   opacity: 0;
-  will-change: filter, opacity;
 }
 
-/* ✒️ PLÁTNO B: BÁSŇÍK NA PRAVÉ STRANĚ (ČISTÉ PROLNUTÍ BEZ BAREVNÝCH HRAN) */
-.bg-basnik {
-  background-image: url('basnik01.webp'); 
-  background-size: contain; 
-  background-repeat: no-repeat;
-  background-position: calc(100% - 50px) center; 
-  opacity: 0;
-  will-change: opacity;
-}
-
+/* 🔧 AKCE PŘÍJEZDU: Jakmile čtenář vjede do první kapitoly, spustí se souběh animací */
 .bg-basnik.zapnout-bg {
-  animation: sbsCisteZrozeni 3s ease-in-out forwards,
-             sbsKameraPohyb 40s infinite ease-in-out 3s;
+  /* 
+     1. sbsPrijezdZuboku: Obrázek 4 sekundy plynule přijíždí z pravého boku a zesvětluje.
+     2. sbsKameraPohyb: Nekonečné panoramatické plují pod textem (odložené o 4s).
+     3. sbsTonovaniGrafiky: Nekonečné barvotiskové tónování papíru (odložené o 4s).
+  */
+  animation: sbsPrijezdZboku 4s cubic-bezier(0.1, 0.8, 0.2, 1) forwards,
+             sbsKameraPohyb 40s infinite ease-in-out 4s, 
+             sbsTonovaniGrafiky 60s infinite ease-in-out 4s;
 }
 
-@keyframes sbsCisteZrozeni {
-  0% { opacity: 0; }
-  100% { opacity: 0.35; }
+/* Definice plynulého příjezdu z boku: začíná posunutý mimo monitor a tmavý, plynule vpluje a zesvětlá */
+@keyframes sbsPrijezdZboku {
+  0% {
+    opacity: 0;
+    transform: translate3d(120px, 0, 0) scale(0.95); /* Přijíždí z pravého boku z dálky */
+    filter: brightness(0.6) sepia(0.2); /* Začíná tmavší, v barvě pozadí */
+  }
+  100% {
+    opacity: 0.55; /* Jemné filmové rozzáření/zesvětlení na svém místě */
+    transform: translate3d(-50px, 0, 0) scale(1); /* Usadí se na pravé hraně s elegantním odstupem */
+    filter: brightness(1) sepia(0.2); /* Plné vyjasnění do tónu papíru */
+  }
 }
 
-/* Řízení plynulého prolínání vrstev pozadí */
+/* Společné prolínání vrstev */
 .bg-kytice:not(.vypnout-bg) { opacity: 0.35; }
 .bg-kytice.vypnout-bg { opacity: 0; }
-.bg-basnik.zapnout-bg { opacity: 0.55; }
 
 @keyframes sbsFilmoveVpluti {
   0% { transform: scale(0.96); filter: brightness(0) blur(20px) sepia(0.2); }
@@ -184,12 +187,12 @@ html, body {
   box-sizing: border-box;
   padding: 0 20px;
   
-  /* 🔧 VERŠE VLEVO: Všechny kapitoly se na počítači zarovnají k levé straně */
+  /* 🔧 VŠECHNO VLEVO: Nadpisy i verše kapitol jsou na počítači zarovnány striktně k levé straně */
   align-items: flex-start;
-  padding-left: 10vw; /* Elegantní 10% odstup textu od levé hrany monitoru */
+  padding-left: 10vw; /* Vzdušný 10% odstup od levého okraje monitoru */
 }
 
-/* Úvodní strana ale musí zůstat dokonale vycentrovaná na střed */
+/* Výjimka pro úvodní stranu – ta drží vyvážený střed */
 .slide-intro {
   justify-content: center; 
   align-items: center !important;
@@ -260,7 +263,7 @@ html, body {
   pointer-events: none;
 }
 
-/* 🔧 KNIŽNÍ VELIKOST TEXTU BÁSNÍ: Zarovnání vlevo, aby text neutíkal do básníka */
+/* 🔧 KNIŽNÍ VELIKOST TEXTU BÁSNÍ: Úhledné, prémiové a zarovnané čistě vlevo */
 .class-pismo-verse {
   font-family: 'Georgia', serif;
   font-size: 1.45rem !important; 
@@ -268,14 +271,20 @@ html, body {
   font-weight: 300;
   color: #000;
   letter-spacing: 0.02em;
-  text-align: left; /* Zarovnání vlevo */
+  text-align: left; /* Zarovnání textu vlevo */
   text-shadow: 0 0 25px rgba(241, 242, 225, 0.95);
+}
+
+/* Úprava nadpisů uvnitř kapitol pro srovnání k levé straně */
+.slide h3 {
+  text-align: left !important;
+  width: 100%;
 }
 
 .sbs-cti-dale {
   position: absolute;
   bottom: 80px; 
-  left: 10vw; /* Přesunuto na levou stranu pod zarovnaný text */
+  left: 10vw; /* Ukotveno na levé straně pod zarovnaným textem */
   font-size: 0.95rem;
   letter-spacing: 0.15em;
   font-style: italic; 
@@ -299,10 +308,11 @@ html, body {
 }
 
 /* ==========================================================================
-   📱 RESPONSIVITA PRO MOBILY (Na mobilu text zůstane centrovaný a lišta zmizí)
+   📱 RESPONSIVITA PRO MOBILY (Na mobilu text zůstane vycentrovaný pro čitelnost)
    ========================================================================== */
 @media (max-width: 768px) {
   .slide { align-items: center !important; padding-left: 20px !important; }
+  .slide h3 { text-align: center !important; }
   .class-pismo-verse { text-align: center !important; font-size: 1.25rem !important; line-height: 1.7 !important; }
   .sbs-bocni-menu { display: none !important; }
   .ovladani-panel { position: fixed; top: auto; bottom: 15px; left: 50%; transform: translateX(-50%); gap: 25px; z-index: 100; }
@@ -311,5 +321,5 @@ html, body {
   .autor { font-size: 0.95rem; letter-spacing: 0.1em; }
   .scroll-indicator { bottom: 85px; font-size: 0.8rem; line-height: 1.4; }
   .sbs-cti-dale { left: 50% !important; transform: translateX(-50%); bottom: 85px; font-size: 0.85rem; }
-  .bg-basnik { background-position: center center; } /* Na mobilu básník vycentrován pod text */
+  .bg-basnik { background-position: center center; } 
 }

@@ -1,5 +1,5 @@
 /* ==========================================================================
-   🎬 SPOLEČNÝ BAREVNÝ KOLOBĚH PRO CELÝ WEB
+   🎨 5 JEMNÝCH PASTELOVÝCH BAREV (Plynulý přeliv každých 5 vteřin, celkem 25s cyklus)
    ========================================================================== */
 html, body {
   margin: 0;
@@ -8,7 +8,9 @@ html, body {
   font-family: 'Georgia', serif;
   color: #1a1a1a;
   overflow-x: hidden;
-  animation: sbsSpolecnyKolobehBarev 15s infinite ease-in-out;
+  
+  /* Synchronizovaný koloběh 5 pastelových tónů pro podkladový papír */
+  animation: sbsPetBarevPastely 25s infinite ease-in-out;
 }
 
 .sbs-background {
@@ -33,13 +35,13 @@ html, body {
              sbsKameraPohybUvod 40s infinite ease-in-out 5s;
 }
 
-/* ✒️ BÁSŇÍK: Drží se bezpečně napravo a dýchá */
+/* ✒️ BÁSŇÍK: Drží se stabilně napravo, dýchá a kopíruje barevné podklady */
 .bg-basnik {
   background-image: url('basnik01.webp'); 
   mix-blend-mode: multiply; 
   background-size: contain; 
   background-repeat: no-repeat;
-  background-position: calc(100% - 60px) center; /* Pevně na pravé polovině */
+  background-position: calc(100% - 60px) center; 
   opacity: 0;
   animation: sbsDychaniBasnika 14s infinite ease-in-out;
 }
@@ -48,10 +50,13 @@ html, body {
 .bg-kytice:not(.vypnout-bg) { opacity: 0.35; }
 .bg-kytice.vypnout-bg { opacity: 0; }
 
-@keyframes sbsSpolecnyKolobehBarev {
-  0%, 100% { background-color: #f1f2e1; } 
-  33% { background-color: #e2e8df; }      
-  66% { background-color: #dfdecc; }      
+/* 🔧 MATEMATIKA 5 PASTELOVÝCH BAREV: Růžová -> Modrá -> Zelená -> Okrová -> Nažloutlá */
+@keyframes sbsPetBarevPastely {
+  0%, 100% { background-color: #f7e9e9; } /* 1. Jemná pastelová růžová */
+  20% { background-color: #e4edf4; }      /* 2. Tichá pastelová modrá */
+  40% { background-color: #e5f1e8; }      /* 3. Svěží pastelová zelená */
+  60% { background-color: #f2ede0; }      /* 4. Hřejivá pastelová okrová */
+  80% { background-color: #f6f5e3; }      /* 5. Tradiční knižní nažloutlá */
 }
 
 @keyframes sbsFilmoveVpluti {
@@ -117,12 +122,12 @@ html, body {
 .scroll-indicator.skryt { opacity: 0 !important; pointer-events: none; }
 
 /* ==========================================================================
-   ✉️ STRUKTURA BÍLÝCH OBÁLEK S NEPRAVIDELNÝMI ROHY (Zarovnáno do volného pole)
+   ✉️ KNIŽNÍ SADA: RŮZNÉ VELIKOSTI A ORGANICKÉ TVARY OBÁLEK
    ========================================================================== */
 .knizni-obsah-kontejner {
   display: flex;
   flex-direction: column;
-  padding-left: 8vw; /* Bezpečné levé pole monitoru */
+  padding-left: 8vw; 
   padding-bottom: 25vh;
 }
 
@@ -130,51 +135,47 @@ html, body {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin-bottom: 70px;
-  width: 100%;
-  max-width: 460px; /* 🔧 ŠÍŘKA OBÁLKY: Drží text vlevo, aby nezasahoval do básníka vpravo */
+  margin-bottom: 90px;
+  background: rgba(255, 255, 255, 0.94); 
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.04); 
   
-  /* Vzhled dopisní obálky */
-  background: rgba(255, 255, 255, 0.94); /* Čisté bílé pozadí */
-  padding: 30px 35px;
-  box-sizing: border-box;
-  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.04); /* Velmi jemný stín pod dopisem */
-  
-  will-change: transform, opacity;
-  transition: transform 1.8s cubic-bezier(0.15, 0.85, 0.35, 1), opacity 1.8s ease-out;
+  /* 🔧 MAXIMÁLNĚ PLYNULÉ PERMANENTNÍ VLÉTŇUTÍ: Trvá 3.5 vteřiny */
+  transition: transform 3.5s cubic-bezier(0.1, 0.85, 0.25, 1), opacity 3.5s ease-out !important;
 }
 
-/* 🔧 ODLIŠNÉ TVARY ROHŮ PRO KAŽDOU OBÁLKU */
-.obalka-zleva { border-radius: 24px 12px 30px 18px; }
-.obalka-zhora { border-radius: 14px 35px 16px 28px; }
-.obalka-zdola { border-radius: 30px 16px 32px 14px; }
-
-/* ==========================================================================
-   🎬 KINETICKÉ TRAJEKTORIE VJEZDU PRO JEDNOTLIVÉ OBÁLKY
-   ========================================================================== */
-
-/* 1. Předmluva: Vjíždí mírně šikmo z levého boku */
-.obalka-zleva {
-  transform: translate3d(-100px, 20px, 0) rotate(-4deg);
+/* 1. OBÁLKA (Předmluva): Užší, protáhlá dolů */
+.obalka-zleva { 
+  max-width: 440px;
+  padding: 40px 45px;
+  border-radius: 28px 14px 35px 20px; 
+  transform: translate3d(-150px, 40px, 0) rotate(-6deg); 
 }
 
-/* 2. Prvotina: Sleduje směr zhora dolů, stočená doprava */
-.obalka-zhora {
-  transform: translate3d(0, -120px, 0) rotate(5deg);
+/* 2. OBÁLKA (Prvotina): Široká, nízká */
+.obalka-zhora { 
+  max-width: 530px;
+  padding: 30px 40px;
+  border-radius: 16px 45px 18px 32px; 
+  transform: translate3d(30px, -180px, 0) rotate(7deg); 
 }
 
-/* 3. Omluva básníkům: Vystřeluje zdola nahoru, stočená doleva */
-.obalka-zdola {
-  transform: translate3d(20px, 120px, 0) rotate(-3deg);
+/* 3. OBÁLKA (Omluva básníkům): Kompaktní čtvercový tvar */
+.obalka-zdola { 
+  max-width: 470px;
+  padding: 35px 35px;
+  border-radius: 40px 18px 42px 16px; 
+  transform: translate3d(-40px, 180px, 0) rotate(-4deg); 
 }
 
-/* 🔥 AKTIVNÍ STAV (PŘÍLET): Obálka dosedne hladce na svou pozici a vyrovná se */
+/* 🔥 PERMANENTNÍ DOS基DNUTÍ: Pokaždé, když obálka najede do zorného pole, vyrovná se */
 .slide-sekce-knihy.active {
   transform: translate3d(0, 0, 0) rotate(0deg) !important;
   opacity: 1 !important;
 }
 
-/* Stylování vnitřku obálek */
+/* ==========================================================================
+   🚫 TYPOGRAFIE: Absolutní zákaz zalamování nadpisů
+   ========================================================================== */
 .slide-sekce-knihy h3 {
   font-family: 'Georgia', serif; 
   font-weight: normal; 
@@ -182,8 +183,11 @@ html, body {
   letter-spacing: 0.15em; 
   font-size: 1.25rem; 
   color: #1a2a1d; 
-  text-align: left !important;
   margin: 0 0 14px 0;
+  
+  /* Pevně v jednom řádku */
+  white-space: nowrap !important; 
+  display: block;
 }
 
 .class-pismo-verse {
@@ -224,7 +228,9 @@ html, body {
 /* 📱 RESPONSIVITA PRO MOBILY */
 @media (max-width: 768px) {
   .knizni-obsah-kontejner { padding-left: 15px !important; padding-right: 15px !important; }
-  .slide-sekce-knihy { max-width: 100% !important; padding: 25px 20px !important; }
+  .slide-sekce-knihy { max-width: 100% !important; padding: 25px 20px !important; align-items: center !important; }
+  .slide-sekce-knihy h3 { text-align: center !important; white-space: normal !important; }
+  .class-pismo-verse { text-align: center !important; font-size: 1.25rem !important; }
   .sbs-bocni-menu { display: none !important; }
   .ovladani-panel { position: fixed; top: auto; bottom: 15px; left: 50%; transform: translateX(-50%); gap: 25px; z-index: 100; }
   .sbs-ikona-btn { width: 48px; height: 48px; background: rgba(241, 242, 225, 0.9); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); }

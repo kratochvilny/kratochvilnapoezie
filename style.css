@@ -213,15 +213,19 @@ html, body {
   border-radius: 40px 18px 42px 16px; 
   transform: translate3d(-40px, 180px, 0) rotate(-4deg); 
 }
-/* 🔧 4. INVERZNÍ OBÁLKA: Tmavě pastelový šalvějový podklad, jiná velikost a směr příletu */
+/* 🔧 4. INVERZNÍ OBÁLKA: Absolutní pojistka proti bílému pruhu */
 .obalka-inverzni {
-  max-width: 490px;
-  padding: 38px 42px;
-  background: #2c3e2e !important; /* Výrazná tmavá pastelová barva */
-  border-radius: 20px 38px 15px 40px; /* Unikátní zaoblené rohy */
-  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.12);
-  transform: translate3d(150px, 60px, 0) rotate(5deg); /* Přilétá pozvolna nakřivo z pravého dolního rohu */
+  max-width: 490px !important;
+  padding: 38px 42px !important;
+  
+  /* 🔧 KLÍČOVÁ OPRAVA: Tento řádek přebije výchozí bílou barvu a obarví dopis do šalvěje */
+  background: #2c3e2e !important; 
+  
+  border-radius: 20px 38px 15px 40px !important; 
+  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.12) !important;
+  transform: translate3d(150px, 60px, 0) rotate(5deg); 
 }
+
 
 /* 🔧 AKTIVACE DYNAMICKÉHO ZRYCHLENÍ: Přepne tónování podkladu z 25s na super rychlých 8 vteřin */
 .sbs-zrychlit-barvy {

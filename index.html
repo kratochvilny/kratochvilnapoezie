@@ -6,6 +6,7 @@
     <title>Kratochvilná Poezie</title>
     <link rel="stylesheet" href="style.css">
     <style>
+        /* Pojistka pro hladké odhalení prvků */
         .reveal {
             opacity: 0;
             transform: translateY(30px);
@@ -47,13 +48,16 @@
 
         <!-- 2. OBRAZOVKA -->
         <section class="slide slide-poem">
-             <!-- Nový úvodní verš v kurzívě -->
+            <!-- Úvodní verš v kurzívě -->
             <p class="vers reveal" style="font-size: 1.5rem; font-style: italic; margin-bottom: 20px; color: #4a5d4e;">
                 ... a že si básník za svým slovem stál, je ...
             </p>
             
-             <!-- Hlavní ústřední verš -->
+            <!-- Hlavní ústřední verš -->
             <p class="vers reveal">„Svojí mysli, sobě král.“</p>
+
+            <!-- 🔧 NOVÝ PRVEK: Odložená nápověda „Čti dále ↓“, která se ukáže až po 3 sekundách -->
+            <div class="reveal sbs-cti-dale">Čti dále ↓</div>
         </section>
 
     </div>
@@ -65,18 +69,15 @@
         var autoPosunInterval = null;
         var jeZtlumeno = false;
 
-        // 🧠 OPRAVENÁ STRÁNKOVÁ LOGIKA: Rozsvítí spolehlivě všechny řádky básně
         function aktualizovatWeb() {
             var odscrollovano = window.scrollY || window.pageYOffset;
             var vyskaOkna = window.innerHeight;
             
-            // 1. Zmizení textu na spodku hlavní strany
             var indicator = document.getElementById('sbs-indicator');
             if (indicator && odscrollovano > 10) {
                 indicator.classList.add('skryt');
             }
 
-            // 2. 🔧 FIX: Vyhledá všechny prvky s básní a plynule rozsvítí oba řádky naráz
             var prvkyVerse = document.querySelectorAll('.reveal');
             if (odscrollovano > (vyskaOkna * 0.3)) {
                 prvkyVerse.forEach(function(prvek) {
@@ -129,7 +130,6 @@
             if (autoPosunInterval === null) {
                 if (indicator) { indicator.classList.add('skryt'); }
 
-                // 🔧 FIX: Při zapnutí Kino režimu rovnou rozsvítíme kompletní text básně
                 prvkyVerse.forEach(function(prvek) {
                     prvek.classList.add('active');
                 });

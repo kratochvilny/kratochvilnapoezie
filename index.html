@@ -38,11 +38,18 @@
 
     <div class="story-container">
 
-        <!-- 1. OBRAZOVKA -->
+        <!-- 1. ÚVODNÍ OBRAZOVKA -->
         <section class="slide slide-intro">
             <h1 class="nadpis-hlavni">Kratochvilná Poezie</h1>
             <div class="autor">Kratochvilný Jan</div>
-            <div class="scroll-indicator">Skrolujte dolů ↓</div>
+            <!-- 🔧 NOVÝ PRVEK: Podtitul, který se zpožděně rozsvítí -->
+            <div class="podtitul-kratochvilna">kratochvilná...</div>
+            
+            <!-- 🔧 UPRAVENÝ TEXT: Otevřít sbírku se zachovanou šipkou -->
+            <div class="scroll-indicator">
+                OTEVŘÍT SBÍRKU
+                <span class="sbs-sipka">↓</span>
+            </div>
         </section>
 
         <!-- 2. OBRAZOVKA -->
@@ -59,7 +66,6 @@
         var autoPosunInterval = null;
         var jeZtlumeno = false;
 
-        // 🧠 Sledování skrolování čistě pro odhalení textu
         function kontrolaSkrolu() {
             var odscrollovano = window.scrollY || window.pageYOffset;
             var vyskaOkna = window.innerHeight;
@@ -74,7 +80,6 @@
         window.addEventListener('touchmove', kontrolaSkrolu);
         window.addEventListener('load', kontrolaSkrolu);
 
-        // 🔧 PŘÍSNÁ SPRÁVA AUDIA: Žádné automatické spouštění skrolováním ani klikáním do prázdna
         function spustitTichouHudbu() {
             audio.volume = 0.1;
             audio.play().then(function() {
@@ -82,7 +87,6 @@
             }).catch(function(e) { console.log(e); });
         }
 
-        // Zvuk reaguje výhradně na stisknutí tlačítka reproduktoru
         btnZvuk.addEventListener('click', function(e) {
             e.stopPropagation(); 
             if (audio.paused) {
@@ -95,7 +99,6 @@
             }
         });
 
-        // FULLSCREEN REŽIM
         function toggleFullscreen() {
             var btn = document.getElementById('btn-fullscreen');
             if (!document.fullscreenElement) {
@@ -109,7 +112,6 @@
             }
         }
 
-        // KINO REŽIM (AUTOMATICKÝ POSUN)
         function toggleAutoPosun() {
             var btn = document.getElementById('btn-posun');
             
@@ -123,8 +125,6 @@
                     }
                 }, 35);
                 btn.classList.add('aktivni');
-                
-                // Při zapnutí kina se hudba spustí jako součást filmového zážitku
                 if (audio.paused && !jeZtlumeno) { spustitTichouHudbu(); }
             } else {
                 clearInterval(autoPosunInterval);

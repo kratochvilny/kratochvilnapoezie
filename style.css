@@ -27,27 +27,31 @@ html, body {
   background-image: url('flower01-B01.webp');
   animation: sbsFilmoveVpluti 5s cubic-bezier(0.25, 1, 0.5, 1) forwards,
              sbsKameraPohybUvod 40s infinite ease-in-out 5s, 
-             sbsTonovaniGrafiky 60s infinite ease-in-out;
+             sbsTonovaniGrafiky 30s infinite ease-in-out;
 }
 
+/* ✒️ BÁSŇÍK: Pevný napravo s uměleckými šmouhami štětcem a barevným přelivem */
 .bg-basnik {
   background-image: url('basnik01.webp'); 
   mix-blend-mode: multiply; 
   background-size: contain; 
   background-repeat: no-repeat;
-  background-position: calc(100% - 60px) center; 
+  background-position: center center; 
   opacity: 0;
-  transition: opacity 2.5s ease-in-out, filter 3s ease-in-out !important; 
-  animation: sbsDychaniBasnika 16s infinite ease-in-out;
+  
+  /* 🔧 MULTI-MASKA PRO ŠMOUHY ŠTĚTCEM: Rozpije a roztřepí okraje obrázku do ztracena */
+  -webkit-mask-image: radial-gradient(circle, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 85%),
+                      linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,1) 15%, rgba(0,0,0,1) 85%, rgba(0,0,0,0));
+  mask-image: radial-gradient(circle, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 85%),
+              linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,1) 15%, rgba(0,0,0,1) 85%, rgba(0,0,0,0));
+  
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+  
+  animation: sbsBarevnyKolobehBasnika 25s infinite ease-in-out,
+             sbsDychaniBasnika 14s infinite ease-in-out;
 }
 
-.bg-basnik.tón-olivova { filter: sepia(0.6) hue-rotate(60deg) saturate(1.2) brightness(0.95); }
-.bg-basnik.tón-modra { filter: sepia(0.4) hue-rotate(190deg) saturate(1.6) brightness(0.85); }
-.bg-basnik.tón-sepia { filter: sepia(0.8) hue-rotate(0deg) saturate(0.9) brightness(1); }
-
-.bg-kytice:not(.vypnout-bg) { opacity: 0.35; }
-.bg-kytice.vypnout-bg { opacity: 0; }
-.bg-basnik.zapnout-bg { opacity: 0.55; }
 
 @keyframes sbsFilmoveVpluti {
   0% { transform: scale(0.96); filter: brightness(0) blur(20px) sepia(0.2); }

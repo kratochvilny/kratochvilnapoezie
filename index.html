@@ -38,13 +38,13 @@
 
     <div class="story-container">
 
-        <!-- 1. ÚVODNÍ OBRAZOVKA (Vše opraveno a vyčištěno) -->
+        <!-- 1. ÚVODNÍ OBRAZOVKA (Nápisy jsou opět čistě uprostřed monitoru) -->
         <section class="slide slide-intro">
             <h1 class="nadpis-hlavni">Kratochvilná Poezie</h1>
             <div class="autor">Kratochvilný Jan</div>
             
-            <!-- 🔧 ČISTÉ ZNĚNÍ: Pouze vyžádaný text a šipka dole -->
-            <div class="scroll-indicator">OTEVŘÍT SBÍRKU ↓</div>
+            <!-- 🔧 NOVÝ TEXT: Vstupte do světa kratochvilné poezie -->
+            <div id="sbs-indicator" class="scroll-indicator">Vstupte do světa kratochvilné poezie</div>
         </section>
 
         <!-- 2. OBRAZOVKA -->
@@ -61,19 +61,26 @@
         var autoPosunInterval = null;
         var jeZtlumeno = false;
 
-        function kontrolaSkrolu() {
+        function aktualizovatWeb() {
             var odscrollovano = window.scrollY || window.pageYOffset;
             var vyskaOkna = window.innerHeight;
-            var element = document.querySelector('.reveal');
+            var elementVers = document.querySelector('.reveal');
+            var indicator = document.getElementById('sbs-indicator');
 
-            if (element && odscrollovano > (vyskaOkna * 0.3)) {
-                element.classList.add('active');
+            // Jakmile uživatel pohne stránkou o 10 pixelů dolů, text výzvy okamžitě plynule zmizí
+            if (indicator && odscrollovano > 10) {
+                indicator.classList.add('skryt');
+            }
+
+            // Odhalení verše při hlubším skrolu
+            if (elementVers && odscrollovano > (vyskaOkna * 0.3)) {
+                elementVers.classList.add('active');
             }
         }
 
-        window.addEventListener('scroll', kontrolaSkrolu);
-        window.addEventListener('touchmove', kontrolaSkrolu);
-        window.addEventListener('load', kontrolaSkrolu);
+        window.addEventListener('scroll', aktualizovatWeb);
+        window.addEventListener('touchmove', aktualizovatWeb);
+        window.addEventListener('load', aktualizovatWeb);
 
         function spustitTichouHudbu() {
             audio.volume = 0.1;
@@ -109,8 +116,11 @@
 
         function toggleAutoPosun() {
             var btn = document.getElementById('btn-posun');
+            var indicator = document.getElementById('sbs-indicator');
             
             if (autoPosunInterval === null) {
+                if (indicator) { indicator.classList.add('skryt'); }
+
                 autoPosunInterval = setInterval(function() {
                     window.scrollBy(0, 1);
                     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 5) {

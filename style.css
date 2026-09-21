@@ -9,7 +9,7 @@ html, body {
   overflow-x: hidden;
 }
 
-/* 🎬 🎥 SKUTEČNÉ FILMOVÉ PLÁTNO: Grafika při načtení plynule vpluje z temnoty a mlhy (Styl THE BOAT) */
+/* 🎬 🎥 FILMOVÉ PLÁTNO: Grafika plynule vpluje z temnoty a mlhy (Styl THE BOAT) */
 .sbs-background {
   position: fixed;
   top: 0;
@@ -25,28 +25,24 @@ html, body {
   pointer-events: none;
   will-change: transform, filter; 
   
-  /* Spuštění tří animací: 
-     1. sbsFilmoveVpluti (proběhne jen jednou na začátku po dobu 5 vteřin)
-     2. sbsKameraPohyb (nekonečné plující posouvání kamery do stran)
-     3. sbsTonovaniGrafiky (nekonečná jemná proměna barevných nálad papíru) */
+  /* Tripple animace: Úvodní vplutí (5s), plynulý nekonečný pohyb kamery a tónování barev */
   animation: sbsFilmoveVpluti 5s cubic-bezier(0.25, 1, 0.5, 1) forwards,
              sbsKameraPohyb 40s infinite ease-in-out 5s, 
              sbsTonovaniGrafiky 60s infinite ease-in-out;
 }
 
-/* 👁️ KOUZLO VPLOUTÍ: Obraz začíná zcela černý, rozmazaný a zmenšený, během 5 vteřin se plynule rozzáří a zaostří */
+/* Kytice začíná černá a rozmazaná, během 5 vteřin se plynule zaostří a rozzáří */
 @keyframes sbsFilmoveVpluti {
   0% { 
-    transform: scale(0.96); /* Obraz vplouvá z mírného odstupu */
-    filter: brightness(0) blur(20px) sepia(0.2); /* Úplná tma a mlha */
+    transform: scale(0.96);
+    filter: brightness(0) blur(20px) sepia(0.2);
   }
   100% { 
-    transform: scale(1.02); /* Plynule vyroste do své výchozí pozice */
-    filter: brightness(1) blur(0px) sepia(0.2);  /* Dokonalé vyjasnění a zaostření kresby */
+    transform: scale(1.02);
+    filter: brightness(1) blur(0px) sepia(0.2);
   }
 }
 
-/* Původní plynulé posouvání kamery (spustí se automaticky navazujícím způsobem po 5 vteřinách) */
 @keyframes sbsKameraPohyb {
   0% { transform: scale(1.02) translate(0px, 0px) rotate(0deg); }
   25% { transform: scale(1.08) translate(-10px, 8px) rotate(0.3deg); }
@@ -140,7 +136,7 @@ html, body {
   opacity: 0;
   color: #1a2a1d;
   will-change: opacity, transform;
-  animation: sbsPlynuleSyceniBarvy 4s ease-in-out forwards;
+  animation: sbsCisteRozsviceniTextu 4s ease-in-out forwards;
 }
 
 /* Autor */
@@ -153,15 +149,15 @@ html, body {
   margin: 0;
   text-align: center;
   opacity: 0;
-  animation: sbsPlynuleSyceniBarvy 4s ease-in-out forwards;
+  animation: sbsCisteRozsviceniTextu 4s ease-in-out forwards;
 }
 
-@keyframes sbsPlynuleSyceniBarvy {
+@keyframes sbsCisteRozsviceniTextu {
   0% { opacity: 0; }
   100% { opacity: 1; }
 }
 
-/* VSTUPTE DO SVĚTA... */
+/* 🔧 VSTUPTE DO SVĚTA... (Stoprocentně pojištěné svícení a dýchání jasu) */
 .scroll-indicator {
   font-size: 0.9rem;
   letter-spacing: 0.2em;
@@ -169,14 +165,16 @@ html, body {
   color: #4a5d4e;   
   text-align: center;
   width: 100%;
-  margin: 180px 0 0 0; 
+  margin: 180px 0 0 0; /* Zachovaná 5 cm mezera pod autorem */
+  
+  /* Startovní viditelnost je natvrdo 1, animace pulse řeší plynulé dýchání jasu */
   opacity: 1;
   will-change: opacity;
-  animation: pulse 3s infinite ease-in-out;
+  animation: sbsDychaniIndikatoru 3s infinite ease-in-out;
   transition: opacity 0.8s ease-out;
 }
 
-@keyframes pulse {
+@keyframes sbsDychaniIndikatoru {
   0% { opacity: 0.4; }
   50% { opacity: 1; }
   100% { opacity: 0.4; }

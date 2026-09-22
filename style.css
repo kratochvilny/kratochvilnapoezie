@@ -375,29 +375,3 @@ html, body {
 
   }
 }
-/* ... vaše stávající styly pro menu, texty atd. ... */
-
-.bg-kytice {
-    background-image: url('kytice.jpg');
-}
-
-.bg-basnik {
-    background-image: url('basnik.jpg');
-}
-
-/* SEM VLOŽÍTE NOVÝ KÓD: */
-.bg-vlnky {
-    background-image: url('cesta-k-obrazku/vlnky.jpg'); /* Nezapomeňte upravit název obrázku */
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-}
-/* Když je aktivní slajd s vlnkami, básník se plynule změní na vlnky */
-.slajd-vlnky.reveal .bg-basnik,
-.slajd-vlnky.active .bg-basnik {
-  background-image: url('vlnky.webp') !important;
-  mix-blend-mode: normal; /* Aby vlnky nebyly potlačené režimem multiply, pokud nechcete */
-  background-size: cover;
-  background-position: center center;
-  opacity: 0.55;
-}

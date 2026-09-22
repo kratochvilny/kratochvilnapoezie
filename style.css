@@ -375,16 +375,3 @@ html, body {
 
   }
 }
-/* ==========================================================================
-   🔥 DECEDNTNÍ STŘÍDÁNÍ: Čistě bílá a velmi jemný nádech žluté
-   ========================================================================== */
-
-/* Každá liché karta (1, 3, 5...) – Bezpečně pojistíme čistě bílou */
-section.slide-sekce-knihy:nth-of-type(2n+1) {
-  background: rgba(255, 255, 255, 0.95) !important;
-}
-
-/* Každá sudá karta (2, 4, 6...) – Pouze extrémně jemný nádech do krémové/žluté */
-section.slide-sekce-knihy:nth-of-type(2n) {
-  background: rgba(253, 251, 241, 0.95) !important;
-}

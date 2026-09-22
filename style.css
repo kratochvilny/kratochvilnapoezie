@@ -375,3 +375,20 @@ html, body {
 
   }
 }
+/* ... vaše stávající styly pro menu, texty atd. ... */
+
+.bg-kytice {
+    background-image: url('kytice.jpg');
+}
+
+.bg-basnik {
+    background-image: url('basnik.jpg');
+}
+
+/* SEM VLOŽÍTE NOVÝ KÓD: */
+.bg-vlnky {
+    background-image: url('cesta-k-obrazku/vlnky.jpg'); /* Nezapomeňte upravit název obrázku */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}

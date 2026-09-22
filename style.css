@@ -375,3 +375,26 @@ html, body {
 
   }
 }
+/* ==========================================================================
+   🔥 OVERRIDE: AUTOMATICKÉ POTLAČENÍ STARÝCH BAREV A NASTAVENÍ STŘÍDÁNÍ PASTELŮ
+   ========================================================================== */
+
+/* 1. karta, 5. karta... (Potlačí starou barvu -> Jemná růžová) */
+section.slide-sekce-knihy:nth-of-type(4n+1) {
+  background: rgba(251, 237, 237, 0.94) !important;
+}
+
+/* 2. karta, 6. karta... (Potlačí starou barvu -> Jemná modrá) */
+section.slide-sekce-knihy:nth-of-type(4n+2) {
+  background: rgba(230, 240, 247, 0.94) !important;
+}
+
+/* 3. karta, 7. karta... (Potlačí starou barvu -> Jemná zelená) */
+section.slide-sekce-knihy:nth-of-type(4n+3) {
+  background: rgba(231, 243, 234, 0.94) !important;
+}
+
+/* 4. karta, 8. karta... (Potlačí starou barvu -> Jemná okrová) */
+section.slide-sekce-knihy:nth-of-type(4n+4) {
+  background: rgba(246, 243, 227, 0.94) !important;
+}

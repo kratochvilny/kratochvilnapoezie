@@ -373,21 +373,21 @@ html, body {
     background: #2c3e2e !important;
   }
 /* ==========================================================================
-   🎨 PLYNULÁ ROTACE GRAFIKY BÁSNÍKA (Celkem 5 obrázků, cyklus 25 sekund)
-   ========================================================================== */
+   🔥 ČISTÁ ROTACE: Mění pouze soubor, zachovává mix-blend a průhlednost
+   ========================================================================= */
 
-/* Prodloužili jsme celkový čas na 25s, aby každý obrázek měl svých 5 sekund */
-.bg-basnik {
+/* Použijeme stávající prvek a bezpečně k němu přibalíme časovanou rotaci */
+body .bg-basnik {
   animation: sbsDychaniBasnika 14s infinite ease-in-out,
-             sbsStridaniObrazkuBasnika 25s infinite steps(1, end);
+             sbsCistaRotaceBasnika 25s infinite steps(1, end) !important;
 }
 
-@keyframes sbsStridaniObrazkuBasnika {
-  0%, 100% { background-image: url('basnik.webp'); }  /* 0s až 5s */
-  20%      { background-image: url('P01.webp'); }     /* 5s až 10s */
-  40%      { background-image: url('P02.webp'); }     /* 10s až 15s */
-  60%      { background-image: url('P03.webp'); }     /* 15s až 20s */
-  80%      { background-image: url('P04.webp'); }     /* 20s až 25s */
+@keyframes sbsCistaRotaceBasnika {
+  0%, 100% { background-image: url('basnik.webp'); }
+  20%      { background-image: url('P01.webp'); }
+  40%      { background-image: url('P02.webp'); }
+  60%      { background-image: url('P03.webp'); }
+  80%      { background-image: url('P04.webp'); }
 }
 
   }

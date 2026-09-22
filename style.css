@@ -373,16 +373,17 @@ html, body {
     background: #2c3e2e !important;
   }
 /* ==========================================================================
-   🔥 ČISTÁ ROTACE: Mění pouze soubor, zachovává mix-blend a průhlednost
-   ========================================================================= */
+   🔥 BEZPEČNÁ ROTACE: Spustí se až po najetí a aktivaci třídy .zapnout-bg
+   ========================================================================== */
 
-/* Použijeme stávající prvek a bezpečně k němu přibalíme časovanou rotaci */
-body .bg-basnik {
+/* Na čisté .bg-basnik nesaháme, aby v pořádku proběhlo úvodní vplutí.
+   Rotaci obrázků aktivujeme POUZE tehdy, když má prvek třídu .zapnout-bg */
+body .bg-basnik.zapnout-bg {
   animation: sbsDychaniBasnika 14s infinite ease-in-out,
-             sbsCistaRotaceBasnika 25s infinite steps(1, end) !important;
+             sbsCistaRotaceBezChyb 25s infinite steps(1, end) !important;
 }
 
-@keyframes sbsCistaRotaceBasnika {
+@keyframes sbsCistaRotaceBezChyb {
   0%, 100% { background-image: url('basnik.webp'); }
   20%      { background-image: url('P01.webp'); }
   40%      { background-image: url('P02.webp'); }

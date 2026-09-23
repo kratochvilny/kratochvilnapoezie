@@ -15,6 +15,7 @@
     </style>
 </head>
 <body>
+    
 
     <audio id="pozadi-audio" src="hudba01.mp3" loop></audio>
 
@@ -30,6 +31,7 @@
             <svg id="svg-zvuk" viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5zM23 9l-6 6M17 9l6 6"></path></svg>
         </button>
     </div>
+
     <!-- 🎛️ SVISLÁ LIŠTA (Pravá strana) -->
     <nav class="sbs-bocni-menu">
         <div class="sbs-bocni-polozka" onclick="skocNaSekci('sekce-uvod')">
@@ -45,7 +47,7 @@
     <!-- FILMOVÁ PLÁTNA NA POZADÍ -->
     <div id="bg-uvod" class="sbs-background bg-kytice"></div>
     <div id="bg-kapitola1" class="sbs-background bg-basnik"></div>
-
+    <div id="bg-obalka4" class="sbs-background bg-vlnky"></div> <!-- Nové plátno pro Obálku 4 -->
     <div class="story-container">
         
         <!-- OBRAZOVKA 0: ÚVODNÍ STRANA -->
@@ -73,7 +75,7 @@
             <!-- ✉️ Obálka 1: Předmluva (Vjíždí zleva nakřivo) -->
             <section id="sekce-kapitola01-predmluva" class="slide-sekce-knihy reveal obalka-zleva">
                 <h3>Kratochvilná předmluva</h3>
-                <p style="text-indent: 30px; font-style: italic;">Už se těch veršů nějak nastřádalo. Je toho sice na knihu nikoli tučnou, ale řekněme lehce obéznější. A tak jsem začal přemýšlet nad vydáním své knižní prvotiny.</p>
+                <p style="text-indent: 30px; font-style: italic;text-align: center;">Už se těch veršů nějak nastřádalo. Je toho sice na knihu nikoli tučnou, ale řekněme lehce obéznější. A tak jsem začal přemýšlet nad vydáním své knižní prvotiny.</p>
                 <p style="text-indent: 30px; font-style: italic">Přilétlo také pár úvodních veršíků, z čistě vrozené skromnosti. Taková drobná omluva za to, že jsem si vůbec troufnul. Posuďte sami, jak moc je mi skromnost vlastní.</p>
             </section>
 
@@ -91,12 +93,19 @@
                 <div id="sbs-cti-dale-text" class="sbs-cti-dale">čti dále ↓</div>
             </section>
 
-            <!-- ✉️ Obálka 4: Ranní křivky (Vjíždí zleva nakřivo) -->
-            <section class="slide-sekce-knihy reveal obalka-zleva">
-                <h3>Ranní křivky</h3>
-                <p style="text-indent: 30px; font-style: italic;">Ranní probuzení. Noc se rozplývá a rodí se den. První otevření očí, první myšlenka. Ta dnešní byla veskrze romantická. Spatřil jsem výjev obrazu Karla Benetky. Na jeho grafice mě okamžitě upoutaly nádherné vlnky ve tvaru ženských těl. A dnes, v ranním pološeru, ležela věrná kopie jeho obrazu přímo přede mnou.</p>
-                 <p class="class-pismo-verse">Spatřil jsem ladné křivnky nad ránem,<br> má žena mi byla něžným obrazem. <br>V tom ranním výjevu pološera <br>se jako vlky od Benetky skvěla.</p>
-            </section>
+           <!-- ✉️ Obálka 4: Ranní křivky (Vjíždí zleva nakřivo) -->
+<section class="slide-sekce-knihy reveal obalka-zleva" data-background="bg-obalka4">
+    <h3>Ranní křivky</h3>
+    
+    <p class="class-pismo-verse">Spatřil jsem ladné křivky nad ránem,<br> má žena mi byla něžným obrazem. <br>V tom ranním výjevu pološera <br>se jako vlnky od Benetky skvěla.</p>
+    
+    <!-- 🌊 Vložený obrázek (vycentrovaný, s maximální šířkou pro zachování responzivity) -->
+    <div style="text-align: center; margin: 20px 0;">
+        <img src="vlnky.webp" alt="Ranní křivky - Karel Benetka" class="ilustrace-vlnky" style="max-width: 100%; height: auto; border-radius: 8px;">
+    </div>
+    
+    <p style="font-style: italic; text-align: center;">Ranní probuzení. <br>Noc se rozplývá a rodí se den.<br> První otevření očí, první myšlenka. <br>Ta dnešní byla veskrze romantická. Spatřil jsem výjev obrazu Karla Benetky. Na jeho grafice mě okamžitě upoutaly nádherné vlnky ve tvaru ženských těl. A dnes, v ranním pološeru, ležela věrná kopie jeho obrazu přímo přede mnou.</p>
+</section>
 
             <!-- ✉️ Inverzní obálka 5: Sbírka a autoři (Přilétá z boku, zrychluje barvy) -->
             <section id="sekce-obalka-final" class="slide-sekce-knihy reveal obalka-inverzni">
@@ -126,7 +135,7 @@
             }
         }
 
-        function aktualizovatWeb() {
+                function aktualizovatWeb() {
             var odscrollovano = window.scrollY || window.pageYOffset;
             var vyskaOkna = window.innerHeight;
             
@@ -202,3 +211,42 @@
         });
 
         function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                document.exitFullscreen();
+            }
+        }
+
+        function toggleAutoPosun() {
+            var btn = document.getElementById('btn-posun');
+            var indicator = document.getElementById('sbs-indicator');
+            var ctiDale = document.getElementById('sbs-cti-dale-text');
+            var prvkyVerse = document.querySelectorAll('.reveal');
+            
+            if (autoPosunInterval === null) {
+                if (indicator) { indicator.classList.add('skryt'); }
+                if (ctiDale) { ctiDale.classList.remove('zobrazit'); }
+                prvkyVerse.forEach(function(prvek) { prvek.classList.add('active'); });
+
+                autoPosunInterval = setInterval(function() {
+                    window.scrollBy(0, 1);
+                    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 5) {
+                        clearInterval(autoPosunInterval);
+                        autoPosunInterval = null;
+                        btn.classList.remove('aktivni');
+                        setTimeout(function() { if (ctiDale) { ctiDale.classList.add('zobrazit'); } }, 3000);
+                    }
+                }, 35);
+                btn.classList.add('aktivni');
+                if (audio.paused && !jeZtlumeno) { spustitTichouHudbu(); }
+            } else {
+                clearInterval(autoPosunInterval);
+                autoPosunInterval = null;
+                btn.classList.remove('aktivni');
+                aktualizovatWeb();
+            }
+        }
+    </script>
+</body>
+</html>

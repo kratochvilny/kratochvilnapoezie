@@ -372,25 +372,6 @@ html, body {
   .obalka-inverzni.active {
     background: #2c3e2e !important;
   }
-/* ==========================================================================
-   🔥 IMPERATIVNÍ OPRAVA ROTACE: Časovaný přepis bez narušení dýchání
-   ========================================================================== */
-
-/* Spustíme rotaci obrázků výhradně v momentě, kdy je aktivní .zapnout-bg */
-body .bg-basnik.zapnout-bg {
-  animation: sbsDychaniBasnika 14s infinite ease-in-out,
-             sbsBezpecnaRotaceSnímku 25s infinite steps(1, end) !important;
-}
-
-/* @keyframes mění striktně pouze vlastnost background-image, čímž mix-blend-mode 
-   a všechny ostatní parametry usazení zůstávají plně pod kontrolou původního kódu */
-@keyframes sbsBezpecnaRotaceSnímku {
-  0%, 100% { background-image: url('basnik.webp') !important; }
-  20%      { background-image: url('P01.webp') !important; }
-  40%      { background-image: url('P02.webp') !important; }
-  60%      { background-image: url('P03.webp') !important; }
-  80%      { background-image: url('P04.webp') !important; }
-}
 
   }
 }

@@ -97,7 +97,6 @@
                 <p style="text-indent: 30px; font-style: italic;">Ranní probuzení. Noc se rozplývá a rodí se den. První otevření očí, první myšlenka. Ta dnešní byla veskrze romantická. Spatřil jsem výjev obrazu Karla Benetky. Na jeho grafice mě okamžitě upoutaly nádherné vlnky ve tvaru ženských těl. A dnes, v ranním pološeru, ležela věrná kopie jeho obrazu přímo přede mnou.</p>
                  <p class="class-pismo-verse">Spatřil jsem ladné křivnky nad ránem,<br> má žena mi byla něžným obrazem. <br>V tom ranním výjevu pološera <br>se jako vlky od Benetky skvěla.</p>
             </section>
-            
 
             <!-- ✉️ Inverzní obálka 5: Sbírka a autoři (Přilétá z boku, zrychluje barvy) -->
             <section id="sekce-obalka-final" class="slide-sekce-knihy reveal obalka-inverzni">
@@ -127,7 +126,7 @@
             }
         }
 
-                function aktualizovatWeb() {
+        function aktualizovatWeb() {
             var odscrollovano = window.scrollY || window.pageYOffset;
             var vyskaOkna = window.innerHeight;
             
@@ -203,42 +202,3 @@
         });
 
         function toggleFullscreen() {
-            if (!document.fullscreenElement) {
-                document.documentElement.requestFullscreen();
-            } else {
-                document.exitFullscreen();
-            }
-        }
-
-        function toggleAutoPosun() {
-            var btn = document.getElementById('btn-posun');
-            var indicator = document.getElementById('sbs-indicator');
-            var ctiDale = document.getElementById('sbs-cti-dale-text');
-            var prvkyVerse = document.querySelectorAll('.reveal');
-            
-            if (autoPosunInterval === null) {
-                if (indicator) { indicator.classList.add('skryt'); }
-                if (ctiDale) { ctiDale.classList.remove('zobrazit'); }
-                prvkyVerse.forEach(function(prvek) { prvek.classList.add('active'); });
-
-                autoPosunInterval = setInterval(function() {
-                    window.scrollBy(0, 1);
-                    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 5) {
-                        clearInterval(autoPosunInterval);
-                        autoPosunInterval = null;
-                        btn.classList.remove('aktivni');
-                        setTimeout(function() { if (ctiDale) { ctiDale.classList.add('zobrazit'); } }, 3000);
-                    }
-                }, 35);
-                btn.classList.add('aktivni');
-                if (audio.paused && !jeZtlumeno) { spustitTichouHudbu(); }
-            } else {
-                clearInterval(autoPosunInterval);
-                autoPosunInterval = null;
-                btn.classList.remove('aktivni');
-                aktualizovatWeb();
-            }
-        }
-    </script>
-</body>
-</html>

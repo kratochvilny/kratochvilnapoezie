@@ -4,7 +4,7 @@
 :root {
   /* Responzivní základ: plynulý přechod mezi 992px a 1920px šířky obrazovky.
      Zajišťuje perfektní čitelnost a funkční zoom v prohlížeči. */
-  --size-font: clamp(11px, 0.44rem + 1.11vw, 21.33px);
+  --size-font: clamp(13px, 0.95rem + 0.2vw, 16px);
 }
 
 html, body {

@@ -1,6 +1,12 @@
 /* ==========================================================================
-   🎨 5 JEMNÝCH PASTELOVÝCH BAREV (Plynulý přeliv každých 5 vteřin, celkem 25s cyklus)
+   🎨 FLUIDNÍ SCALING & GLOBÁLNÍ NASTAVENÍ
    ========================================================================== */
+:root {
+  /* Responzivní základ: plynulý přechod mezi 992px a 1920px šířky obrazovky.
+     Zajišťuje perfektní čitelnost a funkční zoom v prohlížeči. */
+  --size-font: clamp(11px, 0.44rem + 1.11vw, 21.33px);
+}
+
 html, body {
   margin: 0;
   padding: 0;
@@ -8,10 +14,13 @@ html, body {
   font-family: 'Georgia', serif;
   color: #1a1a1a;
   overflow-x: hidden;
+  font-size: var(--size-font); /* Mozek celého webu */
   animation: sbsPetBarevPastely 25s infinite ease-in-out;
 }
 
-
+/* ==========================================================================
+   🖼️ FILMOVÁ PLÁTNA NA POZADÍ
+   ========================================================================== */
 .sbs-background {
   position: fixed;
   top: 0;
@@ -34,7 +43,6 @@ html, body {
              sbsKameraPohybUvod 40s infinite ease-in-out 5s;
 }
 
-/* ✒️ BÁSŇÍK: Drží se stabilně napravo, dýchá a kopíruje barevné podklady */
 .bg-basnik {
   background-image: url('basnik01.webp'); 
   mix-blend-mode: multiply; 
@@ -49,7 +57,7 @@ html, body {
 .bg-kytice:not(.vypnout-bg) { opacity: 0.35; }
 .bg-kytice.vypnout-bg { opacity: 0; }
 
-/* 🔧 5 PASTELOVÝCH BAREV: Růžová -> Modrá -> Zelená -> Okrová -> Nažloutlá */
+/* 🔧 5 PASTELOVÝCH BAREV */
 @keyframes sbsPetBarevPastely {
   0%, 100% { background-color: #f7e9e9; } 
   20% { background-color: #e4edf4; }      
@@ -77,7 +85,9 @@ html, body {
   100% { transform: scale(1); }
 }
 
-/* 🎛️ PANEL S IKONAMI */
+/* ==========================================================================
+   🎛️ OVLÁDACÍ PRVKY A NAVIGACE
+   ========================================================================== */
 .ovladani-panel {
   position: fixed;
   top: 30px;
@@ -92,7 +102,6 @@ html, body {
 .sbs-ikona-btn.aktivni { background: #2c3e2e; border-color: #2c3e2e; }
 .sbs-ikona-btn.aktivni svg { stroke: #f1f2e1; }
 
-/* SVISLÁ LIŠTA */
 .sbs-bocni-menu { position: fixed; right: 20px; top: 50%; transform: translateY(-50%); z-index: 90; display: flex; flex-direction: column; gap: 12px; align-items: flex-end; }
 .sbs-bocni-polozka { display: flex; flex-direction: row-reverse; align-items: center; gap: 15px; cursor: pointer; }
 .sbs-cislo { font-family: 'Georgia', serif; font-size: 0.9rem; color: #555; background: rgba(241, 242, 225, 0.4); border: 1px solid rgba(26, 42, 29, 0.1); border-radius: 50%; width: 28px; height: 28px; display: flex; justify-content: center; align-items: center; transition: all 0.3s ease; }
@@ -102,7 +111,9 @@ html, body {
 
 .story-container { position: relative; z-index: 2; width: 100%; }
 
-/* 📜 UNIVERZÁLNÍ SEKCIONÁLNÍ STRUKTURA */
+/* ==========================================================================
+   📜 SEKCIONÁLNÍ STRUKTURA & ÚVOD
+   ========================================================================== */
 .slide {
   height: 100vh;
   display: flex;
@@ -111,57 +122,36 @@ html, body {
   padding: 0 20px;
 }
 
-/* 🔧 OPRAVA POLOHY ÚVODU: Nadpis usazen přesně do 2. pětiny výšky monitoru */
 .slide-intro {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-  padding: 0 20px;
-  
-  /* Přinutíme texty začínat odshora dolů */
   justify-content: flex-start !important; 
   align-items: center !important;
   position: relative;
-  
-  /* 🔧 TENTO ŘÁDEK POSUNE NADPIS: Odrazí ho o přesnou 1 pětinu (20vh) odshora, 
-     takže nápis začne přesně na začátku 2. pětiny obrazovky */
   padding-top: 20vh !important; 
 }
 
-/* Pojistka pro případ, že by kód hledal starší název */
-.slide-intro-full {
-  justify-content: flex-start !important;
-  align-items: center !important;
-  padding-top: 20vh !important;
-}
-
-
-.nadpis-hlavni { font-size: 3rem; text-transform: uppercase; margin: 0 0 15px 0; text-align: center; display: block; letter-spacing: 0.3em; opacity: 0; color: #1a2a1d; will-change: opacity; animation: sbsCisteRozsviceniTextu 4s ease-in-out forwards; }
-.autor { font-size: 1.1rem; letter-spacing: 0.15em; font-style: italic; text-transform: uppercase; color: #555; margin: 0; text-align: center; opacity: 0; animation: sbsCisteRozsviceniTextu 4s ease-in-out forwards; }
+.nadpis-hlavni { font-size: 3em; text-transform: uppercase; margin: 0 0 15px 0; text-align: center; display: block; letter-spacing: 0.3em; opacity: 0; color: #1a2a1d; will-change: opacity; animation: sbsCisteRozsviceniTextu 4s ease-in-out forwards; }
+.autor { font-size: 1.1em; letter-spacing: 0.15em; font-style: italic; text-transform: uppercase; color: #555; margin: 0; text-align: center; opacity: 0; animation: sbsCisteRozsviceniTextu 4s ease-in-out forwards; }
 @keyframes sbsCisteRozsviceniTextu { 0% { opacity: 0; } 100% { opacity: 1; } }
-.motto-blok { text-align: center; margin-top: 40px; opacity: 0; will-change: opacity; animation: sbsCisteRozsviceniTextu 4s ease-in-out 7s forwards; }
 
-/* 🔧 NAVRÁCENÍ A UKOTVENÍ VÝZVY: Text bezpečně sedí u dolního okraje první obrazovky */
+.motto-blok { text-align: center; margin-top: 40px; opacity: 0; will-change: opacity; animation: sbsCisteRozsviceniTextu 4s ease-in-out 7s forwards; }
+.motto-italic { font-size: 1.4em; font-style: italic; color: #4a5d4e; margin: 0 0 10px 0; }
+.motto-bold { font-size: 2em; font-weight: 300; color: #000; margin: 0; }
+
 .scroll-indicator {
-  font-size: 0.9rem;
+  font-size: 0.9em;
   letter-spacing: 0.2em;
   font-style: italic;
   color: #4a5d4e;   
   text-align: center;
-  
-  /* Pevné ukotvení nad spodní okraj monitoru, aby nezmizel */
   position: absolute;
   bottom: 40px; 
   left: 50%;
   transform: translateX(-50%);
   width: auto;
   margin: 0; 
-  
   opacity: 0;
   will-change: opacity;
-  animation: sbsCisteRozsviceniTextu 2s ease-in-out 5s forwards, 
-             sbsDychaniIndikatoru 3s infinite ease-in-out 7s;
+  animation: sbsCisteRozsviceniTextu 2s ease-in-out 5s forwards, sbsDychaniIndikatoru 3s infinite ease-in-out 7s;
   transition: opacity 0.8s ease-out;
 }
 
@@ -169,14 +159,14 @@ html, body {
 .scroll-indicator.skryt { opacity: 0 !important; pointer-events: none; }
 
 /* ==========================================================================
-   ✉️ KNIŽNÍ SADA: RŮZNÉ VELIKOSTI A ORGANICKÉ TVARY OBÁLEK
+   ✉️ KNIŽNÍ SADA (OBÁLKY)
    ========================================================================== */
 .knizni-obsah-kontejner {
   display: flex;
   flex-direction: column;
   padding-left: 8vw; 
   padding-bottom: 25vh;
-  margin-top: 10vh; /* Odtlačení bloku s obálkami hluboko pod úvod */
+  margin-top: 10vh;
 }
 
 .slide-sekce-knihy {
@@ -186,12 +176,9 @@ html, body {
   margin-bottom: 90px;
   background: rgba(255, 255, 255, 0.94); 
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.04); 
-  
-  /* 🔧 MAXIMÁLNĚ PLYNULÉ PERMANENTNÍ VLÉTŇUTÍ: Trvá 3.5 vteřiny */
   transition: transform 3.5s cubic-bezier(0.1, 0.85, 0.25, 1), opacity 3.5s ease-out !important;
 }
 
-/* 🔧 1. OBÁLKA (Předmluva): Užší, protáhlá dolů */
 .obalka-zleva { 
   max-width: 440px;
   padding: 40px 45px;
@@ -199,7 +186,6 @@ html, body {
   transform: translate3d(-150px, 40px, 0) rotate(-6deg); 
 }
 
-/* 🔧 2. OBÁLKA (Prvotina): Široká, nízká */
 .obalka-zhora { 
   max-width: 530px;
   padding: 30px 40px;
@@ -207,14 +193,13 @@ html, body {
   transform: translate3d(30px, -180px, 0) rotate(7deg); 
 }
 
-/* 🔧 3. OBÁLKA (Omluva básníkům): Kompaktní čtvercový tvar */
 .obalka-zdola { 
   max-width: 470px;
   padding: 35px 35px;
   border-radius: 40px 18px 42px 16px; 
   transform: translate3d(-40px, 180px, 0) rotate(-4deg); 
 }
-/* 🔧 4. INVERZNÍ OBÁLKA: Absolutní pojistka proti bílému pruhu */
+
 .obalka-inverzni {
   max-width: 490px !important;
   padding: 38px 42px !important;
@@ -224,49 +209,28 @@ html, body {
   transform: translate3d(150px, 60px, 0) rotate(5deg); 
 }
 
-/* 🔧 AKTIVACE DYNAMICKÉHO ZRYCHLENÍ */
-.sbs-zrychlit-barvy {
-  animation: sbsPetBarevPastely 8s infinite ease-in-out !important;
-}
-
-
-
-/* 🔧 AKTIVACE DYNAMICKÉHO ZRYCHLENÍ: Přepne tónování podkladu z 25s na super rychlých 8 vteřin */
-.sbs-zrychlit-barvy {
-  animation: sbsPetBarevPastely 8s infinite ease-in-out !important; /* Bleskový koloběh */
-}
-
-/* 🔥 PERMANENTNÍ DOSSEDNUTÍ: Obálka plynule přistane a srovná se */
-.slide-sekce-knihy.active {
-  transform: translate3d(0, 0, 0) rotate(0deg) !important;
-  opacity: 1 !important;
-}
-
-/* 🔧 KLÍČOVÁ POJISTKA PROTI BÍLÉMU PRUHU: 
-   Zajistí, že po dosednutí a aktivování obálky zůstane pozadí natvrdo tmavě šalvějové a nezbělá! */
-.obalka-inverzni.active {
-  background: #2c3e2e !important;
-}
-
+.sbs-zrychlit-barvy { animation: sbsPetBarevPastely 8s infinite ease-in-out !important; }
+.slide-sekce-knihy.active { transform: translate3d(0, 0, 0) rotate(0deg) !important; opacity: 1 !important; }
+.obalka-inverzni.active { background: #2c3e2e !important; }
 
 /* ==========================================================================
-   🚫 TYPOGRAFIE: Zákaz zalamování nadpisů
+   🚫 TYPOGRAFIE UVNITŘ KAPITOL
    ========================================================================== */
 .slide-sekce-knihy h3 {
   font-family: 'Georgia', serif; 
   font-weight: normal; 
   text-transform: uppercase; 
   letter-spacing: 0.15em; 
-  font-size: 1.25rem; 
+  font-size: 1.25em; 
   color: #1a2a1d; 
   margin: 0 0 14px 0;
-  white-space: nowrap !important; /* Nadpis drží v jedné přímce */
+  white-space: nowrap !important;
   display: block;
 }
 
 .class-pismo-verse {
   font-family: 'Georgia', serif;
-  font-size: 1.35rem !important; 
+  font-size: 1.35em !important; 
   line-height: 1.6 !important; 
   font-weight: 300;
   color: #111;
@@ -278,20 +242,23 @@ html, body {
 .slide-sekce-knihy p {
   margin: 0 0 12px 0 !important; 
   line-height: 1.7;
-  font-size: 1.05rem;
+  font-size: 1.05em;
   color: #222;
 }
+
+.p-predmluva-centr { text-indent: 30px; font-style: italic; text-align: center; }
+.p-predmluva-left { text-indent: 30px; font-style: italic; }
+.p-final-sub { color: rgba(255,255,255,0.75) !important; font-size: 0.95em; margin-top: 15px !important; font-style: italic; }
 
 .sbs-cti-dale {
   position: absolute;
   bottom: -45px; 
   left: 0; 
-  font-size: 0.95rem;
+  font-size: 0.95em;
   letter-spacing: 0.15em;
   font-style: italic; 
   color: #4a5d4e; 
   margin: 0;
-  text-transform: none; 
   opacity: 0; 
   will-change: opacity;
   transition: opacity 1.5s ease-in-out; 
@@ -299,79 +266,3 @@ html, body {
 .sbs-cti-dale.zobrazit { opacity: 1; animation: sbsPulzovaniCtiDale 3s infinite ease-in-out; }
 @keyframes sbsPulzovaniCtiDale { 0% { opacity: 0.25; } 50% { opacity: 0.95; } 100% { opacity: 0.25; } }
 
-/* 📱 RESPONSIVITA PRO MOBILY */
-/* ==========================================================================
-   📱 🔧 FINÁLNÍ DOKONALÁ RESPONSIVITA PRO MOBILY NA STOJATO
-   ========================================================================== */
-@media (max-width: 768px) {
-  /* Úprava svislých rozestupů celého kontejneru na mobilu */
-  .knizni-obsah-kontejner { 
-    padding-left: 15px !important; 
-    padding-right: 15px !important; 
-    margin-top: 25vh !important; /* Menší mezera pod úvodem pro menší displej */
-  }
-
-  /* Zmenšení a úprava obálek, aby netvořily obří nudle a nevylézaly z displeje */
-  .slide-sekce-knihy { 
-    max-width: 100% !important; 
-    padding: 22px 20px !important; 
-    margin-bottom: 50px !important; /* Těsnější rozestupy mezi dopisy */
-    align-items: center !important; 
-    border-radius: 16px !important; /* Jemnější, čistější rohy pro mobily */
-  }
-
-  /* Nadpisy kapitol uvnitř obálek se na mobilu vycentrují a zmenší */
-  .slide-sekce-knihy h3 { 
-    text-align: center !important; 
-    white-space: normal !important; /* Povolí bezpečné zalomení dlouhého názvu básně na mobilu */
-    font-size: 1.15rem !important;
-  }
-
-  /* Písmo veršů na mobilu */
-  .class-pismo-verse { 
-    text-align: center !important; 
-    font-size: 1.2rem !important; 
-    line-height: 1.5 !important;
-  }
-
-  /* 🔧 OPRAVA VELIKOSTI NADPISU: Už se stoprocentně nevylije z displeje mobilu */
-  .nadpis-hlavni { 
-    font-size: 1.8rem !important; /* Bezpečné, elegantní mobilní písmo */
-    letter-spacing: 0.15em !important; 
-    line-height: 1.3 !important; 
-    padding: 0 10px; 
-  }
-  
-  .autor { font-size: 0.9rem !important; letter-spacing: 0.1em !important; }
-  .motto-blok p { font-size: 1.1rem !important; }
-  .motto-blok p + p { font-size: 1.4rem !important; }
-
-  /* Skrytí boční lišty a zvětšení tlačítek dole pro pohodlné mačkání prstem */
-  .sbs-bocni-menu { display: none !important; }
-  .ovladani-panel { position: fixed; top: auto; bottom: 15px; left: 50%; transform: translateX(-50%); gap: 25px; z-index: 100; }
-  .sbs-ikona-btn { width: 48px; height: 48px; background: rgba(241, 242, 225, 0.9); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); }
-  .scroll-indicator { bottom: 75px; font-size: 0.75rem; }
-  .sbs-cti-dale { left: 50% !important; transform: translateX(-50%); bottom: -40px; font-size: 0.8rem; }
-
-     /* 🔧 ABSOLUTNÍ ZMENŠENÍ PRO MOBIL: Sníženo na 38vh, takže se básník garantovaně vejde celý od klobouku po boty */
-  .bg-basnik { 
-    opacity: 0 !important; 
-    background-position: center center !important; /* Vycentrování přesně doprostřed displeje */
-    background-size: 38vh !important; /* 🔧 Klíčová změna z 55vh na 38vh pro plnou viditelnost */
-    transition: opacity 2s ease-in-out !important;
-  } 
-
-  /* Jakmile čtenář odskroluje z úvodu dolů, básník se jemně rozsvítí */
-  .bg-basnik.zapnout-bg {
-    opacity: 0.45 !important;
-      /* 🔧 KLÍČOVÁ POJISTKA PRO MOBIL: Vynutí šalvějové pozadí i na telefonu, 
-     takže bílý text přestane splývat a okamžitě se zobrazí */
-  .obalka-inverzni {
-    background: #2c3e2e !important;
-  }
-  .obalka-inverzni.active {
-    background: #2c3e2e !important;
-  }
-
-  }
-}
